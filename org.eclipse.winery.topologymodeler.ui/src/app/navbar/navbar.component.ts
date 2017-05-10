@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public showSaveAlert(event): void {
-    this.alert.showAlert('info','test');
+    this.alert.showAlert('info', 'test');
 
   }
 
