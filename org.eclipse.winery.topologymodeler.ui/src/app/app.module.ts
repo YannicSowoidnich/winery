@@ -24,7 +24,7 @@ import {AlertModule} from "ngx-bootstrap";
     BsDropdownModule.forRoot(),
     AlertModule,
   ],
-  providers: [],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
