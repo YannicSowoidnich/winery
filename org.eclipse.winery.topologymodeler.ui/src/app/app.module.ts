@@ -6,12 +6,15 @@ import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 
 import { AppComponent } from './app.component';
 import {NavbarComponent} from './navbar/navbar.component';
+import {AlertsComponent} from "./alerts/alerts.component";
+import {AlertModule} from "ngx-bootstrap";
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    AlertsComponent,
     NavbarComponent,
   ],
   imports: [
@@ -19,6 +22,7 @@ import {NavbarComponent} from './navbar/navbar.component';
     FormsModule,
     HttpModule,
     BsDropdownModule.forRoot(),
+    AlertModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
