@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
+import { WineryAlertService } from './alerts/wineryAlert.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app works!';
+
+  constructor(vcr: ViewContainerRef, private notify: WineryAlertService) {
+    this.notify.init(vcr);
+  }
+
 }

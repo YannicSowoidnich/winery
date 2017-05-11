@@ -6,21 +6,29 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { AlertsComponent } from "./alerts/alerts.component";
-import { AlertModule } from "ngx-bootstrap";
+
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WineryAlertModule } from './alerts/wineryAlert.module';
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { WineryCustomOption } from './alerts/wineryAlertOptions';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AlertsComponent,
     NavbarComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
-    AlertModule,
+    WineryAlertModule.forRoot(),
+    ToastModule.forRoot(),
+  ],
+  providers: [
+    {provide: ToastOptions, useClass: WineryCustomOption},
   ],
 
   bootstrap: [AppComponent]
