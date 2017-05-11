@@ -9,9 +9,9 @@
  * Contributors:
  *     Yannic Sowoidnich - initial API and implementation
  */
-import { Injectable, ViewContainerRef } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { DatePipe } from '@angular/common';
+import {Injectable, ViewContainerRef} from '@angular/core';
+import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+import {DatePipe} from '@angular/common';
 
 @Injectable()
 export class WineryAlertService {

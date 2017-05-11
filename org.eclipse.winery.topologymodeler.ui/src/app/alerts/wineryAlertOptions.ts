@@ -17,7 +17,8 @@ import { ToastOptions } from 'ng2-toastr';
  * @Class
  */
 export class WineryCustomOption extends ToastOptions {
-  animate = 'flyRight'; // you can override any options available
+  animate = 'fade'; // you can override any options available
   newestOnTop = false;
   showCloseButton = true;
+  positionClass = 'toast-bottom-right';
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import { WineryAlertService } from 'app/alerts/wineryAlert.service';
 
 @Component({
@@ -8,14 +8,10 @@ import { WineryAlertService } from 'app/alerts/wineryAlert.service';
 
 })
 export class NavbarComponent implements OnInit {
+  constructor(private alert: WineryAlertService) {}
 
-  constructor(private alert: WineryAlertService) {
-
-  }
-
-  public showSaveAlert(event): void {
+  public showSaveAlert(): void {
     this.alert.success('Successfully saved!');
-
   }
 
   ngOnInit() {
