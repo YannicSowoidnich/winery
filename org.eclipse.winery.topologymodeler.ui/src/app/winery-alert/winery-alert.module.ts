@@ -10,7 +10,7 @@
  *     Yannic Sowoidnich - initial API and implementation
  */
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { WineryAlertService } from './wineryAlert.service';
+import { WineryAlertService } from './winery-alert.service';
 import { DatePipe } from '@angular/common';
 
 @NgModule({

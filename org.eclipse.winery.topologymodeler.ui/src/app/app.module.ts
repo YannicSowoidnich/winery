@@ -10,9 +10,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { WineryAlertModule } from './alerts/wineryAlert.module';
+import { WineryAlertModule } from './winery-alert/winery-alert.module';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { WineryCustomOption } from './alerts/wineryAlertOptions';
+import { WineryCustomOption } from './winery-alert/winery-alert-options';
 
 @NgModule({
   declarations: [

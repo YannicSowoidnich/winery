@@ -1,5 +1,5 @@
 import { Component, ViewContainerRef } from '@angular/core';
-import { WineryAlertService } from './alerts/wineryAlert.service';
+import { WineryAlertService } from './winery-alert/winery-alert.service';
 
 @Component({
   selector: 'app-root',

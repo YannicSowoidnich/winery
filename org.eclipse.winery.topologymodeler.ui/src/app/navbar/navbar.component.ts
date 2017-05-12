@@ -9,17 +9,17 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import { WineryAlertService } from 'app/alerts/wineryAlert.service';
+import {Component, OnInit } from '@angular/core';
+import {WineryAlertService} from '../winery-alert/winery-alert.service';
 
 @Component({
   selector: 'app-navbar-component',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
-
 })
 export class NavbarComponent implements OnInit {
-  constructor(private alert: WineryAlertService) {}
+  constructor(private alert: WineryAlertService) {
+  }
 
   public showSaveAlert(): void {
     this.alert.success('Successfully saved!');
