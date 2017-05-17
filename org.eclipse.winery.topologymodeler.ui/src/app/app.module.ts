@@ -13,11 +13,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WineryAlertModule } from './winery-alert/winery-alert.module';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { WineryCustomOption } from './winery-alert/winery-alert-options';
+import { PaletteComponent } from './palette/palette.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    PaletteComponent,
   ],
   imports: [
     BrowserModule,
