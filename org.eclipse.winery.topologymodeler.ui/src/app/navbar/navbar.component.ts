@@ -13,7 +13,7 @@ import {Component, OnInit } from '@angular/core';
 import {WineryAlertService} from '../winery-alert/winery-alert.service';
 
 @Component({
-  selector: 'app-navbar-component',
+  selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
