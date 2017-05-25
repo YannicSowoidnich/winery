@@ -1,7 +1,7 @@
 import { Component, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { WineryAlertService } from './winery-alert/winery-alert.service';
 
-declare var jsPlumb:any;
+declare const jsPlumb: any;
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild('test') testEl;
   ngAfterViewInit() {
-    let me = this;
+    const me = this;
     jsPlumb.ready(function () {
       jsPlumb.addEndpoint(me.testEl.nativeElement);
     });
