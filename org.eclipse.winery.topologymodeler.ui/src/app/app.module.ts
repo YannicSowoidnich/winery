@@ -15,12 +15,13 @@ import { WineryAlertModule } from './winery-alert/winery-alert.module';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { WineryCustomOption } from './winery-alert/winery-alert-options';
 import { NodeComponent } from './node/node.component';
-import { DndModule } from 'ng2-dnd';
+import { PaletteComponent } from './palette/palette.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    PaletteComponent,
     NodeComponent,
   ],
   imports: [
@@ -32,7 +33,6 @@ import { DndModule } from 'ng2-dnd';
     WineryAlertModule.forRoot(),
     ToastModule.forRoot(),
     AccordionModule.forRoot(),
-    DndModule.forRoot()
   ],
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},

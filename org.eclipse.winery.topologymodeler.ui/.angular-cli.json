@@ -26,6 +26,7 @@
         "../node_modules/ng2-dnd/style.css"
       ],
       "scripts": [
+        "../node_modules/jsplumb/dist/js/jsplumb.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
