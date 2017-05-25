@@ -1,5 +1,14 @@
 div.container {
-  background-color: chocolate;
+  background-color: aquamarine;
   padding: 5px;
-  width: 250px;
+  width: 225px;
+  font-size: small;
+}
+
+a {
+  font-size: small;
+}
+
+.hidden {
+  display: none;
 }

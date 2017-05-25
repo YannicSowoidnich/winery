@@ -6,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./node.component.css']
 })
 export class NodeComponent implements OnInit {
-
-  constructor() { }
-
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
+  public accordionGroupPanel = 'accordionGroupPanel';
+  public customClass = 'customClass';
 
   public status: any = {
     isFirstOpen: true,
@@ -29,6 +28,9 @@ export class NodeComponent implements OnInit {
 
   public addItem(): void {
     this.items.push(`Items ${this.items.length + 1}`);
+  }
+
+  constructor() {
   }
   ngOnInit() {
   }

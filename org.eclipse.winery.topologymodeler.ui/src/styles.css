@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+.card.accordionGroupPanel,
+.card.accordionGroupPanel .card-header,
+.panel.accordionGroupPanel {
+  font-size: small;
+  padding-bottom: 0;
+  user-select: none;
+}
+
+.panel.accordionGroupPanel .panel-body {
+
+}
