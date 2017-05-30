@@ -9,8 +9,9 @@
  * Contributors:
  *     Lukas Harzenetter - initial API and implementation
  */
-export class SelectData {
-    id: string = null;
-    text: string = null;
-    children?: SelectData[];
+import { NameAndQNameApiDataList } from '../../../wineryQNameSelector/wineryNameAndQNameApiData';
+
+export interface RequiredCapabilityTypeApiData {
+    currentRequiredCapabilityType: string;
+    capabilityTypeList: NameAndQNameApiDataList;
 }

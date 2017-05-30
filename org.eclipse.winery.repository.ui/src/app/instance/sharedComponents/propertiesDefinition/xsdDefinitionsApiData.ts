@@ -7,10 +7,10 @@
  * and http://www.apache.org/licenses/LICENSE-2.0
  *
  * Contributors:
- *     Lukas Harzenetter - initial API and implementation
+ *     Lukas Harzenetter, Niko Stadelmaier - initial API and implementation
  */
-export class SelectData {
-    id: string = null;
-    text: string = null;
-    children?: SelectData[];
+import { SelectData } from '../../../wineryInterfaces/selectData';
+
+export interface XsdDefinitionsApiData {
+    xsdDefinitions: SelectData[];
 }

@@ -92,7 +92,6 @@ export class WineryEditorComponent implements ControlValueAccessor, OnInit {
 
     // set accessor including call the onchange callback
     set value(v: any) {
-        console.log('set Value');
         if (v !== this.innerValue) {
             this.innerValue = v;
             this.onChangeCallback(v);

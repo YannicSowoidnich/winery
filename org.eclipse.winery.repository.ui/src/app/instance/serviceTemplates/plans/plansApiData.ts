@@ -9,8 +9,19 @@
  * Contributors:
  *     Lukas Harzenetter - initial API and implementation
  */
-export class SelectData {
-    id: string = null;
-    text: string = null;
-    children?: SelectData[];
+import { InterfaceOperationApiData } from '../../sharedComponents/interfaces/interfacesApiData';
+
+export class PlanModelReverence {
+    reference = '';
+}
+
+export class PlansApiData extends InterfaceOperationApiData {
+
+    precondition: any = null;
+    planModel: any = null;
+    planModelReference = new PlanModelReverence();
+    id = '';
+    planType = '';
+    planLanguage = '';
+
 }
