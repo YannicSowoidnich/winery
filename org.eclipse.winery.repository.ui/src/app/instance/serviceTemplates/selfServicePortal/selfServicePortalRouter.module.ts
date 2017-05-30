@@ -18,6 +18,7 @@ import { SelfServiceDescriptionComponent } from './selfServicePortalDescription.
 import { SelfServicePortalImagesComponent } from './selfServicePortalImages.component';
 import { SelfServicePortalOptionsComponent } from './selfServciePortalOptions.component';
 import { SelfServicePortalXmlComponent } from './selfServicePortalXml.component';
+import { XMLEditorComponent } from '../../boundaryDefinitions/xmlEditor/xmlEditor.component';
 
 export const selfServiceRoutes = [
     {
@@ -34,7 +35,7 @@ export const selfServiceRoutes = [
     },
     {
         path: 'xml',
-        component: SelfServicePortalXmlComponent
+        component: XMLEditorComponent
     },
     {
         path: '',
