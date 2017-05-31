@@ -17,8 +17,8 @@ import { PaletteService } from '../palette.service';
         height: '40px',
         width: '100%',
       })),
-      transition('shrunk => extended', animate('1s ease-out')),
-      transition('extended => shrunk', animate('1s ease-out'))
+      transition('shrunk => extended', animate('200ms ease-out')),
+      transition('extended => shrunk', animate('200ms ease-out'))
     ]),
 
     trigger('paletteRootTextState', [
@@ -32,8 +32,8 @@ import { PaletteService } from '../palette.service';
         marginTop: '0px',
         transform: 'rotate(360deg)',
       })),
-      transition('shrunk => extended', animate('1s ease-out')),
-      transition('extended => shrunk', animate('1s ease-out'))
+      transition('shrunk => extended', animate('200ms ease-out')),
+      transition('extended => shrunk', animate('200ms ease-out'))
     ]),
 
     trigger('paletteItemState', [
@@ -47,8 +47,8 @@ import { PaletteService } from '../palette.service';
         opacity: '1',
         width: '100%',
       })),
-      transition('shrunk => extended', animate('1s ease-out')),
-      transition('extended => shrunk', animate('1s ease-out'))
+      transition('shrunk => extended', animate('200ms ease-out')),
+      transition('extended => shrunk', animate('200ms ease-out'))
     ])
   ]
 })
