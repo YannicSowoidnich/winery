@@ -194,6 +194,7 @@ export class SectionComponent implements OnInit, OnDestroy {
     }
 
     private handleSaveSuccess() {
+        this.newComponentName = this.newComponentName.replace(/\s/g, '_');
         this.notify.success('Successfully saved component ' + this.newComponentName);
         this.router.navigateByUrl('/'
             + this.selectedResource.toLowerCase() + 's/'
