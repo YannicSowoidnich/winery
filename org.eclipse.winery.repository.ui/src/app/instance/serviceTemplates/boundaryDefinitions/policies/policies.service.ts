@@ -36,8 +36,8 @@ export class PoliciesService {
     }
 
     getPolicyTemplatesForType(pT: SelectItem): Observable<SelectItem[]> {
-        const namespace = pT.id.slice(1).split('}');
-        return this.get('/policytypes/' + encodeURIComponent(encodeURIComponent(namespace[0])) + '/' + pT.text + '/instances');
+        const qName = pT.id.slice(1).split('}');
+        return this.get('/policytypes/' + encodeURIComponent(encodeURIComponent(qName[0])) + '/' + qName[1] + '/instances');
     }
 
     postPolicy(xml: string): Observable<Response> {
