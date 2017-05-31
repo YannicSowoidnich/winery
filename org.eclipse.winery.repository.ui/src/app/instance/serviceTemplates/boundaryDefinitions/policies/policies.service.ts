@@ -10,12 +10,12 @@
  *     Lukas Harzenetter - initial API and implementation
  */
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
-import { WineryComponent } from '../../../../wineryInterfaces/wineryComponent';
-import { backendBaseURL } from '../../../../configuration';
 import { Observable } from 'rxjs/Observable';
 import { SelectItem } from 'ng2-select';
+import { WineryComponent } from '../../../../wineryInterfaces/wineryComponent';
+import { backendBaseURL } from '../../../../configuration';
 
 @Injectable()
 export class PoliciesService {
@@ -36,8 +36,19 @@ export class PoliciesService {
     }
 
     getPolicyTemplatesForType(pT: SelectItem): Observable<SelectItem[]> {
-        const splittedQName = pT.id.slice(1).split('}');
-        return this.get('/policytypes/' + encodeURIComponent(encodeURIComponent(splittedQName[0])) + '/' + pT.text + '/instances');
+        const namespace = pT.id.slice(1).split('}');
+        return this.get('/policytypes/' + encodeURIComponent(encodeURIComponent(namespace[0])) + '/' + pT.text + '/instances');
+    }
+
+    postPolicy(xml: string): Observable<Response> {
+        const headers = new Headers({'Content-Type': 'application/xml'});
+        const options = new RequestOptions({headers: headers});
+
+        return this.http.post(backendBaseURL + this.path, xml, options);
+    }
+
+    deletePolicy(id: string): Observable<Response> {
+        return this.http.delete(backendBaseURL + this.path + '/' + id);
     }
 
     private get(p: string): Observable<any> {
@@ -47,6 +58,7 @@ export class PoliciesService {
         return this.http.get(backendBaseURL + p, options)
             .map(res => res.json());
     }
+
 }
 
 export class WineryPolicy extends WineryComponent {

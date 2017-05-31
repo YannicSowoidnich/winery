@@ -129,4 +129,10 @@ export class WineryEditorComponent implements ControlValueAccessor, OnInit {
         }
     }
 
+    setData(value: string) {
+        if (!isNullOrUndefined(this.orionEditor)) {
+            return this.orionEditor.setText(value);
+        }
+    }
+
 }

@@ -17,6 +17,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { isNullOrUndefined } from 'util';
 import { WineryValidatorObject } from '../../../../wineryValidators/wineryDuplicateValidator.directive';
 import { SelectItem } from 'ng2-select';
+import { XMLEditorComponent } from '../xmlEditor/xmlEditor.component';
 
 @Component({
     templateUrl: 'policies.component.html',
@@ -44,12 +45,17 @@ export class PoliciesComponent implements OnInit {
     validator: WineryValidatorObject;
     @ViewChild('confirmDeleteModal') deleteModal: ModalDirective;
     @ViewChild('addModal') addModal: ModalDirective;
+    @ViewChild('xmlEditor') xmlEditor: XMLEditorComponent;
+
+    policyXml = '<Policy xsi:nil="true" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12"'
+        + ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n</Policy>';
 
     constructor(private service: PoliciesService, private notify: WineryNotificationService) {
 
     }
 
     ngOnInit(): void {
+        this.loading = true;
         this.service.getPolicies()
             .subscribe(
                 data => this.handlePolicies(data),
@@ -68,6 +74,7 @@ export class PoliciesComponent implements OnInit {
             this.validator = new WineryValidatorObject(this.policies, 'name');
             this.activePolicyType = this.policyTypes[0].children[0];
             this.activePolicyTemplate = new SelectItem('');
+            this.xmlEditor.setEditorContent(this.policyXml);
             this.addModal.show();
             this.loadTemplates();
         } else {
@@ -87,12 +94,46 @@ export class PoliciesComponent implements OnInit {
         }
     }
 
+    /**
+     * Because the user is used to work with XML to apply more functionality to a specific policy,
+     * we work with XML here too.
+     */
     addConfirmed() {
-        //
+        let xml = this.xmlEditor.getEditorContent();
+        const list = xml.split('>');
+
+        list[0] += ' name="' + this.newPolicy.name + '"';
+
+        const pType = this.activePolicyType.id.slice(1).split('}');
+        list[0] += ' xmlns:ns10="' + pType[0] + '" '
+            + 'policyType="ns10:' + pType[1] + '"';
+
+        if (this.activePolicyTemplate.id !== '') {
+            const pTemp = this.activePolicyTemplate.id.slice(1).split('}');
+            list[0] += ' xmlns:ns11="' + pTemp[0] + '" '
+                + 'policyRef="ns11:' + pTemp[1] + '"';
+        }
+
+        xml = list[0] + '>';
+        // Append the missing '>' to complete the xml again.
+        // Because there is an empty part at the last position, ignore the last item in the list.
+        for (let i = 1; i < list.length - 1; i++) {
+            xml += list[i] + '>';
+        }
+
+        this.service.postPolicy(xml)
+            .subscribe(
+                data => this.handleSaveDelete('added'),
+                error => this.handleError(error)
+            );
     }
 
     removeConfirmed() {
-        //
+        this.service.deletePolicy(this.selectedCell.id)
+            .subscribe(
+            data => this.handleSaveDelete('deleted'),
+            error => this.handleError(error)
+        );
     }
 
     policyTypeSelected(data: SelectItem) {
@@ -120,7 +161,14 @@ export class PoliciesComponent implements OnInit {
 
     private handleTemplates(data: SelectItem[]) {
         this.policyTemplates = data;
+        this.activePolicyTemplate = new SelectItem('');
         this.loadingTemplate = false;
+    }
+
+    private handleSaveDelete(type: string) {
+        this.loading = false;
+        this.notify.success('Successfully ' + type + ' policy!', type);
+        this.ngOnInit();
     }
 
     private handleError(error: any) {

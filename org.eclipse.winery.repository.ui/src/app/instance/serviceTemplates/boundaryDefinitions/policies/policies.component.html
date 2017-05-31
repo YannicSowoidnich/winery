@@ -50,15 +50,25 @@
                 </ng-select>
             </div>
 
-            <div *ngIf="!loadingTemplate" class="form-group">
-                <label class="control-label" for="policyTemplate">Policy Template</label>
-                <ng-select id="policyTemplate"
-                           [items]="policyTemplates" [active]="[activePolicyTemplate]"
-                           (selected)="policyTemplateSelected($event)">
-                </ng-select>
+            <div class="form-group">
+                <div *ngIf="!loadingTemplate" >
+                    <label class="control-label" for="policyTemplate">Policy Template</label>
+                    <ng-select id="policyTemplate"
+                               [items]="policyTemplates" [active]="[activePolicyTemplate]"
+                               (selected)="policyTemplateSelected($event)">
+                    </ng-select>
+                </div>
+
+                <div [hidden]="!loadingTemplate">
+                    <winery-loader></winery-loader>
+                </div>
             </div>
-            <div [hidden]="!loadingTemplate">
-                <winery-loader></winery-loader>
+
+            <div class="form-group">
+                <winery-instance-boundary-edit-xml
+                    #xmlEditor
+                    [getXmlData]="false" [hideSaveButton]="true" [xmlData]="policyXml">
+                </winery-instance-boundary-edit-xml>
             </div>
         </form>
     </winery-modal-body>
