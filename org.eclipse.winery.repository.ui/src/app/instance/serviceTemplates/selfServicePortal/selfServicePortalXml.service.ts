@@ -9,11 +9,11 @@
  * Contributors:
  *     Niko Stadelmaier - initial API and contribution
  */
-import { Injectable } from "@angular/core";
-import { Headers, Http, RequestOptions } from "@angular/http";
-import { Observable } from "rxjs";
-import { InstanceService } from "../../instance.service";
-import { backendBaseURL } from "../../../configuration";
+import { Injectable } from '@angular/core';
+import { Headers, Http, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
+import { InstanceService } from '../../instance.service';
+import { backendBaseURL } from '../../../configuration';
 
 @Injectable()
 export class SelfServicePortalXmlService {

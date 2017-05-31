@@ -9,9 +9,9 @@
  * Contributors:
  *     Niko Stadelmaier - initial API and implementation
  */
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { SelfServicePortalXmlService } from "./selfServicePortalXml.service";
-import { WineryNotificationService } from "../../../wineryNotificationModule/wineryNotification.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SelfServicePortalXmlService } from './selfServicePortalXml.service';
+import { WineryNotificationService } from '../../../wineryNotificationModule/wineryNotification.service';
 
 
 declare var requirejs: any;

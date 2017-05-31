@@ -23,7 +23,7 @@ import { WineryTableModule } from '../../../wineryTableModule/wineryTable.module
 import { SelfServicePortalXmlComponent } from './selfServicePortalXml.component';
 import { WineryUploaderModule } from '../../../wineryUploader/wineryUploader.module';
 import { WineryLoaderModule } from '../../../wineryLoader/wineryLoader.module';
-import { WineryEditorModule } from "../../../wineryEditorModul/wineryEditor.module";
+import { WineryEditorModule } from '../../../wineryEditorModul/wineryEditor.module';
 
 @NgModule({
     imports: [
