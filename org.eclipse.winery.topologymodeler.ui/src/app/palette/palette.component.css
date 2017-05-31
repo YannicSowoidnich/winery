@@ -1,14 +1,9 @@
-.palette-items-wrapper ul {
-  border-bottom: 2px solid #268de7;
-  border-left: 2px solid #268de7;
-  border-right: 2px solid #268de7;
-}
-
 #palette_root {
-  border-radius:initial;
+  border-radius:0.25rem;
   box-shadow: initial;
 }
 .nav-item {
-  border: 1px solid rgba(0,0,0,.125);
+  border: 2px solid rgba(0,0,0,.125);
   background-color: #f7f7f9;
+  border-radius: 0.25rem;
 }

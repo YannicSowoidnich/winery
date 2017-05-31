@@ -16,6 +16,7 @@ import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { WineryCustomOption } from './winery-alert/winery-alert-options';
 import { NodeComponent } from './node/node.component';
 import { PaletteComponent } from './palette/palette.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PaletteComponent } from './palette/palette.component';
     NavbarComponent,
     PaletteComponent,
     NodeComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
