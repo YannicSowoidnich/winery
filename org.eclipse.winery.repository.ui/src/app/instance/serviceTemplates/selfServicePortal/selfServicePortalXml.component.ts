@@ -9,11 +9,65 @@
  * Contributors:
  *     Niko Stadelmaier - initial API and implementation
  */
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { SelfServicePortalXmlService } from "./selfServicePortalXml.service";
+import { WineryNotificationService } from "../../../wineryNotificationModule/wineryNotification.service";
+
+
+declare var requirejs: any;
 
 @Component({
-    selector: 'winery-self-service-portal-xml',
-    templateUrl: 'selfServicePortalXml.component.html'
+    selector: 'winery-instance-edit-xml',
+    templateUrl: '../../editXml/editXML.component.html',
+    providers: [SelfServicePortalXmlService]
 })
-export class SelfServicePortalXmlComponent {
+export class SelfServicePortalXmlComponent implements OnInit {
+
+
+    @ViewChild('editor') editor: any;
+    loading = true;
+
+    id = 'XML';
+    dataEditorLang = 'application/xml';
+
+    // Set height to 500 px
+    height = 500;
+    xmlData: string;
+
+    constructor(private service: SelfServicePortalXmlService,
+                private notify: WineryNotificationService) {
+    }
+
+    ngOnInit() {
+        this.service.getXmlData()
+            .subscribe(
+                data => this.handleXmlData(data),
+                error => this.handleError(error)
+            );
+    }
+
+    saveXmlData(): void {
+        this.service.saveXmlData(this.editor.getData())
+            .subscribe(
+                data => this.handlePutResponse(data),
+                error => this.handleError(error)
+            );
+        this.loading = true;
+    }
+
+    private handleXmlData(xml: string) {
+        this.loading = false;
+        this.xmlData = xml;
+    }
+
+    private handleError(error: any): void {
+        this.loading = false;
+        this.notify.error(error.toString());
+    }
+
+    private handlePutResponse(response: any) {
+        this.loading = false;
+        this.notify.success('Successfully saved data!');
+    }
+
 }

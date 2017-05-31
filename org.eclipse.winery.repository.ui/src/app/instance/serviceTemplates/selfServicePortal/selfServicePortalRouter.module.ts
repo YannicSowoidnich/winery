@@ -9,16 +9,15 @@
  * Contributors:
  *     Niko Stadelmaier - initial API and implementation
  */
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { SelfServiceDescriptionComponent } from './selfServicePortalDescription.component';
-import { SelfServicePortalImagesComponent } from './selfServicePortalImages.component';
-import { SelfServicePortalOptionsComponent } from './selfServciePortalOptions.component';
-import { SelfServicePortalXmlComponent } from './selfServicePortalXml.component';
-import { XMLEditorComponent } from '../../boundaryDefinitions/xmlEditor/xmlEditor.component';
+import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { SelfServiceDescriptionComponent } from "./selfServicePortalDescription.component";
+import { SelfServicePortalImagesComponent } from "./selfServicePortalImages.component";
+import { SelfServicePortalOptionsComponent } from "./selfServciePortalOptions.component";
+import { SelfServicePortalXmlComponent } from "./selfServicePortalXml.component";
 
 export const selfServiceRoutes = [
     {
@@ -35,7 +34,7 @@ export const selfServiceRoutes = [
     },
     {
         path: 'xml',
-        component: XMLEditorComponent
+        component: SelfServicePortalXmlComponent
     },
     {
         path: '',
