@@ -17,8 +17,8 @@ import { WineryNotificationService } from "../../../wineryNotificationModule/win
 declare var requirejs: any;
 
 @Component({
-    selector: 'winery-instance-edit-xml',
-    templateUrl: '../../editXml/editXML.component.html',
+    selector: 'winery-selfservice-edit-xml',
+    templateUrl: 'selfServicePortalXml.component.html',
     providers: [SelfServicePortalXmlService]
 })
 export class SelfServicePortalXmlComponent implements OnInit {
