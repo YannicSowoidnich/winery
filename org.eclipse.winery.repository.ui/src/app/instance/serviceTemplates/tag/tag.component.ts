@@ -14,7 +14,8 @@ import { TagService } from './tag.service';
 import { TagsAPIData } from './tagsAPIData';
 import { WineryNotificationService } from '../../../wineryNotificationModule/wineryNotification.service';
 import { isNullOrUndefined } from 'util';
-import { ValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
+import { WineryValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'winery-instance-tag',
@@ -26,15 +27,15 @@ export class TagComponent implements OnInit {
     tagsData: TagsAPIData[] = [];
     newTag: TagsAPIData = new TagsAPIData();
     selectedCell: any;
-    validatorObject: ValidatorObject;
+    validatorObject: WineryValidatorObject;
 
     columns: Array<any> = [
         {title: 'id', name: 'id', sort: true},
         {title: 'name', name: 'name', sort: true},
         {title: 'value', name: 'value', sort: true},
     ];
-    @ViewChild('confirmDeleteModal') deleteTagModal: any;
-    @ViewChild('addModal') addTagModal: any;
+    @ViewChild('confirmDeleteModal') deleteTagModal: ModalDirective;
+    @ViewChild('addModal') addTagModal: ModalDirective;
 
     public constructor(private service: TagService,
                        private noteService: WineryNotificationService) {
@@ -57,7 +58,7 @@ export class TagComponent implements OnInit {
     }
 
     onAddClick() {
-        this.validatorObject = new ValidatorObject(this.tagsData, 'name');
+        this.validatorObject = new WineryValidatorObject(this.tagsData, 'name');
         this.newTag = new TagsAPIData();
         this.addTagModal.show();
     }

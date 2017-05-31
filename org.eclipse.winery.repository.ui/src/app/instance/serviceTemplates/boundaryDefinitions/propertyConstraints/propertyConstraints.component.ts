@@ -14,7 +14,7 @@ import { isNullOrUndefined } from 'util';
 import { PropertyConstraintsService } from './propertyConstraints.service';
 import { PropertyConstraintApiData } from './propertyConstraintApiData';
 import { ConstraintTypeApiData } from './constraintTypesApiData';
-import { ValidatorObject } from '../../../../wineryValidators/wineryDuplicateValidator.directive';
+import { WineryValidatorObject } from '../../../../wineryValidators/wineryDuplicateValidator.directive';
 import { WineryNotificationService } from '../../../../wineryNotificationModule/wineryNotification.service';
 
 @Component({
@@ -38,7 +38,7 @@ export class PropertyConstraintsComponent implements OnInit {
     ];
     @ViewChild('confirmDeleteModal') deleteModal: any;
     @ViewChild('addModal') addModal: any;
-    validatorObject: ValidatorObject;
+    validatorObject: WineryValidatorObject;
 
     constructor(private service: PropertyConstraintsService,
                 private notify: WineryNotificationService) {
@@ -57,7 +57,7 @@ export class PropertyConstraintsComponent implements OnInit {
     }
 
     onAddClick() {
-        this.validatorObject = new ValidatorObject(this.propertyConstraints, 'property');
+        this.validatorObject = new WineryValidatorObject(this.propertyConstraints, 'property');
         this.newConstraint = new PropertyConstraintApiData();
         this.addModal.show();
     }

@@ -14,7 +14,7 @@ import { isNullOrUndefined } from 'util';
 import { backendBaseURL } from '../../../configuration';
 import { WineryNotificationService } from '../../../wineryNotificationModule/wineryNotification.service';
 import { ExistService } from '../../../wineryUtils/existService';
-import { ValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
+import { WineryValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
 import { InstanceService } from '../../instance.service';
 import { GenerateArtifactApiData } from './generateArtifactApiData';
 import { InterfacesService } from './interfaces.service';
@@ -45,7 +45,7 @@ export class InterfacesComponent implements OnInit {
 
     modalTitle: string;
     elementToRemove: string;
-    validatorObject: ValidatorObject;
+    validatorObject: WineryValidatorObject;
     @ViewChild('addIntOpModal') addInterfaceOrPropertyModal: any;
     @ViewChild('removeElementModal') removeElementModal: any;
     @ViewChild('addElementForm') addElementForm: any;
@@ -75,7 +75,7 @@ export class InterfacesComponent implements OnInit {
     // region ########### Interfaces ##########
     addInterface() {
         this.modalTitle = 'Interface';
-        this.validatorObject = new ValidatorObject(this.interfacesData, 'name');
+        this.validatorObject = new WineryValidatorObject(this.interfacesData, 'name');
         this.addElementForm.reset();
         this.addInterfaceOrPropertyModal.show();
     }
@@ -114,7 +114,7 @@ export class InterfacesComponent implements OnInit {
     // region ########## Operations ##########
     addOperation() {
         this.modalTitle = 'Operation';
-        this.validatorObject = new ValidatorObject(this.operations, 'name');
+        this.validatorObject = new WineryValidatorObject(this.operations, 'name');
         this.addElementForm.reset();
         this.addInterfaceOrPropertyModal.show();
     }

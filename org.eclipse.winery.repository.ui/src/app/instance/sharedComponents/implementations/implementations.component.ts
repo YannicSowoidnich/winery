@@ -13,7 +13,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { isNullOrUndefined } from 'util';
 import { WineryNotificationService } from '../../../wineryNotificationModule/wineryNotification.service';
-import { ValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
+import { WineryValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
 import { InstanceService } from '../../instance.service';
 import { ImplementationAPIData } from './implementationAPIData';
 import { ImplementationService } from './implementations.service';
@@ -32,7 +32,7 @@ export class ImplementationsComponent implements OnInit {
     newImplementation: ImplementationAPIData = new ImplementationAPIData('', '');
     elementToRemove: ImplementationAPIData;
     selectedNamespace = '';
-    validatorObject: ValidatorObject;
+    validatorObject: WineryValidatorObject;
     columns: Array<any> = [
         {title: 'Namespace', name: 'namespace', sort: true},
         {title: 'Name', name: 'localname', sort: true},
@@ -58,7 +58,7 @@ export class ImplementationsComponent implements OnInit {
     }
 
     onAddClick() {
-        this.validatorObject = new ValidatorObject(this.implementationData, 'localname');
+        this.validatorObject = new WineryValidatorObject(this.implementationData, 'localname');
         this.newImplementation = new ImplementationAPIData('', '');
         this.addImplModal.show();
     }
