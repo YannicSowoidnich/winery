@@ -33,6 +33,7 @@ export class InstanceHeaderComponent implements OnInit {
     @Input() selectedResource: string;
     @Input() typeUrl: string;
     @Input() typeId: string;
+    @Input() typeOf: string;
     @Input() subMenu: string[];
     @Input() imageUrl: string;
     @Output() deleteConfirmed: EventEmitter<any> = new EventEmitter();
