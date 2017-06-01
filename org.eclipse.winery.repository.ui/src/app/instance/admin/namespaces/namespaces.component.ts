@@ -13,7 +13,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { WineryNamespaceSelectorService } from '../../../wineryNamespaceSelector/wineryNamespaceSelector.service';
 import { NamespacesService } from './namespaces.service';
 import { WineryNotificationService } from '../../../wineryNotificationModule/wineryNotification.service';
-import { ValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
+import { WineryValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
 import { isNullOrUndefined } from 'util';
 import { NamespaceWithPrefix } from '../../../wineryInterfaces/namespaceWithPrefix';
 import { Response } from '@angular/http';
@@ -28,8 +28,8 @@ export class NamespacesComponent implements OnInit {
     loading = true;
     adminNamespaces: Array<any> = [];
     newNamespace: any = {namespace: '', prefix: ''};
-    validatorObjectPrefix: ValidatorObject;
-    validatorObjectNamespace: ValidatorObject;
+    validatorObjectPrefix: WineryValidatorObject;
+    validatorObjectNamespace: WineryValidatorObject;
     itemToDelete: NamespaceWithPrefix = null;
     columns = [
         {title: 'Prefix', name: 'prefix'},
@@ -48,8 +48,8 @@ export class NamespacesComponent implements OnInit {
         this.service.getAllNamespaces().subscribe(
             data => {
                 this.adminNamespaces = data;
-                this.validatorObjectNamespace = new ValidatorObject(this.adminNamespaces, 'namespace');
-                this.validatorObjectPrefix = new ValidatorObject(this.adminNamespaces, 'prefix');
+                this.validatorObjectNamespace = new WineryValidatorObject(this.adminNamespaces, 'namespace');
+                this.validatorObjectPrefix = new WineryValidatorObject(this.adminNamespaces, 'prefix');
                 this.loading = false;
             },
             error => this.notify.error(error.toString())
