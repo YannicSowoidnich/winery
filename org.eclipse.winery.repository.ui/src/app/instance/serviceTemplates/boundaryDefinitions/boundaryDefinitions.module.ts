@@ -30,6 +30,8 @@ import { XMLEditorComponent } from './xmlEditor/xmlEditor.component';
 import { WineryEditorModule } from '../../../wineryEditorModul/wineryEditor.module';
 import { WineryLoaderModule } from '../../../wineryLoader/wineryLoader.module';
 import { WineryDuplicateValidatorModule } from '../../../wineryValidators/wineryDuplicateValidator.module';
+import { PoliciesComponent } from './policies/policies.component';
+import { SelectModule } from 'ng2-select';
 
 export const boundaryDefinitionsRoutes = [
     { path: 'properties', component: XMLEditorComponent },
@@ -37,7 +39,7 @@ export const boundaryDefinitionsRoutes = [
     { path: 'propertyconstraints', component: PropertyConstraintsComponent },
     { path: 'requirements', component: RequirementsComponent },
     { path: 'capabilities', component: CapabilitiesComponent },
-    { path: 'policies', component: PlaceholderComponent },
+    { path: 'policies', component: PoliciesComponent },
     { path: 'interfaces', component: PlaceholderComponent },
     { path: 'xml', component: XMLEditorComponent },
     { path: '', redirectTo: 'properties', pathMatch: 'full'}
@@ -52,6 +54,7 @@ export const boundaryDefinitionsRoutes = [
         CommonModule,
         WineryModalModule,
         FileUploadModule,
+        SelectModule,
         WineryTableModule,
         WineryDuplicateValidatorModule,
         WineryEditorModule
@@ -60,6 +63,7 @@ export const boundaryDefinitionsRoutes = [
     declarations: [
         BoundaryDefinitionsComponent,
         PlaceholderComponent,
+        PoliciesComponent,
         PropertyConstraintsComponent,
         PropertyMappingsComponent,
         RequirementsComponent,

@@ -12,7 +12,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { WineryNamespaceSelectorService } from '../../../wineryNamespaceSelector/wineryNamespaceSelector.service';
 import { WineryNotificationService } from '../../../wineryNotificationModule/wineryNotification.service';
-import { ValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
+import { WineryValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
 import { Response } from '@angular/http';
 import { TypeWithShortName, TypeWithShortNameService } from './typeWithShortName.service';
 
@@ -26,8 +26,8 @@ export class TypeWithShortNameComponent implements OnInit {
     loading = true;
     types: Array<any> = [];
     newTypeWithShortName: TypeWithShortName = new TypeWithShortName();
-    validatorObjectShortName: ValidatorObject;
-    validatorObjectType: ValidatorObject;
+    validatorObjectShortName: WineryValidatorObject;
+    validatorObjectType: WineryValidatorObject;
     columns = [
         {title: 'Short Name', name: 'shortName'},
         {title: 'Long Name', name: 'type'}
@@ -50,8 +50,8 @@ export class TypeWithShortNameComponent implements OnInit {
         this.service.getAllTypes().subscribe(
             data => {
                 this.types = data;
-                this.validatorObjectType = new ValidatorObject(this.types, 'type');
-                this.validatorObjectShortName = new ValidatorObject(this.types, 'shortName');
+                this.validatorObjectType = new WineryValidatorObject(this.types, 'type');
+                this.validatorObjectShortName = new WineryValidatorObject(this.types, 'shortName');
                 this.loading = false;
             },
             error => this.notify.error(error.toString())

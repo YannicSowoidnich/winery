@@ -23,7 +23,7 @@ import { SelectData } from '../../../wineryInterfaces/selectData';
 import { isNullOrUndefined } from 'util';
 import { Response } from '@angular/http';
 import { WineryNotificationService } from '../../../wineryNotificationModule/wineryNotification.service';
-import { ValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
+import { WineryValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
 import { WineryTableColumn } from '../../../wineryTableModule/wineryTable.component';
 
 @Component({
@@ -51,7 +51,7 @@ export class PropertiesDefinitionComponent implements OnInit {
     ];
     newProperty: PropertiesDefinitionKVList = new PropertiesDefinitionKVList();
 
-    validatorObject: ValidatorObject;
+    validatorObject: WineryValidatorObject;
     @ViewChild('confirmDeleteModal') deletePropModal: any;
     @ViewChild('addModal') addPropModal: any;
 
@@ -197,7 +197,7 @@ export class PropertiesDefinitionComponent implements OnInit {
      */
     onAddClick() {
         this.newProperty = new PropertiesDefinitionKVList();
-        this.validatorObject = new ValidatorObject(this.resourceApiData.winerysPropertiesDefinition.propertyDefinitionKVList, 'key');
+        this.validatorObject = new WineryValidatorObject(this.resourceApiData.winerysPropertiesDefinition.propertyDefinitionKVList, 'key');
         this.addPropModal.show();
     }
 

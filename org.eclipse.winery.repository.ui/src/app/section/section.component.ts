@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 import { SectionResolverData } from '../wineryInterfaces/resolverData';
 import { SelectData } from '../wineryInterfaces/selectData';
 import { WineryNotificationService } from '../wineryNotificationModule/wineryNotification.service';
-import { ValidatorObject } from '../wineryValidators/wineryDuplicateValidator.directive';
+import { WineryValidatorObject } from '../wineryValidators/wineryDuplicateValidator.directive';
 import { SectionService } from './section.service';
 import { SectionData } from './sectionData';
 import { backendBaseURL } from '../configuration';
@@ -52,7 +52,7 @@ export class SectionComponent implements OnInit, OnDestroy {
     newComponentName: string;
     newComponentNamespace: string;
     newComponentSelectedType: SelectData = new SelectData();
-    validatorObject: ValidatorObject;
+    validatorObject: WineryValidatorObject;
 
     fileUploadUrl = backendBaseURL + '/';
 
@@ -97,7 +97,7 @@ export class SectionComponent implements OnInit, OnDestroy {
     }
 
     onAdd() {
-        this.validatorObject = new ValidatorObject(this.componentData, 'id');
+        this.validatorObject = new WineryValidatorObject(this.componentData, 'id');
 
         // This is needed for the modal to correctly display the selected namespace
         this.newComponentNamespace = '';
@@ -194,6 +194,7 @@ export class SectionComponent implements OnInit, OnDestroy {
     }
 
     private handleSaveSuccess() {
+        this.newComponentName = this.newComponentName.replace(/\s/g, '_');
         this.notify.success('Successfully saved component ' + this.newComponentName);
         this.router.navigateByUrl('/'
             + this.selectedResource.toLowerCase() + 's/'
