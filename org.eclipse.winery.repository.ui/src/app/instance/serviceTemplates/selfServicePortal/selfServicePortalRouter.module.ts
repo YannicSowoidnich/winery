@@ -17,7 +17,7 @@ import { HttpModule } from '@angular/http';
 import { SelfServiceDescriptionComponent } from './selfServicePortalDescription.component';
 import { SelfServicePortalImagesComponent } from './selfServicePortalImages.component';
 import { SelfServicePortalOptionsComponent } from './selfServciePortalOptions.component';
-import { EditXMLComponent } from '../../editXML/editXML.component';
+import { EditXMLComponent } from '../../sharedComponents/editXML/editXML.component';
 
 export const selfServiceRoutes = [
     {

@@ -69,7 +69,6 @@ public class BoundaryDefinitionsResource {
 		return new BoundaryDefinitionsJSPData(this.serviceTemplateResource.getServiceTemplate(), uriInfo.getBaseUri()).getBoundaryDefinitionsAsXMLString();
 	}
 
-	@Path("xml/")
 	@PUT
 	@RestDoc(methodDescription = "Replaces the boundary definitions by the information given in the XML")
 	@Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_XML})

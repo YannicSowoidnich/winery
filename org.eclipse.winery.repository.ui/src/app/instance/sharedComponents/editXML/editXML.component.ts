@@ -9,9 +9,10 @@
  * Contributors:
  *     Tino Stadelmaier, Philipp Meyer - initial API and implementation
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { EditXMLService } from './editXML.service';
 import { WineryNotificationService } from '../../../wineryNotificationModule/wineryNotification.service';
+import { WineryEditorComponent } from '../../../wineryEditorModul/wineryEditor.component';
 
 declare var requirejs: any;
 
@@ -22,8 +23,11 @@ declare var requirejs: any;
 })
 export class EditXMLComponent implements OnInit {
 
+    @Input() getXmlData = true;
+    @Input() hideSaveButton = false;
+    @Input() xmlData: string;
 
-    @ViewChild('editor') editor: any;
+    @ViewChild('editor') editor: WineryEditorComponent;
     loading = true;
 
     id = 'XML';
@@ -31,18 +35,21 @@ export class EditXMLComponent implements OnInit {
 
     // Set height to 500 px
     height = 500;
-    xmlData: string;
 
     constructor(private service: EditXMLService,
                 private notify: WineryNotificationService) {
     }
 
     ngOnInit() {
-        this.service.getXmlData()
-            .subscribe(
-                data => this.handleXmlData(data),
-                error => this.handleError(error)
-            );
+        if (this.getXmlData) {
+            this.service.getXmlData()
+                .subscribe(
+                    data => this.handleXmlData(data),
+                    error => this.handleError(error)
+                );
+        } else {
+            this.loading = false;
+        }
     }
 
     saveXmlData(): void {
@@ -52,6 +59,15 @@ export class EditXMLComponent implements OnInit {
                 error => this.handleError(error)
             );
         this.loading = true;
+    }
+
+    getEditorContent(): string {
+        return this.editor.getData();
+    }
+
+    setEditorContent(xml: string) {
+        this.xmlData = xml;
+        this.editor.setData(this.xmlData);
     }
 
     private handleXmlData(xml: string) {

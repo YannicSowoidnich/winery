@@ -23,6 +23,7 @@ import { WineryTableModule } from '../../../wineryTableModule/wineryTable.module
 import { WineryUploaderModule } from '../../../wineryUploader/wineryUploader.module';
 import { WineryLoaderModule } from '../../../wineryLoader/wineryLoader.module';
 import { WineryEditorModule } from '../../../wineryEditorModul/wineryEditor.module';
+import { WineryEditXMLModule } from '../../sharedComponents/editXML/editXML.module';
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { WineryEditorModule } from '../../../wineryEditorModul/wineryEditor.modu
         WineryUploaderModule,
         WineryTableModule,
         WineryLoaderModule,
+        WineryEditXMLModule
     ],
     exports: [],
     declarations: [

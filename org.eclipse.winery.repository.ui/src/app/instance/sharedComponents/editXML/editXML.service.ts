@@ -34,7 +34,11 @@ export class EditXMLService {
         const headers = new Headers({'Accept': 'application/xml'});
         const options = new RequestOptions({headers: headers});
 
-        return this.http.get(backendBaseURL + this.path + 'xml', options)
+        let getPath = this.path;
+        if (!getPath.endsWith('properties')) {
+            getPath += '/xml';
+        }
+        return this.http.get(backendBaseURL + getPath   , options)
             .map(res => res.text());
     }
 
@@ -42,6 +46,6 @@ export class EditXMLService {
         const headers = new Headers({'Content-Type': 'text/xml'});
         const options = new RequestOptions({headers: headers});
 
-        return this.http.put(backendBaseURL + this.path, xmlData, options);
+        return this.http.put(backendBaseURL + this.path + '/', xmlData, options);
     }
 }
