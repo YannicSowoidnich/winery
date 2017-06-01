@@ -30,6 +30,7 @@ import { XMLEditorComponent } from './xmlEditor/xmlEditor.component';
 import { WineryEditorModule } from '../../wineryEditorModul/wineryEditor.module';
 import { WineryLoaderModule } from '../../wineryLoader/wineryLoader.module';
 import { WineryDuplicateValidatorModule } from '../../wineryValidators/wineryDuplicateValidator.module';
+import { EditXMLComponent } from '../editXML/editXML.component';
 
 export const boundaryDefinitionsRoutes = [
     { path: 'properties', component: XMLEditorComponent },
@@ -39,7 +40,7 @@ export const boundaryDefinitionsRoutes = [
     { path: 'capabilities', component: CapabilitiesComponent },
     { path: 'policies', component: PlaceholderComponent },
     { path: 'interfaces', component: PlaceholderComponent },
-    { path: 'xml', component: XMLEditorComponent },
+    { path: 'xml', component: EditXMLComponent },
     { path: '', redirectTo: 'properties', pathMatch: 'full'}
 ];
 

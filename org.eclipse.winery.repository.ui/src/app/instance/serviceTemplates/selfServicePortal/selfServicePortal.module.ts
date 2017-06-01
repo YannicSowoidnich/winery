@@ -20,7 +20,6 @@ import { ImageUploadComponent } from './imageUpload.component';
 import { SelfServicePortalImagesComponent } from './selfServicePortalImages.component';
 import { SelfServicePortalOptionsComponent } from './selfServciePortalOptions.component';
 import { WineryTableModule } from '../../../wineryTableModule/wineryTable.module';
-import { SelfServicePortalXmlComponent } from './selfServicePortalXml.component';
 import { WineryUploaderModule } from '../../../wineryUploader/wineryUploader.module';
 import { WineryLoaderModule } from '../../../wineryLoader/wineryLoader.module';
 import { WineryEditorModule } from '../../../wineryEditorModul/wineryEditor.module';
@@ -43,7 +42,6 @@ import { WineryEditorModule } from '../../../wineryEditorModul/wineryEditor.modu
         ImageUploadComponent,
         SelfServicePortalImagesComponent,
         SelfServicePortalOptionsComponent,
-        SelfServicePortalXmlComponent
     ],
     providers: [],
 })

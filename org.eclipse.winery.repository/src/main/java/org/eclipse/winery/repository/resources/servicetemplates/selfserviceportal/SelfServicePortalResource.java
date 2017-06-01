@@ -209,6 +209,9 @@ public class SelfServicePortalResource implements IPersistable {
 	/**
 	 * Used in JSP only
 	 */
+	@Path("xml")
+	@GET
+	@Produces({MediaType.TEXT_XML,  MediaType.APPLICATION_XML})
 	public String getApplicationAsXMLStringEncoded() {
 		String res;
 		if (Repository.INSTANCE.exists(this.data_xml_ref)) {
@@ -224,6 +227,6 @@ public class SelfServicePortalResource implements IPersistable {
 			// application object is already filled with default values if no file exists in repo
 			res = Utils.getXMLAsString(this.getApplication());
 		}
-		return Functions.escapeXml(res);
+		return res;
 	}
 }
