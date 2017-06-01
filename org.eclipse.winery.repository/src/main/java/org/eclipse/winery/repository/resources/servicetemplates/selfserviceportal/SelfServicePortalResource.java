@@ -43,7 +43,6 @@ import org.eclipse.winery.repository.resources.servicetemplates.ServiceTemplateR
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataParam;
 import org.apache.commons.io.IOUtils;
-import org.apache.taglibs.standard.functions.Functions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
