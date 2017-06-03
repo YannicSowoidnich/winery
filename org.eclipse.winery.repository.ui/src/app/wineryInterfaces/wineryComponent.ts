@@ -20,17 +20,20 @@ export class WineryComponent {
     }
 }
 
+export class WineryTemplateOrImplementationComponent extends WineryComponent {
+    properties: any;
+    propertyConstraints: any;
+    id: string;
+    type?: string;
+    nodeType?: string;
+    relationshipType?: string;
+}
+
 export class WineryInstance extends WineryComponent {
     types: any;
     id: string;
     targetNamespace: string;
     import: any;
-    serviceTemplateOrNodeTypeOrNodeTypeImplementation: Array<WineryTemplateComponent>;
+    serviceTemplateOrNodeTypeOrNodeTypeImplementation: Array<WineryTemplateOrImplementationComponent>;
 }
 
-export class WineryTemplateComponent extends WineryComponent {
-    properties: any;
-    propertyConstraints: any;
-    id: string;
-    type: string;
-}
