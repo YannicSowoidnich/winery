@@ -2,17 +2,11 @@
   "documentation": [],
   "any": [],
   "otherAttributes": {},
-  "extensions": null,
-  "types": null,
   "serviceTemplateOrNodeTypeOrNodeTypeImplementation": [
 	{
 	  "documentation": [],
 	  "any": [],
 	  "otherAttributes": {},
-	  "tags": null,
-	  "derivedFrom": null,
-	  "requiredContainerFeatures": null,
-	  "implementationArtifacts": null,
 	  "name": "kiwi_implementation",
 	  "targetNamespace": "http://winery.opentosca.org/test/relationshiptypeimplementations/fruits",
 	  "relationshipType": "{http://winery.opentosca.org/test/relationshiptypes/fruits}kiwi",
@@ -21,7 +15,6 @@
 	}
   ],
   "id": "winery-defs-for_wfri-kiwi_implementation",
-  "name": null,
   "targetNamespace": "http://winery.opentosca.org/test/relationshiptypeimplementations/fruits",
   "import": []
 }
