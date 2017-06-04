@@ -35,6 +35,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
     selectedNamespace: string;
     typeUrl: string;
     typeId: string;
+    typeOf: string;
     imageUrl: string;
 
     routeSub: Subscription;
@@ -102,10 +103,23 @@ export class InstanceComponent implements OnInit, OnDestroy {
         }
 
         if (!isNullOrUndefined(this.typeUrl)) {
-            const typeData = data.serviceTemplateOrNodeTypeOrNodeTypeImplementation[0].type.slice(1).split('}');
-            if (typeData.length === 2) {
-                this.typeUrl += '/' + encodeURIComponent(encodeURIComponent(typeData[0])) + '/' + typeData[1];
-                this.typeId = typeData[1];
+            const tempOrImpl = data.serviceTemplateOrNodeTypeOrNodeTypeImplementation[0];
+            let qName: string[];
+
+            if (!isNullOrUndefined(tempOrImpl.type)) {
+                qName = tempOrImpl.type.slice(1).split('}');
+                this.typeOf = 'Type: ';
+            } else if (!isNullOrUndefined(tempOrImpl.nodeType)) {
+                qName = tempOrImpl.nodeType.slice(1).split('}');
+                this.typeOf = 'Implementation for ';
+            } else if (!isNullOrUndefined(tempOrImpl.relationshipType)) {
+                qName = tempOrImpl.relationshipType.slice(1).split('}');
+                this.typeOf = 'Implementation for ';
+            }
+
+            if (qName.length === 2) {
+                this.typeUrl += '/' + encodeURIComponent(encodeURIComponent(qName[0])) + '/' + qName[1];
+                this.typeId = qName[1];
             } else {
                 this.typeUrl = null;
             }
