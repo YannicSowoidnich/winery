@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PaletteService } from '../palette.service';
 
@@ -57,6 +57,9 @@ export class PaletteComponent implements OnInit {
   paletteIsShrunk = true;
   paletteRootState = 'shrunk';
   paletteItems = [];
+  clickedNumber = 1;
+  @Output() sendNumberOfInstances = new EventEmitter();
+  @Output() sendTitle = new EventEmitter();
 
   constructor(private paletteService: PaletteService) {
     this.paletteItems = paletteService.getPaletteData();
@@ -77,6 +80,11 @@ export class PaletteComponent implements OnInit {
     } else {
       this.paletteRootState = 'shrunk';
     }
+  }
+
+  onClick(): void {
+    this.sendNumberOfInstances.emit(this.clickedNumber);
+    this.clickedNumber++;
   }
 }
 
