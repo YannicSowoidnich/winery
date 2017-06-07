@@ -39,6 +39,12 @@ export class NavbarComponent implements OnInit {
     this._sharedNodeNavbarService.publishData('' + this.buttonPressed);
   }
 
+  getStyle(): string {
+    if (this.buttonPressed) {
+      return 'lightgrey';
+    }
+  }
+
   public showSaveAlert(): void {
     this.alert.success('Successfully saved!');
   }

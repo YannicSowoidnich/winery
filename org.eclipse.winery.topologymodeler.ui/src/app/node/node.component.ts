@@ -12,7 +12,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
   firstInstance: any;
-  targetLocationsVisible = true;
+  targetLocationsVisible = false;
   @Input() id;
   title = 'Ubuntu-14.04-VM ';
   public accordionContents: any = {
@@ -44,9 +44,9 @@ export class NodeComponent implements OnInit, AfterViewInit {
       data => {
         console.log('Sibling2Component-received from sibling1: ' + data);
         if (data === 'false') {
-          this.targetLocationsVisible = true;
-        } else {
           this.targetLocationsVisible = false;
+        } else {
+          this.targetLocationsVisible = true;
         }
       });
     this.firstInstance = jsPlumbService.getJsPlumbInstance();

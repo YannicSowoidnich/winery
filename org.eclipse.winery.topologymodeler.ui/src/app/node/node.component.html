@@ -10,7 +10,7 @@
     </div>
   </div>
   <accordion #accordion>
-    <accordion-group [isOpen]="status.isOpen" panelClass="accordionGroupPanel" *ngIf="targetLocationsVisible">
+    <accordion-group [isOpen]="true" [isDisabled]="true" panelClass="accordionGroupPanel" *ngIf="targetLocationsVisible">
       <div accordion-heading>
         Target Locations
       </div>
