@@ -21,6 +21,7 @@ import { CanvasComponent } from './canvas/canvas.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NodeDisplayDirective } from './node-display.directive';
 import { LayoutDirective } from './layout.directive';
+import {SharedNodeNavbarService} from './shared-node-navbar.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { LayoutDirective } from './layout.directive';
   ],
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},
-    JsPlumbService
+    JsPlumbService,
+    SharedNodeNavbarService
   ],
 
   bootstrap: [AppComponent]

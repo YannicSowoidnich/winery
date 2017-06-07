@@ -10,9 +10,9 @@
     </div>
   </div>
   <accordion #accordion [appNodeDisplay]="accordionContents">
-    <accordion-group [isOpen]="status.isOpen" panelClass="accordionGroupPanel" class="hidden">
+    <accordion-group [isOpen]="status.isOpen" panelClass="accordionGroupPanel" *ngIf="targetLocationsVisible">
       <div accordion-heading>
-        Target Location
+        Target Locations
       </div>
       This is just some content to illustrate fancy headings.
     </accordion-group>

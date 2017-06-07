@@ -1,5 +1,6 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {JsPlumbService} from '../jsPlumbService';
+import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
 @Component({
   selector: 'app-node',
@@ -11,6 +12,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
   firstInstance: any;
+  targetLocationsVisible = true;
   @Input() id;
   title = 'Ubuntu-14.04-VM ';
   public accordionContents: any = {
@@ -37,11 +39,23 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.items.push(`Items ${this.items.length + 1}`);
   }
 
-  constructor(private jsPlumbService: JsPlumbService) {
+  constructor(private jsPlumbService: JsPlumbService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
+    this._sharedNodeNavbarService.visible$.subscribe(
+      data => {
+        console.log('Sibling2Component-received from sibling1: ' + data);
+        if (data === 'false') {
+          this.targetLocationsVisible = true;
+        } else {
+          this.targetLocationsVisible = false;
+        }
+      });
     this.firstInstance = jsPlumbService.getJsPlumbInstance();
+
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
 
   ngAfterViewInit(): void {
     this.firstInstance.importDefaults({

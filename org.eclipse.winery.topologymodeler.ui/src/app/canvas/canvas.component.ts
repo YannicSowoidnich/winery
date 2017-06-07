@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 
 @Component({
-  selector: 'app-drag',
+  selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })

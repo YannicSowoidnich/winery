@@ -1,4 +1,7 @@
-import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
+import {
+  AfterViewInit, ContentChild, ContentChildren, Directive, ElementRef, Input,
+  ViewChild
+} from '@angular/core';
 
 @Directive({
   selector: '[appNodeDisplay]'
@@ -6,18 +9,19 @@ import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
 
 export class NodeDisplayDirective implements AfterViewInit {
 
-  @Input() accordionContents: any = {
-  };
+  @Input() accordionContents: any = {};
   @Input() appNodeDisplay: any;
+  @ContentChildren('accordion') el: ElementRef;
 
-  accordionGroups: any[] = [this.el.nativeElement.children];
+  accordionGroups: any[];
 
-  constructor(private el: ElementRef) {
+  constructor() {
   }
 
+
   ngAfterViewInit() {
-    console.log(this.accordionGroups[0][0]);
-    this.accordionGroups[0][0].classList.remove('hidden');
+    // this.accordionGroups = [this.el.nativeElement.children];
+    // this.accordionGroups[0][0].classList.remove('hidden');
   }
 
   private toggleAccordion() {

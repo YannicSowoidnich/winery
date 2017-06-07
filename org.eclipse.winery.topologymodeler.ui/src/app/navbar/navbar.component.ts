@@ -9,18 +9,34 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import { Component, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {WineryAlertService} from '../winery-alert/winery-alert.service';
 import {LayoutDirective} from '../layout.directive';
+import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private alert: WineryAlertService) {
+  buttonPressed = false;
+
+  constructor(private alert: WineryAlertService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
+    this._sharedNodeNavbarService.visible$.subscribe(
+      data => {
+        console.log('Sibling1Component-received from sibling2: ' + data);
+        if (!(data === 'false')) { this.buttonPressed = true; }
+      });
+
+  }
+
+  onClick(): void {
+    // console.log('Sibling1Component-received from sibling2: ' + this._sharedService.subscribeData());
+    console.log('Form submitted-sibling1Form');
+    this.buttonPressed = !this.buttonPressed;
+    this._sharedNodeNavbarService.publishData('' + this.buttonPressed);
   }
 
   public showSaveAlert(): void {
