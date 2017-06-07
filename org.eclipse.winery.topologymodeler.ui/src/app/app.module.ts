@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { JsPlumbService } from './jsPlumbService';
 
 
 import { AppComponent } from './app.component';
@@ -16,6 +17,7 @@ import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { WineryCustomOption } from './winery-alert/winery-alert-options';
 import { NodeComponent } from './node/node.component';
 import { PaletteComponent } from './palette/palette.component';
+import { CanvasComponent } from './canvas/canvas.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutDirective } from './layout.directive';
 
@@ -25,6 +27,7 @@ import { LayoutDirective } from './layout.directive';
     NavbarComponent,
     PaletteComponent,
     NodeComponent,
+    CanvasComponent,
     SidebarComponent,
     LayoutDirective,
   ],
@@ -40,6 +43,7 @@ import { LayoutDirective } from './layout.directive';
   ],
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},
+    JsPlumbService
   ],
 
   bootstrap: [AppComponent]
