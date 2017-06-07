@@ -5,6 +5,10 @@ div.container {
   font-size: small;
 }
 
+[draggable=true] {
+  cursor: move;
+}
+
 a {
   font-size: small;
 }

@@ -1,4 +1,4 @@
-<div class="container rounded" style="padding: 3px">
+<div draggable="true" class="container rounded" style="padding: 3px">
   <div class="row rounded"
        style="background-color: rgba(255,255,255,0.75); margin-left: 1px; margin-right: 1px; padding: 5px">
     <div class="col-sm-3">
@@ -9,8 +9,8 @@
       <a href="#" class="h6 btn-link" style="text-align: right; display: block">(Ubuntu-14.04-VM)</a>
     </div>
   </div>
-  <accordion>
-    <accordion-group #group [isOpen]="status.isOpen" panelClass="accordionGroupPanel" class="hidden">
+  <accordion #accordion [appNodeDisplay]="accordionContents">
+    <accordion-group [isOpen]="status.isOpen" panelClass="accordionGroupPanel" class="hidden">
       <div accordion-heading>
         Target Location
       </div>

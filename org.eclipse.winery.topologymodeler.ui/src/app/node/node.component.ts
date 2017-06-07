@@ -9,6 +9,9 @@ export class NodeComponent implements OnInit {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
+  public accordionContents: any = {
+    propertiesOpen: true
+  };
 
   public status: any = {
     isFirstOpen: true,
