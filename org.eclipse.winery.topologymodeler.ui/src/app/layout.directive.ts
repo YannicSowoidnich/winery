@@ -1,5 +1,7 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
-import { CanvasComponent } from './canvas/canvas.component';
+import {
+  AfterViewInit, ContentChild, ContentChildren, Directive, ElementRef, HostListener,
+  Input
+} from '@angular/core';
 
 @Directive({
   selector: '[appLayout]',
@@ -7,21 +9,21 @@ import { CanvasComponent } from './canvas/canvas.component';
 export class LayoutDirective implements AfterViewInit {
   @Input() color: any;
   @Input() appLayout: any;
-  @ViewChild('test') canvas;
+  @ContentChildren('nodes') nodes;
 
   constructor(el: ElementRef) {
     console.log(el);
   }
 
   @HostListener('click') onClick() {
-    this.layout(['1', '2', '3']);
+    this.layout();
   }
 
-  public layout(elements: string[]): void {
-    console.log(this.canvas);
+  public layout(): void {
+    console.log(this.nodes);
   }
 
   ngAfterViewInit() {
-    console.log(this.canvas.nativeElement.children);
+
   }
 }
