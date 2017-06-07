@@ -30,7 +30,6 @@ import {SharedNodeNavbarService} from './shared-node-navbar.service';
     NodeComponent,
     CanvasComponent,
     SidebarComponent,
-    NodeDisplayDirective,
     LayoutDirective,
   ],
   imports: [
