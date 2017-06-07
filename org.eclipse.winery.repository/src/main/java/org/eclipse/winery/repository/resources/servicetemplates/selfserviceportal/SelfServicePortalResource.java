@@ -134,7 +134,7 @@ public class SelfServicePortalResource implements IPersistable {
 	}
 
 	@PUT
-	@Consumes(MediaType.TEXT_XML)
+	@Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
 	public Response onPutXML(Application data) {
 		String content = Utils.getXMLAsString(data);
 		return BackendUtils.putContentToFile(this.data_xml_ref, content, MediaType.TEXT_XML_TYPE);
