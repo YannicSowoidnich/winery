@@ -19,7 +19,6 @@ import { NodeComponent } from './node/node.component';
 import { PaletteComponent } from './palette/palette.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { NodeDisplayDirective } from './node-display.directive';
 import { LayoutDirective } from './layout.directive';
 import {SharedNodeNavbarService} from './shared-node-navbar.service';
 
