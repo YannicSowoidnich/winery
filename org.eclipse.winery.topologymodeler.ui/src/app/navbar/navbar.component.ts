@@ -9,15 +9,17 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import {Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import {WineryAlertService} from '../winery-alert/winery-alert.service';
+import {LayoutDirective} from '../layout.directive';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+
   constructor(private alert: WineryAlertService) {
   }
 

@@ -5,7 +5,7 @@ export class PaletteService {
   paletteData =
     [{
         nodeTitle: 'AWS',
-        imgUrl: 'http://google.de'
+        imgUrl: 'http://google.de',
       },
       {
         nodeTitle: 'AWS2',
