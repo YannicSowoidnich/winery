@@ -17,6 +17,7 @@ import { WineryCustomOption } from './winery-alert/winery-alert-options';
 import { NodeComponent } from './node/node.component';
 import { PaletteComponent } from './palette/palette.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { LayoutDirective } from './layout.directive';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     PaletteComponent,
     NodeComponent,
     SidebarComponent,
+    LayoutDirective,
   ],
   imports: [
     BrowserModule,
