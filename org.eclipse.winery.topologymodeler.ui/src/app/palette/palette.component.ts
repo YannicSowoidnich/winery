@@ -57,8 +57,7 @@ export class PaletteComponent implements OnInit {
   paletteIsShrunk = true;
   paletteRootState = 'shrunk';
   paletteItems = [];
-  clickedNumber = 1;
-  @Output() sendNumberOfInstances = new EventEmitter();
+  nodeTypeInstances = [];
   @Output() sendTitle = new EventEmitter();
 
   constructor(private paletteService: PaletteService) {
@@ -82,9 +81,8 @@ export class PaletteComponent implements OnInit {
     }
   }
 
-  onClick(): void {
-    this.sendNumberOfInstances.emit(this.clickedNumber);
-    this.clickedNumber++;
+  onClick($event): void {
+    this.sendTitle.emit($event.target.innerHTML);
   }
 }
 
