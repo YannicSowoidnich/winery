@@ -65,6 +65,7 @@ export class NamespacesComponent implements OnInit {
             namespace: namespace,
             prefix: prefix
         });
+        this.save();
     }
 
     /**
@@ -91,6 +92,7 @@ export class NamespacesComponent implements OnInit {
         this.deleteNamespaceModal.hide();
         this.deleteItemFromPropertyDefinitionKvList(this.elementToRemove);
         this.elementToRemove = null;
+        this.save();
     }
 
     save() {

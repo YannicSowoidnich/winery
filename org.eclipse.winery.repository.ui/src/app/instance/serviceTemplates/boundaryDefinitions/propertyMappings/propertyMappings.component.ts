@@ -33,7 +33,7 @@ export class PropertyMappingsComponent implements OnInit {
     @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
     @ViewChild('propertyMappingForm') propertyMappingForm: any;
     currentSelectedItem: Property;
-    addOrUpdateBtnTxt = 'add';
+    addOrUpdateBtnTxt = 'Add';
 
     constructor(private service: PropertyMappingService,
                 private notify: WineryNotificationService) {
@@ -87,14 +87,14 @@ export class PropertyMappingsComponent implements OnInit {
     }
 
     onAddClick() {
-        this.addOrUpdateBtnTxt = 'add';
+        this.addOrUpdateBtnTxt = 'Add';
         this.propertyMappingForm.reset();
         this.currentSelectedItem = null;
         this.addPropertyMappingModal.show();
     }
 
     onEditClick() {
-        this.addOrUpdateBtnTxt = 'update';
+        this.addOrUpdateBtnTxt = 'Update';
         this.addPropertyMappingModal.show();
     }
 
