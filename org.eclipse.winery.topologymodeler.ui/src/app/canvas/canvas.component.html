@@ -1,4 +1,0 @@
-<app-palette-component style="width:200px;float:left;" (sendTitle)="appendTitleToArray($event)"></app-palette-component>
-<div *ngIf="isActive">
-  <app-node *ngFor="let le of titleOfClickedItem; let i = index" [id]="i+1" [title]="le"></app-node>
-</div>

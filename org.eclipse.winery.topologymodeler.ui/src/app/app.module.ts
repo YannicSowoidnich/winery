@@ -17,7 +17,6 @@ import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { WineryCustomOption } from './winery-alert/winery-alert-options';
 import { NodeComponent } from './node/node.component';
 import { PaletteComponent } from './palette/palette.component';
-import { CanvasComponent } from './canvas/canvas.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutDirective } from './layout.directive';
 import {SharedNodeNavbarService} from './shared-node-navbar.service';
@@ -28,7 +27,6 @@ import {SharedNodeNavbarService} from './shared-node-navbar.service';
     NavbarComponent,
     PaletteComponent,
     NodeComponent,
-    CanvasComponent,
     SidebarComponent,
     LayoutDirective,
   ],
