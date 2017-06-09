@@ -14,7 +14,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   firstInstance: any;
   targetLocationsVisible = false;
   @Input() id;
-  title = 'Ubuntu-14.04-VM ';
+  title = 'Ubuntu-14.04-VM';
   public accordionContents: any = {
     propertiesOpen: true
   };

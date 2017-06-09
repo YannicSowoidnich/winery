@@ -6,7 +6,6 @@ export class SharedNodeNavbarService {
 
   // Observable string sources
   private visible = new Subject<string>();
-
   // Observable string streams
   visible$ = this.visible.asObservable();
 
