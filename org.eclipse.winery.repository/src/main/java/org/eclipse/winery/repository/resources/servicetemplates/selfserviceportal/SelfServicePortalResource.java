@@ -43,7 +43,6 @@ import org.eclipse.winery.repository.resources.servicetemplates.ServiceTemplateR
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataParam;
 import org.apache.commons.io.IOUtils;
-import org.apache.taglibs.standard.functions.Functions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,7 +134,7 @@ public class SelfServicePortalResource implements IPersistable {
 	}
 
 	@PUT
-	@Consumes(MediaType.TEXT_XML)
+	@Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
 	public Response onPutXML(Application data) {
 		String content = Utils.getXMLAsString(data);
 		return BackendUtils.putContentToFile(this.data_xml_ref, content, MediaType.TEXT_XML_TYPE);
@@ -209,6 +208,9 @@ public class SelfServicePortalResource implements IPersistable {
 	/**
 	 * Used in JSP only
 	 */
+	@Path("xml")
+	@GET
+	@Produces({MediaType.TEXT_XML,  MediaType.APPLICATION_XML})
 	public String getApplicationAsXMLStringEncoded() {
 		String res;
 		if (Repository.INSTANCE.exists(this.data_xml_ref)) {
@@ -224,6 +226,6 @@ public class SelfServicePortalResource implements IPersistable {
 			// application object is already filled with default values if no file exists in repo
 			res = Utils.getXMLAsString(this.getApplication());
 		}
-		return Functions.escapeXml(res);
+		return res;
 	}
 }

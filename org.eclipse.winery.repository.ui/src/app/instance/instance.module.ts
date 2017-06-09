@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { SelectModule } from 'ng2-select';
-import { EditXMLComponent } from './sharedComponents/editXML/editXML.component';
 import { InstanceComponent } from './instance.component';
 import { InstanceHeaderComponent } from './instanceHeader/instanceHeader.component';
 import { InstanceRouterModule } from './instanceRouter.module';
@@ -60,6 +59,7 @@ import { SelfServicePortalModule } from './serviceTemplates/selfServicePortal/se
 import { WineryUploaderModule } from '../wineryUploader/wineryUploader.module';
 import { WineryIoParameterModule } from '../wineryIoParameter/wineryIoParameters.module';
 import { WineryQNameSelectorModule } from '../wineryQNameSelector/wineryQNameSelector.module';
+import { WineryEditXMLModule } from './sharedComponents/editXML/editXML.module';
 
 @NgModule({
     imports: [
@@ -85,13 +85,13 @@ import { WineryQNameSelectorModule } from '../wineryQNameSelector/wineryQNameSel
         WineryQNameSelectorModule,
         WineryUploaderModule,
         WineryIoParameterModule,
-        BoundaryDefinitionsModule
+        BoundaryDefinitionsModule,
+        WineryEditXMLModule
     ],
     exports: [],
     declarations: [
         AppliesToComponent,
         DocumentationComponent,
-        EditXMLComponent,
         InheritanceComponent,
         InstanceComponent,
         InstanceHeaderComponent,
