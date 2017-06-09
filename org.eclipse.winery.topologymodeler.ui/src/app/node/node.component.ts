@@ -14,7 +14,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   firstInstance: any;
   targetLocationsVisible = false;
   @Input() id;
-  title = 'Ubuntu-14.04-VM';
+  @Input() title: string;
   public accordionContents: any = {
     propertiesOpen: true
   };
@@ -70,7 +70,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
       ConnectionsDetachable: false,
       Anchor: 'Continuous'
     });
-    this.firstInstance.draggable(this.id.toString());
+    this.firstInstance.draggable(this.title);
   }
 
 }
