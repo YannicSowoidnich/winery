@@ -64,10 +64,12 @@ export class InstanceComponent implements OnInit, OnDestroy {
                             );
                     }
 
-                    this.service.getComponentData()
-                        .subscribe(
-                            compData => this.handleComponentData(compData)
-                        );
+                    if (!this.router.url.includes('/admin')) {
+                        this.service.getComponentData()
+                            .subscribe(
+                                compData => this.handleComponentData(compData)
+                            );
+                    }
 
                     this.availableTabs = this.service.getSubMenuByResource();
 
