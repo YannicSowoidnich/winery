@@ -1,5 +1,6 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
+import {JsonService} from '../json.service';
 
 @Component({
   selector: 'app-canvas',
@@ -11,9 +12,11 @@ export class CanvasComponent implements OnInit {
   titleOfClickedItem = [];
   numberOfApacheInstances = 1;
   numberOfBabelInstances = 1;
+
+
   numberOfDashboardInstances = 1;
 
-  constructor(private jsPlumbService: JsPlumbService) {
+  constructor(private jsonService: JsonService) {
   }
 
   ngOnInit() {
@@ -61,4 +64,6 @@ export class CanvasComponent implements OnInit {
     this.isActive = true;
     console.log(this.titleOfClickedItem);
   }
+
+
 }

@@ -21,6 +21,8 @@ import { CanvasComponent } from './canvas/canvas.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutDirective } from './layout.directive';
 import {SharedNodeNavbarService} from './shared-node-navbar.service';
+import { RelationshipComponent } from './relationship/relationship.component';
+import {JsonService} from './json.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import {SharedNodeNavbarService} from './shared-node-navbar.service';
     CanvasComponent,
     SidebarComponent,
     LayoutDirective,
+    RelationshipComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import {SharedNodeNavbarService} from './shared-node-navbar.service';
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},
     JsPlumbService,
-    SharedNodeNavbarService
+    SharedNodeNavbarService,
+    JsonService
   ],
 
   bootstrap: [AppComponent]
