@@ -1,5 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {JsPlumbService} from '../jsPlumbService';
+import {Component, Input, OnInit} from '@angular/core';
 import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
 @Component({
@@ -7,14 +6,13 @@ import {SharedNodeNavbarService} from '../shared-node-navbar.service';
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css']
 })
-export class NodeComponent implements OnInit, AfterViewInit {
+export class NodeComponent implements OnInit {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
-  firstInstance: any;
   targetLocationsVisible = false;
-  @Input() id;
   @Input() title: string;
+
   public accordionContents: any = {
     propertiesOpen: true
   };
@@ -39,7 +37,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.items.push(`Items ${this.items.length + 1}`);
   }
 
-  constructor(private jsPlumbService: JsPlumbService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
+  constructor(private _sharedNodeNavbarService: SharedNodeNavbarService) {
     this._sharedNodeNavbarService.visible$.subscribe(
       data => {
         console.log('Sibling2Component-received from sibling1: ' + data);
@@ -49,28 +47,9 @@ export class NodeComponent implements OnInit, AfterViewInit {
           this.targetLocationsVisible = true;
         }
       });
-    this.firstInstance = jsPlumbService.getJsPlumbInstance();
-
   }
 
   ngOnInit() {
 
   }
-
-  ngAfterViewInit(): void {
-    this.firstInstance.importDefaults({
-      PaintStyle: {
-        strokeWidth: 2,
-        stroke: 'rgba(200,0,0,0.5)',
-      }
-      ,
-      Connector: ['Flowchart'],
-      Endpoint:  ['Dot', {radius: 10}],
-      EndpointStyles : { fill: '#225588' },
-      ConnectionsDetachable: false,
-      Anchor: 'Continuous'
-    });
-    this.firstInstance.draggable(this.title);
-  }
-
 }

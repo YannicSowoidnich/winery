@@ -61,14 +61,11 @@ export class JsonService {
     ]
   };
 
-  private _relationships: any;
-  private _nodes: any;
-
-  get relationships(): any {
+  getRelationships(): any {
      return this.testJson.relationshipTemplates;
   }
 
-  get nodes(): any {
+  getNodes(): any {
     return this.testJson.nodeTemplates;
   }
 
