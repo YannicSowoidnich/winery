@@ -15,6 +15,7 @@ import { WineryNotificationService } from '../../../wineryNotificationModule/win
 import { WineryValidatorObject } from '../../../wineryValidators/wineryDuplicateValidator.directive';
 import { Response } from '@angular/http';
 import { TypeWithShortName, TypeWithShortNameService } from './typeWithShortName.service';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'winery-instance-type-with-short-name',
@@ -39,8 +40,8 @@ export class TypeWithShortNameComponent implements OnInit {
      */
     @Input() title = '';
 
-    @ViewChild('confirmDeleteModal') deleteNamespaceModal: any;
-    @ViewChild('addModal') addNamespaceModal: any;
+    @ViewChild('confirmDeleteModal') deleteNamespaceModal: ModalDirective;
+    @ViewChild('addModal') addNamespaceModal: ModalDirective;
 
     constructor(private service: TypeWithShortNameService,
                 private notify: WineryNotificationService) {
