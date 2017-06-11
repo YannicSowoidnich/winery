@@ -17,6 +17,7 @@ import { WineryValidatorObject } from '../../../wineryValidators/wineryDuplicate
 import { isNullOrUndefined } from 'util';
 import { NamespaceWithPrefix } from '../../../wineryInterfaces/namespaceWithPrefix';
 import { Response } from '@angular/http';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'winery-instance-namespaces',
@@ -37,8 +38,8 @@ export class NamespacesComponent implements OnInit {
     ];
     elementToRemove: any;
 
-    @ViewChild('confirmDeleteModal') deleteNamespaceModal: any;
-    @ViewChild('addModal') addNamespaceModal: any;
+    @ViewChild('confirmDeleteModal') deleteNamespaceModal: ModalDirective;
+    @ViewChild('addModal') addNamespaceModal: ModalDirective;
 
     constructor(private service: NamespacesService,
                 private notify: WineryNotificationService) {
@@ -65,6 +66,7 @@ export class NamespacesComponent implements OnInit {
             namespace: namespace,
             prefix: prefix
         });
+        this.save();
     }
 
     /**
@@ -91,6 +93,7 @@ export class NamespacesComponent implements OnInit {
         this.deleteNamespaceModal.hide();
         this.deleteItemFromPropertyDefinitionKvList(this.elementToRemove);
         this.elementToRemove = null;
+        this.save();
     }
 
     save() {
