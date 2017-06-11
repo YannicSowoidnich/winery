@@ -6,4 +6,8 @@ export class TNodeTemplate {
   type: any;
   minInstances: number;
   maxInstances: number;
+
+  constructor (id: string) {
+    this.id = id;
+  }
 }

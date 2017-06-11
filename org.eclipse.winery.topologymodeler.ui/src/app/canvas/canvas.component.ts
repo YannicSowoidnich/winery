@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import {JsonService} from '../json.service';
 
@@ -7,55 +7,40 @@ import {JsonService} from '../json.service';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
-export class CanvasComponent implements OnInit {
+export class CanvasComponent implements OnInit, AfterViewInit {
   isActive = false;
   titleOfClickedItem = [];
-  numberOfApacheInstances = 1;
-  numberOfBabelInstances = 1;
+  addedNewNode = false;
+  nodeTemplates = [];
+  relationshipTemplates = [];
+  newJsPlumbInstance: any;
 
-
-  numberOfDashboardInstances = 1;
-
-  constructor(private jsonService: JsonService) {
+  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService) {
+    this.newJsPlumbInstance = this.jsPlumbService.getJsPlumbInstance();
+    this.nodeTemplates = this.jsonService.getNodes();
+    this.relationshipTemplates = this.jsonService.getRelationships();
   }
 
   ngOnInit() {
   }
 
   generateIDOfNode($event: any): void {
-    if ($event === 'Apache-2.4') {
-      if (this.numberOfApacheInstances === 1) {
-        const title = $event;
-        this.titleOfClickedItem.push(title);
-      } else {
-        const title = $event;
-        const instanceNumber = this.numberOfApacheInstances.toString();
-        const fullID = title.concat('_' + instanceNumber);
-        this.titleOfClickedItem.push(fullID);
+    if (this.titleOfClickedItem.length > 0 ) {
+      for (let i = this.titleOfClickedItem.length - 1; i >= 0; i--) {
+        if ($event === this.titleOfClickedItem[i].title) {
+          const numberOfNewInstance = this.titleOfClickedItem[i].numberOfInstance + 1;
+          this.titleOfClickedItem.push({title: $event, numberOfInstance: numberOfNewInstance,
+            id: $event.concat('_' + numberOfNewInstance.toString())});
+          this.addedNewNode = true;
+          break;
+        }
+        this.addedNewNode = false;
       }
-      this.numberOfApacheInstances++;
-    } else if ($event === 'Babel') {
-      if (this.numberOfBabelInstances === 1) {
-        const title = $event;
-        this.titleOfClickedItem.push(title);
-      } else {
-        const title = $event;
-        const instanceNumber = this.numberOfBabelInstances.toString();
-        const fullID = title.concat('_' + instanceNumber);
-        this.titleOfClickedItem.push(fullID);
+      if (this.addedNewNode === false) {
+        this.titleOfClickedItem.push({title: $event, numberOfInstance: 1, id: $event});
       }
-      this.numberOfBabelInstances++;
-    } else if ($event === 'Dashboard') {
-      if (this.numberOfDashboardInstances === 1) {
-        const title = $event;
-        this.titleOfClickedItem.push(title);
-      } else {
-        const title = $event;
-        const instanceNumber = this.numberOfDashboardInstances.toString();
-        const fullID = title.concat('_' + instanceNumber);
-        this.titleOfClickedItem.push(fullID);
-      }
-      this.numberOfDashboardInstances++;
+    } else {
+      this.titleOfClickedItem.push({title: $event, numberOfInstance: 1, id: $event});
     }
   }
 
@@ -64,6 +49,25 @@ export class CanvasComponent implements OnInit {
     this.isActive = true;
     console.log(this.titleOfClickedItem);
   }
-
-
+  ngAfterViewInit(): void {
+     this.newJsPlumbInstance.importDefaults({
+      PaintStyle: {
+        strokeWidth: 2,
+        stroke: 'rgba(200,0,0,0.5)',
+      }
+      ,
+      Connector: ['Flowchart'],
+      Endpoint:  ['Dot', {radius: 10}],
+      EndpointStyles : { fill: '#225588' },
+      ConnectionsDetachable: false,
+      Anchor: 'Continuous'
+    });
+    for (let i = 0; i < this.relationshipTemplates.length; i++) {
+      const sourceElement = this.relationshipTemplates[i].sourceElement;
+      const targetElement = this.relationshipTemplates[i].targetElement;
+      this.newJsPlumbInstance.draggable(sourceElement);
+      this.newJsPlumbInstance.draggable(targetElement);
+      this.newJsPlumbInstance.connect({source: sourceElement, target: targetElement});
+    }
+  }
 }
