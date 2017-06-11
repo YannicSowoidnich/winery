@@ -4,49 +4,59 @@
     <div class="col-sm-3">
       <i class="fa fa-4x fa-picture-o" aria-hidden="true"></i>
     </div>
-    <div class="col-sm-9">
+    <div id="specifierDiv" class="col-sm-9">
       <p class="" align="right">{{title}}</p>
-      <a href="#" class="h6 btn-link" style="text-align: right; display: block">{{title}}</a>
+      <p class="" align="right" style="color: tomato" *ngIf="idsVisible">{{title}}</p>
+      <a href="#" class="h6 btn-link" style="text-align: right; display: block" *ngIf="typesVisible">{{title}}</a>
     </div>
   </div>
   <accordion #accordion>
-    <accordion-group [isOpen]="true" [isDisabled]="true" panelClass="accordionGroupPanel" *ngIf="targetLocationsVisible">
+
+    <!-- PROPERTIES -->
+    <accordion-group
+      heading="Properties"
+      panelClass="accordionGroupPanel"
+      *ngIf="propertiesVisible">
+    </accordion-group>
+
+    <!-- DEPLOYMENT ARTIFACTS -->
+    <accordion-group
+      heading="Deployment Artifacts"
+      panelClass="accordionGroupPanel"
+      *ngIf="deploymentArtifactsVisible">
+    </accordion-group>
+
+    <!-- REQUIREMENTS & CAPABILITIES -->
+    <accordion-group
+      heading="Requirements & Capabilities"
+      panelClass="accordionGroupPanel"
+      *ngIf="requirementsCapabilitiesVisible">
+
+    </accordion-group>
+
+    <!-- POLICIES -->
+    <accordion-group
+      #group
+      [isOpen]="status.isOpen"
+      panelClass="accordionGroupPanel"
+      *ngIf="policiesVisible">
       <div accordion-heading>
-        Target Locations
-      </div>
-      This is just some content to illustrate fancy headings.
-    </accordion-group>
-    <accordion-group heading="Properties" [panelClass]="accordionGroupPanel">
-      <button type="button" class="btn btn-primary btn-sm" (click)="addItem()">Add new
-      </button>
-      <div *ngFor="let item of items">{{item}}</div>
-    </accordion-group>
-    <accordion-group heading="Deployment Artifacts" panelClass="accordionGroupPanel">
-      <button type="button" class="btn btn-primary btn-sm" (click)="addItem()">Add new
-      </button>
-      <div *ngFor="let item of items">{{item}}</div>
-    </accordion-group>
-    <accordion-group heading="Requirements" panelClass="accordionGroupPanel">
-      <button type="button"
-              class="btn btn-primary btn-sm"
-              (click)="addItem()">
-        Add new
-      </button>
-      <div *ngFor="let item of items">{{item}}</div>
-    </accordion-group>
-    <accordion-group #group [isOpen]="status.isOpen" panelClass="accordionGroupPanel">
-      <div accordion-heading>
-        Capabilities
+        Policies
         <i class="pull-right float-xs-right fa"
            [ngClass]="{'fa-chevron-down': group?.isOpen, 'fa-chevron-right': !group?.isOpen}"></i>
       </div>
       This is just some content to illustrate fancy headings.
     </accordion-group>
-    <accordion-group [isOpen]="status.isOpen" panelClass="accordionGroupPanel">
+
+    <!-- TARGET LOCATIONS -->
+    <accordion-group
+      panelClass="accordionGroupPanel"
+      *ngIf="targetLocationsVisible">
       <div accordion-heading>
-        Policies
+        Target Locations
       </div>
       This is just some content to illustrate fancy headings.
     </accordion-group>
+
   </accordion>
 </div>

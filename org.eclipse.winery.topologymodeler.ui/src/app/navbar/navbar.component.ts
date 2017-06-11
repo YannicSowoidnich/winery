@@ -21,27 +21,78 @@ import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 })
 export class NavbarComponent implements OnInit {
 
-  buttonPressed = false;
+  /**
+   * Boolean variables that hold the state {pressed vs. !pressed} of the navbar buttons.
+   * @type {boolean}
+   */
+  targetLocationsPressed = false;
+  policiesPressed = false;
+  requirementsCapabilitiesPressed = false;
+  deploymentArtifactsPressed = false;
+  propertiesPressed = false;
+  typesPressed = false;
+  idsPressed = false;
 
   constructor(private alert: WineryAlertService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
-    this._sharedNodeNavbarService.visible$.subscribe(
-      data => {
-        console.log('Sibling1Component-received from sibling2: ' + data);
-        if (!(data === 'false')) { this.buttonPressed = true; }
-      });
+    /*    this._sharedNodeNavbarService.targetLocationsVisible$.subscribe(
+     state => {
+     console.log('Sibling1Component-received from sibling2: ' + state);
+     if (!(state === false)) { this.targetLocationsPressed = true; }
+     });*/
 
   }
 
-  onClick(): void {
-    // console.log('Sibling1Component-received from sibling2: ' + this._sharedService.subscribeData());
-    console.log('Form submitted-sibling1Form');
-    this.buttonPressed = !this.buttonPressed;
-    this._sharedNodeNavbarService.publishData('' + this.buttonPressed);
-  }
-
-  getStyle(): string {
-    if (this.buttonPressed) {
+  getStyle(thisButtonIsPressed: boolean): string {
+    if (thisButtonIsPressed) {
       return 'lightgrey';
+    }
+  }
+
+  /**
+   * This function is called whenever a navbar button is clicked.
+   * It contains a separate case for each button.
+   * It toggles the `pressed` state of a button and publishes the respective
+   * button {id and boolean} to the subscribers of the Observable inside
+   * SharedNodeNavbarService.
+   * @param event -- The click event of a button.
+   */
+  toggleButton(event) {
+    switch (event.target.id) {
+      case 'targetLocations': {
+        this.targetLocationsPressed = !this.targetLocationsPressed;
+        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.targetLocationsPressed);
+        break;
+      }
+      case 'policies': {
+        this.policiesPressed = !this.policiesPressed;
+        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.policiesPressed);
+        break;
+      }
+      case 'requirementsCapabilities': {
+        this.requirementsCapabilitiesPressed = !this.requirementsCapabilitiesPressed;
+        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.requirementsCapabilitiesPressed);
+        break;
+      }
+      case 'deploymentArtifacts': {
+        this.deploymentArtifactsPressed = !this.deploymentArtifactsPressed;
+        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.deploymentArtifactsPressed);
+        break;
+      }
+      case 'properties': {
+        this.propertiesPressed = !this.propertiesPressed;
+        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.propertiesPressed);
+        break;
+      }
+      case 'types': {
+        this.typesPressed = !this.typesPressed;
+        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.typesPressed);
+        break;
+      }
+      case 'ids': {
+        this.idsPressed = !this.idsPressed;
+        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.idsPressed);
+        break;
+      }
     }
   }
 

@@ -12,49 +12,67 @@ export class NodeComponent implements OnInit, AfterViewInit {
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
   firstInstance: any;
+  /**
+   * Boolean variables that hold the state {opened vs. !opened} of the accordion groups.
+   * @type {boolean}
+   */
   targetLocationsVisible = false;
+  policiesVisible = false;
+  requirementsCapabilitiesVisible = false;
+  deploymentArtifactsVisible = false;
+  propertiesVisible = false;
+  typesVisible = false;
+  idsVisible = false;
   @Input() id;
   @Input() title: string;
-  public accordionContents: any = {
-    propertiesOpen: true
-  };
 
   public status: any = {
     isFirstOpen: true,
     isOpen: false
   };
 
-  public groups: any[] = [
-    {
-      title: 'Dynamic Group Header - 1',
-      content: 'Dynamic Group Body - 1'
-    },
-    {
-      title: 'Dynamic Group Header - 2',
-      content: 'Dynamic Group Body - 2'
-    }
-  ];
-
   public addItem(): void {
     this.items.push(`Items ${this.items.length + 1}`);
   }
 
   constructor(private jsPlumbService: JsPlumbService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
-    this._sharedNodeNavbarService.visible$.subscribe(
-      data => {
-        console.log('Sibling2Component-received from sibling1: ' + data);
-        if (data === 'false') {
-          this.targetLocationsVisible = false;
-        } else {
-          this.targetLocationsVisible = true;
-        }
-      });
     this.firstInstance = jsPlumbService.getJsPlumbInstance();
-
   }
 
   ngOnInit() {
-
+    this._sharedNodeNavbarService.buttonStates$.subscribe(
+      (buttonChangeObject) => {
+        switch (buttonChangeObject.buttonID) {
+          case 'targetLocations': {
+            this.targetLocationsVisible = buttonChangeObject.state;
+            break;
+          }
+          case 'policies': {
+            this.policiesVisible = buttonChangeObject.state;
+            break;
+          }
+          case 'requirementsCapabilities': {
+            this.requirementsCapabilitiesVisible = buttonChangeObject.state;
+            break;
+          }
+          case 'deploymentArtifacts': {
+            this.deploymentArtifactsVisible = buttonChangeObject.state;
+            break;
+          }
+          case 'properties': {
+            this.propertiesVisible = buttonChangeObject.state;
+            break;
+          }
+          case 'types': {
+            this.typesVisible = buttonChangeObject.state;
+            break;
+          }
+          case 'ids': {
+            this.idsVisible = buttonChangeObject.state;
+            break;
+          }
+        }
+      });
   }
 
   ngAfterViewInit(): void {

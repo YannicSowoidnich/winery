@@ -4,16 +4,23 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class SharedNodeNavbarService {
 
-  // Observable string sources
-  private visible = new Subject<string>();
-  // Observable string streams
-  visible$ = this.visible.asObservable();
+  /**
+   * Navbar Button States
+   * @type {Subject<any>}
+   * @private
+   */
+  private _buttonStates = new Subject<any>();
+  // Create Observable
+  buttonStates$ = this._buttonStates.asObservable();
 
   constructor() { }
 
   // Service message commands
-  publishData(data: string) {
-    this.visible.next(data);
+  publishButtonState(buttonID: string, state: boolean) {
+    this._buttonStates.next({
+      buttonID: buttonID,
+      state: state
+    });
   }
 
 }

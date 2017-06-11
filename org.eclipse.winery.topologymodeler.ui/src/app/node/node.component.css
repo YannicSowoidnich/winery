@@ -11,8 +11,17 @@ div.container {
 
 a {
   font-size: small;
+  line-height: 25%
 }
 
 .hidden {
   display: none;
+}
+
+p {
+  line-height: 22%
+}
+
+#specifierDiv {
+  margin-top: 5px
 }
