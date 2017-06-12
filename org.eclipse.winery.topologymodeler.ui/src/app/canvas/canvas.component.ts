@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import { JsPlumbService } from '../jsPlumbService';
+import {JsPlumbService} from '../jsPlumbService';
 import {JsonService} from '../json.service';
 
 @Component({
@@ -25,12 +25,14 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   }
 
   generateIDOfNode($event: any): void {
-    if (this.titleOfClickedItem.length > 0 ) {
+    if (this.titleOfClickedItem.length > 0) {
       for (let i = this.titleOfClickedItem.length - 1; i >= 0; i--) {
         if ($event === this.titleOfClickedItem[i].title) {
           const numberOfNewInstance = this.titleOfClickedItem[i].numberOfInstance + 1;
-          this.titleOfClickedItem.push({title: $event, numberOfInstance: numberOfNewInstance,
-            id: $event.concat('_' + numberOfNewInstance.toString())});
+          this.titleOfClickedItem.push({
+            title: $event, numberOfInstance: numberOfNewInstance,
+            id: $event.concat('_' + numberOfNewInstance.toString())
+          });
           this.addedNewNode = true;
           break;
         }
@@ -49,16 +51,18 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     this.isActive = true;
     console.log(this.titleOfClickedItem);
   }
+
   ngAfterViewInit(): void {
-     this.newJsPlumbInstance.importDefaults({
+    this.newJsPlumbInstance.importDefaults({
       PaintStyle: {
         strokeWidth: 2,
         stroke: 'rgba(200,0,0,0.5)',
       }
       ,
-      Connector: ['Flowchart'],
-      Endpoint:  ['Dot', {radius: 10}],
-      EndpointStyles : { fill: '#225588' },
+      Connector: ['StateMachine'],
+      Endpoints: [
+        ['Blank', {radius: 0}], ['Blank', {radius: 0}]],
+      EndpointStyles: [{fill: '#225588'}, {fill: '#225588'}],
       ConnectionsDetachable: false,
       Anchor: 'Continuous'
     });
@@ -67,7 +71,18 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       const targetElement = this.relationshipTemplates[i].targetElement;
       this.newJsPlumbInstance.draggable(sourceElement);
       this.newJsPlumbInstance.draggable(targetElement);
-      this.newJsPlumbInstance.connect({source: sourceElement, target: targetElement});
+      this.newJsPlumbInstance.connect({
+        source: sourceElement,
+        target: targetElement,
+        overlays: [['Arrow', {width: 15, length: 15, location: 0, id: 'arrow', direction: -1}],
+          ['Label', {
+            label: 'hostedOn()',
+            id: 'label',
+            labelStyle: {font: 'bold 18px/30px Courier New, monospace'}
+          }]
+        ],
+        connectorOverlays: []
+      });
     }
   }
 }
