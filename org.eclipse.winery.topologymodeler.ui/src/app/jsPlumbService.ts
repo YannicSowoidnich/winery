@@ -11,6 +11,17 @@ export class JsPlumbService {
   getJsPlumbInstance(): any {
     jsPlumb.ready(() => {
     });
-    return jsPlumb.getInstance();
+    return jsPlumb.getInstance({
+      PaintStyle: {
+        strokeWidth: 2,
+        stroke: 'rgba(200,0,0,0.5)',
+      }
+      ,
+      Connector: ['StateMachine'],
+      Endpoints: [
+        ['Blank', {radius: 0}], ['Blank', {radius: 0}]],
+      ConnectionsDetachable: false,
+      Anchor: 'Continuous'
+    });
   }
 }

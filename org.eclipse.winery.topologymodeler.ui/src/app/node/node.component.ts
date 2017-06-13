@@ -18,6 +18,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
   typesVisible = false;
   idsVisible = false;
   @Input() title: string;
+  @Input() left: string;
+  @Input() top: string;
   @Output() sendId = new EventEmitter<string>();
 
   public status: any = {

@@ -14,10 +14,10 @@ export class SharedNodeNavbarService {
    *  Title of Palette Item Instance
    * @type {string}
    */
-  private _paletteItemTitle = new Subject<any>();
+  private _paletteItem = new Subject<any>();
   // Create Observable
   buttonStates$ = this._buttonStates.asObservable();
-  paletteItemTitle$ = this._paletteItemTitle.asObservable();
+  paletteItem$ = this._paletteItem.asObservable();
 
   constructor() { }
 
@@ -29,7 +29,11 @@ export class SharedNodeNavbarService {
     });
   }
 
-  publishPaletteItemTitle(title: string) {
-    this._paletteItemTitle.next(title);
+  publishPaletteItemTitle(title: string, mousePositionX: number, mousePositionY: number) {
+    this._paletteItem.next({
+      title: title,
+      mousePositionX: mousePositionX.toString().concat('px'),
+      mousePositionY: mousePositionY.toString().concat('px')
+    });
   }
 }

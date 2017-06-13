@@ -1,4 +1,8 @@
 <div *ngIf="isActive">
-  <app-node *ngFor="let le of titleOfClickedItem" [title]="le.id" (sendId)="makeDraggable($event)"></app-node>
+  <app-node *ngFor="let le of titleOfClickedItem" [title]="le.id"
+            (sendId)="makeDraggable($event)"
+            [left]="le.left"
+            [top]="le.top">
+  </app-node>
 </div>
 <app-node *ngFor="let le of nodeTemplates" [title]="le.id"></app-node>
