@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
 @Component({
@@ -6,7 +6,7 @@ import {SharedNodeNavbarService} from '../shared-node-navbar.service';
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css']
 })
-export class NodeComponent implements OnInit {
+export class NodeComponent implements OnInit, AfterViewInit {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
@@ -17,8 +17,8 @@ export class NodeComponent implements OnInit {
   propertiesVisible = false;
   typesVisible = false;
   idsVisible = false;
-  @Input() id;
   @Input() title: string;
+  @Output() sendId = new EventEmitter<string>();
 
   public status: any = {
     isFirstOpen: true,
@@ -30,7 +30,6 @@ export class NodeComponent implements OnInit {
   }
 
   constructor(private _sharedNodeNavbarService: SharedNodeNavbarService) {
-
   }
 
   ngOnInit() {
@@ -67,5 +66,9 @@ export class NodeComponent implements OnInit {
           }
         }
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.sendId.emit(this.title);
   }
 }

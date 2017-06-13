@@ -1,6 +1,7 @@
 import {Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PaletteService } from '../palette.service';
+import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
 @Component({
   selector: 'app-palette-component',
@@ -54,13 +55,11 @@ import { PaletteService } from '../palette.service';
 })
 export class PaletteComponent implements OnInit {
   detailsAreHidden = true;
-  paletteIsShrunk = true;
   paletteRootState = 'shrunk';
   paletteItems = [];
-  nodeTypeInstances = [];
   @Output() sendTitle = new EventEmitter();
 
-  constructor(private paletteService: PaletteService) {
+  constructor(private paletteService: PaletteService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
     this.paletteItems = paletteService.getPaletteData();
   }
 
@@ -81,8 +80,9 @@ export class PaletteComponent implements OnInit {
     }
   }
 
-  onClick($event): void {
-    this.sendTitle.emit($event.target.innerHTML);
+  publishTitle($event): void {
+    // this.sendTitle.emit($event.target.innerHTML);
+    this._sharedNodeNavbarService.publishPaletteItemTitle($event.target.innerHTML);
   }
 }
 

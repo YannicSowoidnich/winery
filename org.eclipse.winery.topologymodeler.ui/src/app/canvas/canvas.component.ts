@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {JsPlumbService} from '../jsPlumbService';
 import {JsonService} from '../json.service';
+import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
 @Component({
   selector: 'app-canvas',
@@ -15,13 +16,19 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   relationshipTemplates = [];
   newJsPlumbInstance: any;
 
-  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService) {
+  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService,
+              private _sharedNodeNavbarService: SharedNodeNavbarService) {
     this.newJsPlumbInstance = this.jsPlumbService.getJsPlumbInstance();
     this.nodeTemplates = this.jsonService.getNodes();
     this.relationshipTemplates = this.jsonService.getRelationships();
   }
 
   ngOnInit() {
+    this._sharedNodeNavbarService.paletteItemTitle$.subscribe(
+      (paletteItemTitle) => {
+        this.generateIDOfNode(paletteItemTitle);
+        this.isActive = true; }
+    );
   }
 
   generateIDOfNode($event: any): void {
@@ -46,10 +53,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     }
   }
 
-  appendTitleToArray($event) {
-    this.generateIDOfNode($event);
-    this.isActive = true;
-    console.log(this.titleOfClickedItem);
+  makeDraggable($event): void {
+    this.newJsPlumbInstance.draggable($event);
   }
 
   ngAfterViewInit(): void {
@@ -62,7 +67,6 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       Connector: ['StateMachine'],
       Endpoints: [
         ['Blank', {radius: 0}], ['Blank', {radius: 0}]],
-      EndpointStyles: [{fill: '#225588'}, {fill: '#225588'}],
       ConnectionsDetachable: false,
       Anchor: 'Continuous'
     });

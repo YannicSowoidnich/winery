@@ -10,8 +10,14 @@ export class SharedNodeNavbarService {
    * @private
    */
   private _buttonStates = new Subject<any>();
+  /**
+   *  Title of Palette Item Instance
+   * @type {string}
+   */
+  private _paletteItemTitle = new Subject<any>();
   // Create Observable
   buttonStates$ = this._buttonStates.asObservable();
+  paletteItemTitle$ = this._paletteItemTitle.asObservable();
 
   constructor() { }
 
@@ -23,4 +29,7 @@ export class SharedNodeNavbarService {
     });
   }
 
+  publishPaletteItemTitle(title: string) {
+    this._paletteItemTitle.next(title);
+  }
 }
