@@ -148,7 +148,7 @@ public class NodeTypeResourceTest extends AbstractResourceTest {
 	@Test
 	public void getAllVisualAppearances() throws Exception {
 		this.setRevisionTo("d535f69bf50b2c4eda437be46b7ba1f85c4ff3bc");
-		this.assertGet("nodetypes/", "entitytypes/nodetypes/test.visualappearances.json");
+		this.assertGet("nodetypes/allVisualAppearanceData", "entitytypes/nodetypes/test.visualappearances.json");
 	}
 
 }
