@@ -14,6 +14,7 @@ package org.eclipse.winery.model.tosca;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -26,9 +27,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * <p>Java class for tOperation complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="tOperation">
  *   &lt;complexContent>
@@ -63,8 +64,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tOperation", propOrder = {
@@ -86,11 +87,11 @@ public class TOperation
 
     /**
      * Gets the value of the inputParameters property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TOperation.InputParameters }
-     *     
+     *
      */
     public TOperation.InputParameters getInputParameters() {
         return inputParameters;
@@ -98,11 +99,11 @@ public class TOperation
 
     /**
      * Sets the value of the inputParameters property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TOperation.InputParameters }
-     *     
+     *
      */
     public void setInputParameters(TOperation.InputParameters value) {
         this.inputParameters = value;
@@ -110,11 +111,11 @@ public class TOperation
 
     /**
      * Gets the value of the outputParameters property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TOperation.OutputParameters }
-     *     
+     *
      */
     public TOperation.OutputParameters getOutputParameters() {
         return outputParameters;
@@ -122,11 +123,11 @@ public class TOperation
 
     /**
      * Sets the value of the outputParameters property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TOperation.OutputParameters }
-     *     
+     *
      */
     public void setOutputParameters(TOperation.OutputParameters value) {
         this.outputParameters = value;
@@ -134,11 +135,11 @@ public class TOperation
 
     /**
      * Gets the value of the name property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
@@ -146,11 +147,11 @@ public class TOperation
 
     /**
      * Sets the value of the name property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;
@@ -159,9 +160,9 @@ public class TOperation
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -173,8 +174,8 @@ public class TOperation
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -187,25 +188,25 @@ public class TOperation
 
         /**
          * Gets the value of the inputParameter property.
-         * 
+         *
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the inputParameter property.
-         * 
+         *
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
          *    getInputParameter().add(newItem);
          * </pre>
-         * 
-         * 
+         *
+         *
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link TParameter }
-         * 
-         * 
+         *
+         *
          */
         public List<TParameter> getInputParameter() {
             if (inputParameter == null) {
@@ -219,9 +220,9 @@ public class TOperation
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -233,8 +234,8 @@ public class TOperation
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -247,25 +248,25 @@ public class TOperation
 
         /**
          * Gets the value of the outputParameter property.
-         * 
+         *
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the outputParameter property.
-         * 
+         *
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
          *    getOutputParameter().add(newItem);
          * </pre>
-         * 
-         * 
+         *
+         *
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link TParameter }
-         * 
-         * 
+         *
+         *
          */
         public List<TParameter> getOutputParameter() {
             if (outputParameter == null) {

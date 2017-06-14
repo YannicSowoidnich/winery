@@ -93,6 +93,8 @@ public abstract class AbstractResourceTest {
 	private ContentType getAccept(String fileName) {
 		if (isXml(fileName)) {
 			return ContentType.XML;
+		} else if (fileName.endsWith(".visualappearance.json")) {
+			return ContentType.fromContentType("application/json+visualappearance");
 		} else {
 			return ContentType.JSON;
 		}

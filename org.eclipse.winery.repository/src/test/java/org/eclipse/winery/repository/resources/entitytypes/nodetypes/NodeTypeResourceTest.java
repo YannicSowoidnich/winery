@@ -145,4 +145,10 @@ public class NodeTypeResourceTest extends AbstractResourceTest {
 		this.assertGet("nodetypes/http%253A%252F%252Fwinery.opentosca.org%252Ftest%252Fnodetypes%252Ffruits/baobab/interfaces/", "entitytypes/nodetypes/baobab_initial_interface.json");
 	}
 
+	@Test
+	public void getAllVisualAppearances() throws Exception {
+		this.setRevisionTo("d535f69bf50b2c4eda437be46b7ba1f85c4ff3bc");
+		this.assertGet("nodetypes/", "entitytypes/nodetypes/test.visualappearances.json");
+	}
+
 }

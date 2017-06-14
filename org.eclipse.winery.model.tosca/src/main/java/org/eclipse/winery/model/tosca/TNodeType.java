@@ -14,6 +14,7 @@ package org.eclipse.winery.model.tosca;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -22,9 +23,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for tNodeType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="tNodeType">
  *   &lt;complexContent>
@@ -70,8 +71,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tNodeType", propOrder = {
@@ -95,11 +96,11 @@ public class TNodeType
 
     /**
      * Gets the value of the requirementDefinitions property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TNodeType.RequirementDefinitions }
-     *     
+     *
      */
     public TNodeType.RequirementDefinitions getRequirementDefinitions() {
         return requirementDefinitions;
@@ -107,11 +108,11 @@ public class TNodeType
 
     /**
      * Sets the value of the requirementDefinitions property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TNodeType.RequirementDefinitions }
-     *     
+     *
      */
     public void setRequirementDefinitions(TNodeType.RequirementDefinitions value) {
         this.requirementDefinitions = value;
@@ -119,11 +120,11 @@ public class TNodeType
 
     /**
      * Gets the value of the capabilityDefinitions property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TNodeType.CapabilityDefinitions }
-     *     
+     *
      */
     public TNodeType.CapabilityDefinitions getCapabilityDefinitions() {
         return capabilityDefinitions;
@@ -131,11 +132,11 @@ public class TNodeType
 
     /**
      * Sets the value of the capabilityDefinitions property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TNodeType.CapabilityDefinitions }
-     *     
+     *
      */
     public void setCapabilityDefinitions(TNodeType.CapabilityDefinitions value) {
         this.capabilityDefinitions = value;
@@ -143,11 +144,11 @@ public class TNodeType
 
     /**
      * Gets the value of the instanceStates property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TTopologyElementInstanceStates }
-     *     
+     *
      */
     public TTopologyElementInstanceStates getInstanceStates() {
         return instanceStates;
@@ -155,11 +156,11 @@ public class TNodeType
 
     /**
      * Sets the value of the instanceStates property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TTopologyElementInstanceStates }
-     *     
+     *
      */
     public void setInstanceStates(TTopologyElementInstanceStates value) {
         this.instanceStates = value;
@@ -167,11 +168,11 @@ public class TNodeType
 
     /**
      * Gets the value of the interfaces property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TNodeType.Interfaces }
-     *     
+     *
      */
     public TNodeType.Interfaces getInterfaces() {
         return interfaces;
@@ -179,11 +180,11 @@ public class TNodeType
 
     /**
      * Sets the value of the interfaces property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TNodeType.Interfaces }
-     *     
+     *
      */
     public void setInterfaces(TNodeType.Interfaces value) {
         this.interfaces = value;
@@ -192,9 +193,9 @@ public class TNodeType
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -206,8 +207,8 @@ public class TNodeType
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -220,25 +221,25 @@ public class TNodeType
 
         /**
          * Gets the value of the capabilityDefinition property.
-         * 
+         *
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the capabilityDefinition property.
-         * 
+         *
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
          *    getCapabilityDefinition().add(newItem);
          * </pre>
-         * 
-         * 
+         *
+         *
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link TCapabilityDefinition }
-         * 
-         * 
+         *
+         *
          */
         public List<TCapabilityDefinition> getCapabilityDefinition() {
             if (capabilityDefinition == null) {
@@ -252,9 +253,9 @@ public class TNodeType
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -266,8 +267,8 @@ public class TNodeType
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -280,25 +281,25 @@ public class TNodeType
 
         /**
          * Gets the value of the interface property.
-         * 
+         *
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the interface property.
-         * 
+         *
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
          *    getInterface().add(newItem);
          * </pre>
-         * 
-         * 
+         *
+         *
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link TInterface }
-         * 
-         * 
+         *
+         *
          */
         public List<TInterface> getInterface() {
             if (_interface == null) {
@@ -312,9 +313,9 @@ public class TNodeType
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -326,8 +327,8 @@ public class TNodeType
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -340,25 +341,25 @@ public class TNodeType
 
         /**
          * Gets the value of the requirementDefinition property.
-         * 
+         *
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the requirementDefinition property.
-         * 
+         *
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
          *    getRequirementDefinition().add(newItem);
          * </pre>
-         * 
-         * 
+         *
+         *
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link TRequirementDefinition }
-         * 
-         * 
+         *
+         *
          */
         public List<TRequirementDefinition> getRequirementDefinition() {
             if (requirementDefinition == null) {
