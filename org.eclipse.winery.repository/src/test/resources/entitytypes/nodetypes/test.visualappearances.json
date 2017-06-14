@@ -1,58 +1,45 @@
 [
   {
-	"url": null,
+	"imageUrl": "http://www.example.org/winery/test/nodetypes/http%253A%252F%252Fwinery.opentosca.org%252Ftest%252Fnodetypes%252Ffruits/baobab/appearance/50x50",
 	"color": "#89ee01"
   },
   {
-	"url": null,
 	"color": "#89ee01"
   },
   {
-	"url": null,
 	"color": "#89ee01"
   },
   {
-	"url": null,
 	"color": "#89ee01"
   },
   {
-	"url": null,
 	"color": "#01ace2"
   },
   {
-	"url": null,
 	"color": "#89ee01"
   },
   {
-	"url": null,
 	"color": "#cb1016"
   },
   {
-	"url": null,
 	"color": "#6f02b4"
   },
   {
-	"url": null,
 	"color": "#bb1c9a"
   },
   {
-	"url": null,
 	"color": "#8ac3a0"
   },
   {
-	"url": null,
 	"color": "#8b0227"
   },
   {
-	"url": null,
 	"color": "#36739e"
   },
   {
-	"url": null,
 	"color": "#458ac5"
   },
   {
-	"url": null,
 	"color": "#e47c98"
   }
 ]

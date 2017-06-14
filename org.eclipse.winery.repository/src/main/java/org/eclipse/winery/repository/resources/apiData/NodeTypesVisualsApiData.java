@@ -11,15 +11,14 @@
  *******************************************************************************/
 package org.eclipse.winery.repository.resources.apiData;
 
-import javax.ws.rs.core.Response;
-
 import org.eclipse.winery.common.RepositoryFileReference;
-import org.eclipse.winery.common.ids.definitions.NodeTypeId;
 import org.eclipse.winery.repository.backend.Repository;
 import org.eclipse.winery.repository.backend.constants.Filename;
-import org.eclipse.winery.repository.datatypes.ids.elements.VisualAppearanceId;
 import org.eclipse.winery.repository.resources.entitytypes.nodetypes.VisualAppearanceResource;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class NodeTypesVisualsApiData {
 
 	public String iconUrl;
@@ -31,15 +30,15 @@ public class NodeTypesVisualsApiData {
 
 		RepositoryFileReference iconRef = new RepositoryFileReference(visuals.getId(), Filename.FILENAME_SMALL_ICON);
 		if (Repository.INSTANCE.exists(iconRef)) {
-			iconUrl = visuals.getAbsoluteURL() + "/16x16";
+			iconUrl = visuals.getAbsoluteURL() + "16x16";
 		}
 
 		RepositoryFileReference imageRef = new RepositoryFileReference(visuals.getId(), Filename.FILENAME_BIG_ICON);
 		if (Repository.INSTANCE.exists(imageRef)) {
-			imageUrl = visuals.getAbsoluteURL() + "/50x50";
+			imageUrl = visuals.getAbsoluteURL() + "50x50";
 		}
 	}
 
-	public NodeTypesVisualsApiData () {
+	public NodeTypesVisualsApiData() {
 	}
- }
+}
