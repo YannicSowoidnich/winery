@@ -17,7 +17,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { isNullOrUndefined } from 'util';
 import { WineryValidatorObject } from '../../../../wineryValidators/wineryDuplicateValidator.directive';
 import { SelectItem } from 'ng2-select';
-import { XMLEditorComponent } from '../xmlEditor/xmlEditor.component';
+import { EditXMLComponent } from '../../../sharedComponents/editXML/editXML.component';
 
 @Component({
     templateUrl: 'policies.component.html',
@@ -45,7 +45,7 @@ export class PoliciesComponent implements OnInit {
     validator: WineryValidatorObject;
     @ViewChild('confirmDeleteModal') deleteModal: ModalDirective;
     @ViewChild('addModal') addModal: ModalDirective;
-    @ViewChild('xmlEditor') xmlEditor: XMLEditorComponent;
+    @ViewChild('xmlEditor') xmlEditor: EditXMLComponent;
 
     policyXml = '<Policy xsi:nil="true" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12"'
         + ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n</Policy>';

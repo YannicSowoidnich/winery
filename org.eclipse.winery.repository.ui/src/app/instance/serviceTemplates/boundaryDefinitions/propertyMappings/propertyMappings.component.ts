@@ -14,6 +14,7 @@ import { Property, PropertyMappingsApiData, PropertyMappingService } from './pro
 import { WineryTableColumn } from '../../../../wineryTableModule/wineryTable.component';
 import { isNullOrUndefined } from 'util';
 import { WineryNotificationService } from '../../../../wineryNotificationModule/wineryNotification.service';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'winery-instance-boundary-property-mappings',
@@ -29,11 +30,11 @@ export class PropertyMappingsComponent implements OnInit {
         {title: 'Target', name: 'targetObjectRef', sort: true},
         {title: 'Target Property', name: 'targetPropertyRef', sort: true}
     ];
-    @ViewChild('addPropertyMappingModal') addPropertyMappingModal: any;
-    @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
+    @ViewChild('addPropertyMappingModal') addPropertyMappingModal: ModalDirective;
+    @ViewChild('confirmDeleteModal') confirmDeleteModal: ModalDirective;
     @ViewChild('propertyMappingForm') propertyMappingForm: any;
     currentSelectedItem: Property;
-    addOrUpdateBtnTxt = 'add';
+    addOrUpdateBtnTxt = 'Add';
 
     constructor(private service: PropertyMappingService,
                 private notify: WineryNotificationService) {
@@ -87,14 +88,14 @@ export class PropertyMappingsComponent implements OnInit {
     }
 
     onAddClick() {
-        this.addOrUpdateBtnTxt = 'add';
+        this.addOrUpdateBtnTxt = 'Add';
         this.propertyMappingForm.reset();
         this.currentSelectedItem = null;
         this.addPropertyMappingModal.show();
     }
 
     onEditClick() {
-        this.addOrUpdateBtnTxt = 'update';
+        this.addOrUpdateBtnTxt = 'Update';
         this.addPropertyMappingModal.show();
     }
 

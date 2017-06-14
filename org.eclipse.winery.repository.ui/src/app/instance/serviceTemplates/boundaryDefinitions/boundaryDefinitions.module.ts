@@ -26,22 +26,22 @@ import { RequirementsComponent } from './requirements/requirements.component';
 import { WineryTableModule } from '../../../wineryTableModule/wineryTable.module';
 import { RequirementsOrCapabilitesComponent } from './requirementsOrCapabilites/requirementsOrCapabilites.component';
 import { CapabilitiesComponent } from './capabilities/capabilities.component';
-import { XMLEditorComponent } from './xmlEditor/xmlEditor.component';
-import { WineryEditorModule } from '../../../wineryEditorModul/wineryEditor.module';
 import { WineryLoaderModule } from '../../../wineryLoader/wineryLoader.module';
 import { WineryDuplicateValidatorModule } from '../../../wineryValidators/wineryDuplicateValidator.module';
 import { PoliciesComponent } from './policies/policies.component';
 import { SelectModule } from 'ng2-select';
+import { EditXMLComponent } from '../../sharedComponents/editXML/editXML.component';
+import { WineryEditXMLModule } from '../../sharedComponents/editXML/editXML.module';
 
 export const boundaryDefinitionsRoutes = [
-    { path: 'properties', component: XMLEditorComponent },
+    { path: 'properties', component: EditXMLComponent },
     { path: 'propertymappings', component: PropertyMappingsComponent },
     { path: 'propertyconstraints', component: PropertyConstraintsComponent },
     { path: 'requirements', component: RequirementsComponent },
     { path: 'capabilities', component: CapabilitiesComponent },
     { path: 'policies', component: PoliciesComponent },
     { path: 'interfaces', component: PlaceholderComponent },
-    { path: 'xml', component: XMLEditorComponent },
+    { path: 'xml', component: EditXMLComponent },
     { path: '', redirectTo: 'properties', pathMatch: 'full'}
 ];
 
@@ -57,7 +57,7 @@ export const boundaryDefinitionsRoutes = [
         SelectModule,
         WineryTableModule,
         WineryDuplicateValidatorModule,
-        WineryEditorModule
+        WineryEditXMLModule
     ],
     exports: [],
     declarations: [
@@ -69,7 +69,6 @@ export const boundaryDefinitionsRoutes = [
         RequirementsComponent,
         CapabilitiesComponent,
         RequirementsOrCapabilitesComponent,
-        XMLEditorComponent
     ],
     providers: [InstanceService]
 })
