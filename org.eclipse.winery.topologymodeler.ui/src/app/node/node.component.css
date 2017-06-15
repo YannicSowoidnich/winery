@@ -1,5 +1,6 @@
 div.container {
   background-color: aquamarine;
+  border-style: solid;
   padding: 5px;
   width: 225px;
   font-size: small;
@@ -24,4 +25,8 @@ p {
 
 #specifierDiv {
   margin-top: 5px
+}
+
+.container rounded {
+  pointer-events: auto;
 }

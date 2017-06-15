@@ -6,27 +6,35 @@ export class JsonService {
     'nodeTemplates': [
       {
         'id': 'plantage',
+        color: '#FFE4C4'
       },
       {
         'id': 'tree',
+        color: '#F5F5DC'
       },
       {
         'id': 'tree_2',
+        color: '#F0FFFF'
       },
       {
         'id': 'baobab',
+        color: '#FFEBCD'
       },
       {
         'id': 'orange',
+        color: '#FF7F50'
       },
       {
         'id': 'orange_2',
+        color: '#0000FF'
       },
       {
         'id': 'baobab_2',
+        color: '#8A2BE2'
       },
       {
         'id': 'baobab_3',
+        color: '#A52A2A'
       }
     ],
     'relationshipTemplates': [

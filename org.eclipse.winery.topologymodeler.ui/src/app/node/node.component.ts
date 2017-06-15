@@ -21,6 +21,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @Input() left: string;
   @Input() top: string;
   @Output() sendId = new EventEmitter<string>();
+  @Input() color: string;
 
   public status: any = {
     isFirstOpen: true,
@@ -72,5 +73,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.sendId.emit(this.title);
+    console.log(this.color);
   }
 }
