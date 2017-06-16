@@ -1,6 +1,6 @@
 div.container {
-  background-color: aquamarine;
   border-style: solid;
+  border-width: 1px;
   padding: 5px;
   width: 225px;
   font-size: small;

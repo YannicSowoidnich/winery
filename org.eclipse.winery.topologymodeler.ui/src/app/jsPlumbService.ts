@@ -14,14 +14,13 @@ export class JsPlumbService {
     return jsPlumb.getInstance({
       PaintStyle: {
         strokeWidth: 2,
-        stroke: 'rgba(200,0,0,0.5)',
-      }
-      ,
-      Connector: ['StateMachine'],
+        stroke: 'rgba(0,0,55,0.5)',
+      },
+      Connector: ['Flowchart', {cornerRadius: 5}],
       Endpoints: [
         ['Blank', {radius: 0}], ['Blank', {radius: 0}]],
       ConnectionsDetachable: false,
-      Anchor: 'Continuous'
+      Anchor: 'Continuous',
     });
   }
 }

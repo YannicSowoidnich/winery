@@ -30,8 +30,8 @@ export class NavbarComponent implements OnInit {
   requirementsCapabilitiesPressed = false;
   deploymentArtifactsPressed = false;
   propertiesPressed = false;
-  typesPressed = false;
-  idsPressed = false;
+  typesPressed = true;
+  idsPressed = true;
 
   constructor(private alert: WineryAlertService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
     /*    this._sharedNodeNavbarService.targetLocationsVisible$.subscribe(

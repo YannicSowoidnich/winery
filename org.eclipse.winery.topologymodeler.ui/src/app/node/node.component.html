@@ -1,9 +1,10 @@
-<div class="container rounded" style="padding: 3px; position: absolute" [style.top]="top" [style.left]="left"
-     id={{title}} [style.borderColor]="color">
+<div class="container rounded" style="padding: 3px; position: absolute" [style.top]="bottom" [style.left]="left"
+     id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor">
   <div class="row rounded"
        style="background-color: rgba(255,255,255,0.75); margin-left: 1px; margin-right: 1px; padding: 5px">
     <div class="col-sm-3">
-      <i class="fa fa-4x fa-picture-o" aria-hidden="true"></i>
+      <i *ngIf="!nodeImageUrl" class="fa fa-4x fa-picture-o" aria-hidden="true"></i>
+      <img *ngIf="nodeImageUrl" src="{{nodeImageUrl}}">
     </div>
     <div id="specifierDiv" class="col-sm-9">
       <p class="" align="right">{{title}}</p>

@@ -1,9 +1,17 @@
-<div *ngIf="isActive">
-  <app-node *ngFor="let le of titleOfClickedItem" [title]="le.id"
+<div *ngIf="paletteClicked">
+  <app-node *ngFor="let node of createdNodes"
+            [title]="node.id"
             (sendId)="makeDraggable($event)"
-            [left]="le.left"
-            [top]="le.top">
+            [left]="node.left"
+            [bottom]="node.top"
+            [nodeColor]="node.color">
   </app-node>
 </div>
-<app-node *ngFor="let le of nodeTemplates" [title]="le.id" [color]="le.color"
-></app-node>
+<app-node *ngFor="let node of nodeTemplates"
+          [title]="node.id"
+          [nodeColor]="node.color"
+          [left]="node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x']+'px'"
+          [bottom]="node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y']+'px'"
+          [nodeImageUrl]="node.imageUrl"
+          (askForRepaint)="repaintJsPlumb()">
+</app-node>

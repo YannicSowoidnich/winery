@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
+
 @Component({
   selector: 'app-node',
   templateUrl: './node.component.html',
@@ -15,13 +16,16 @@ export class NodeComponent implements OnInit, AfterViewInit {
   requirementsCapabilitiesVisible = false;
   deploymentArtifactsVisible = false;
   propertiesVisible = false;
-  typesVisible = false;
-  idsVisible = false;
+  typesVisible = true;
+  idsVisible = true;
+
   @Input() title: string;
-  @Input() left: string;
-  @Input() top: string;
+  @Input() left: number;
+  @Input() bottom: number;
   @Output() sendId = new EventEmitter<string>();
-  @Input() color: string;
+  @Input() nodeColor: string;
+  @Input() nodeImageUrl: string;
+  @Output() askForRepaint = new EventEmitter<string>();
 
   public status: any = {
     isFirstOpen: true,
@@ -33,6 +37,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private _sharedNodeNavbarService: SharedNodeNavbarService) {
+
   }
 
   ngOnInit() {
@@ -68,11 +73,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
             break;
           }
         }
+        this.askForRepaint.emit('informing jsPlumb to repaint...');
       });
   }
 
   ngAfterViewInit(): void {
     this.sendId.emit(this.title);
-    console.log(this.color);
   }
 }
