@@ -11,7 +11,10 @@
  *******************************************************************************/
 package org.eclipse.winery.repository.resources.apiData;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.winery.common.RepositoryFileReference;
+import org.eclipse.winery.common.ids.definitions.NodeTypeId;
 import org.eclipse.winery.repository.backend.Repository;
 import org.eclipse.winery.repository.backend.constants.Filename;
 import org.eclipse.winery.repository.resources.entitytypes.nodetypes.VisualAppearanceResource;
@@ -24,9 +27,12 @@ public class NodeTypesVisualsApiData {
 	public String iconUrl;
 	public String imageUrl;
 	public String color;
+	public QName nodeTypeId;
 
 	public NodeTypesVisualsApiData(VisualAppearanceResource visuals) {
 		this.color = visuals.getBorderColor();
+		// so????
+		this.nodeTypeId = ((NodeTypeId) visuals.getId().getParent()).getQName();
 
 		RepositoryFileReference iconRef = new RepositoryFileReference(visuals.getId(), Filename.FILENAME_SMALL_ICON);
 		if (Repository.INSTANCE.exists(iconRef)) {
@@ -37,6 +43,8 @@ public class NodeTypesVisualsApiData {
 		if (Repository.INSTANCE.exists(imageRef)) {
 			imageUrl = visuals.getAbsoluteURL() + "50x50";
 		}
+
+
 	}
 
 	public NodeTypesVisualsApiData() {
