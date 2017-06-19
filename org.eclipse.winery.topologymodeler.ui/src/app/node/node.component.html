@@ -3,7 +3,7 @@
   <div class="row rounded"
        style="background-color: rgba(255,255,255,0.75); margin-left: 1px; margin-right: 1px; padding: 5px">
     <div class="col-sm-3">
-      <i *ngIf="!nodeImageUrl" class="fa fa-4x fa-picture-o" aria-hidden="true"></i>
+      <img *ngIf="!nodeImageUrl" src="https://api.adorable.io/avatars/50/josip" style="border-radius: 15%">
       <img *ngIf="nodeImageUrl" src="{{nodeImageUrl}}">
     </div>
     <div id="specifierDiv" class="col-sm-9">
@@ -16,49 +16,70 @@
 
     <!-- PROPERTIES -->
     <accordion-group
-      heading="Properties"
+      #propertiesgroup
       panelClass="accordionGroupPanel"
       *ngIf="propertiesVisible">
+      <div accordion-heading>
+        Properties
+        <i class="pull-sm-0 float-sm-right fa icon-styling"
+           [ngClass]="{'fa-chevron-down': propertiesgroup?.isOpen, 'fa-chevron-right': !propertiesgroup?.isOpen}"
+           style="padding-top: 3px"></i>
+      </div>
     </accordion-group>
 
     <!-- DEPLOYMENT ARTIFACTS -->
     <accordion-group
-      heading="Deployment Artifacts"
+      #deploymentartifactsgroup
       panelClass="accordionGroupPanel"
       *ngIf="deploymentArtifactsVisible">
+      <div accordion-heading>
+        Deployment Artifacts
+        <i class="pull-sm-0 float-sm-right fa icon-styling"
+           [ngClass]="{'fa-chevron-down': deploymentartifactsgroup?.isOpen,
+           'fa-chevron-right': !deploymentartifactsgroup?.isOpen}"
+           style="padding-top: 3px"></i>
+      </div>
     </accordion-group>
 
     <!-- REQUIREMENTS & CAPABILITIES -->
     <accordion-group
-      heading="Requirements & Capabilities"
+      #requirementscapabilitiesgroup
       panelClass="accordionGroupPanel"
       *ngIf="requirementsCapabilitiesVisible">
-
+      <div accordion-heading>
+        Requirements - Capabilities
+        <i class="pull-sm-0 float-sm-right fa icon-styling"
+           [ngClass]="{'fa-chevron-down': requirementscapabilitiesgroup?.isOpen,
+           'fa-chevron-right': !requirementscapabilitiesgroup?.isOpen}"
+           style="padding-top: 3px"></i>
+      </div>
     </accordion-group>
 
     <!-- POLICIES -->
     <accordion-group
-      #group
-      [isOpen]="status.isOpen"
+      #policiesgroup
       panelClass="accordionGroupPanel"
       *ngIf="policiesVisible">
       <div accordion-heading>
         Policies
-        <i class="pull-right float-xs-right fa"
-           [ngClass]="{'fa-chevron-down': group?.isOpen, 'fa-chevron-right': !group?.isOpen}"></i>
+        <i class="pull-sm-0 float-sm-right fa icon-styling"
+           [ngClass]="{'fa-chevron-down': policiesgroup?.isOpen, 'fa-chevron-right': !policiesgroup?.isOpen}">
+        </i>
       </div>
-      This is just some content to illustrate fancy headings.
     </accordion-group>
 
     <!-- TARGET LOCATIONS -->
     <accordion-group
+      #targetlocationsgroup
       panelClass="accordionGroupPanel"
       *ngIf="targetLocationsVisible">
       <div accordion-heading>
         Target Locations
+        <i class="pull-sm-0 float-sm-right fa icon-styling"
+           [ngClass]="{'fa-chevron-down': targetlocationsgroup?.isOpen,
+           'fa-chevron-right': !targetlocationsgroup?.isOpen}">
+        </i>
       </div>
-      This is just some content to illustrate fancy headings.
     </accordion-group>
-
   </accordion>
 </div>

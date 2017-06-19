@@ -21,8 +21,8 @@
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/font-awesome/css/font-awesome.css",
-        "styles.css",
-        "../node_modules/ng2-toastr/ng2-toastr.css"
+        "../node_modules/ng2-toastr/ng2-toastr.css",
+        "styles.css"
       ],
       "scripts": [
         "../node_modules/jsplumb/dist/js/jsplumb.min.js",
