@@ -26,7 +26,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
   }
 
   repaintJsPlumb() {
-    this._sharedNodeNavbarService.buttonStates$.subscribe((a) => this.newJsPlumbInstance.repaintEverything());
+    this.newJsPlumbInstance.repaintEverything();
   }
 
   ngOnInit() {
@@ -41,8 +41,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
     this.nodeTemplates = this.jsonService.getNodes();
     this.relationshipTemplates = this.jsonService.getRelationships();
     this.visuals = this.jsonService.getVisuals();
-
-    console.log(this.nodeTemplates);
     this.assignVisuals();
 
   }

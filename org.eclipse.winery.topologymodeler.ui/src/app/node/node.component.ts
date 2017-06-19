@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SharedNodeNavbarService} from '../shared-node-navbar.service';
-
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SharedNodeNavbarService } from '../shared-node-navbar.service';
+import { ResizeSensor } from 'css-element-queries';
 
 @Component({
   selector: 'app-node',
@@ -73,11 +73,16 @@ export class NodeComponent implements OnInit, AfterViewInit {
             break;
           }
         }
-        this.askForRepaint.emit('informing jsPlumb to repaint...');
       });
   }
 
   ngAfterViewInit(): void {
     this.sendId.emit(this.title);
+    const me = this;
+    const element = document.getElementById(this.title);
+    new ResizeSensor(element, function() {
+      console.log('JsPlumb do the repaint!');
+      me.askForRepaint.emit('REPAINT!');
+    });
   }
 }
