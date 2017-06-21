@@ -43,7 +43,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
       (buttonChangeObject) => {
         switch (buttonChangeObject.buttonID) {
           case 'layout': {
-              this.layoutNodes();
+              this.layoutNodes(buttonChangeObject.state);
               break;
             }
         }
@@ -110,17 +110,21 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
     this.newJsPlumbInstance.draggable($event);
   }
 
-  layoutNodes(): void {
+  layoutNodes(state: boolean): void {
     let y = 0;
     let x = 0;
+    if (state === true) {
+      y = y + 1;
+      x = x + 1;
+    }
     for (const node of this.nodeTemplates) {
       const width = document.getElementById(node.id).offsetWidth;
       const height = document.getElementById(node.id).offsetHeight;
       node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x'] = x;
       node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y'] = y;
+
       y = y + height + 50;
       x = x + width + 50;
-      this.repaintJsPlumb();
     }
   }
 
