@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { SharedNodeNavbarService } from '../shared-node-navbar.service';
 import { ResizeSensor } from 'css-element-queries';
 
@@ -7,7 +7,7 @@ import { ResizeSensor } from 'css-element-queries';
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css']
 })
-export class NodeComponent implements OnInit, AfterViewInit {
+export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
@@ -84,5 +84,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
       console.log('JsPlumb do the repaint!');
       me.askForRepaint.emit('REPAINT!');
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    this.askForRepaint.emit('REPAINT!');
   }
 }
