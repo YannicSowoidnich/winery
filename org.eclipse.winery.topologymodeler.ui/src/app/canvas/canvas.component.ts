@@ -16,6 +16,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
   relationshipTemplates: any[] = [];
   newJsPlumbInstance: any;
   visuals: any[];
+  width = 0;
+  height = 0;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService,
               private _sharedNodeNavbarService: SharedNodeNavbarService) {
@@ -37,6 +39,15 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         this.paletteClicked = true;
       }
     );
+    this._sharedNodeNavbarService.buttonStates$.subscribe(
+      (buttonChangeObject) => {
+        switch (buttonChangeObject.buttonID) {
+          case 'layout': {
+              this.layoutNodes();
+              break;
+            }
+        }
+      });
     this.newJsPlumbInstance = this.jsPlumbService.getJsPlumbInstance();
     this.nodeTemplates = this.jsonService.getNodes();
     this.relationshipTemplates = this.jsonService.getRelationships();
@@ -97,6 +108,20 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
 
   makeDraggable($event): void {
     this.newJsPlumbInstance.draggable($event);
+  }
+
+  layoutNodes(): void {
+    let y = 0;
+    let x = 0;
+    for (const node of this.nodeTemplates) {
+      const width = document.getElementById(node.id).offsetWidth;
+      const height = document.getElementById(node.id).offsetHeight;
+      node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x'] = x;
+      node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y'] = y;
+      y = y + height + 50;
+      x = x + width + 50;
+      this.repaintJsPlumb();
+    }
   }
 
   ngAfterViewInit(): void {

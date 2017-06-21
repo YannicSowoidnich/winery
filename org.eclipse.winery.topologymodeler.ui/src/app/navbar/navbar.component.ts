@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
    * Boolean variables that hold the state {pressed vs. !pressed} of the navbar buttons.
    * @type {boolean}
    */
+  layoutPressed = false;
   targetLocationsPressed = false;
   policiesPressed = false;
   requirementsCapabilitiesPressed = false;
@@ -91,6 +92,11 @@ export class NavbarComponent implements OnInit {
       case 'ids': {
         this.idsPressed = !this.idsPressed;
         this._sharedNodeNavbarService.publishButtonState(event.target.id, this.idsPressed);
+        break;
+      }
+      case 'layout': {
+        this.layoutPressed = !this.layoutPressed;
+        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.layoutPressed);
         break;
       }
     }
