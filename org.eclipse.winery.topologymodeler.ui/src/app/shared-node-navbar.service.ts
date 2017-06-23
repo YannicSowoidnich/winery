@@ -29,9 +29,9 @@ export class SharedNodeNavbarService {
     });
   }
 
-  publishPaletteItemTitle(title: string, mousePositionX: number, mousePositionY: number) {
+  publishPaletteItemTitle(name: string, mousePositionX: number, mousePositionY: number) {
     this._paletteItem.next({
-      title: title,
+      name: name,
       mousePositionX: mousePositionX.toString().concat('px'),
       mousePositionY: mousePositionY.toString().concat('px')
     });

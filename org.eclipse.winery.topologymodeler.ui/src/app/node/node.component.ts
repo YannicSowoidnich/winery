@@ -7,7 +7,7 @@ import { ResizeSensor } from 'css-element-queries';
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css']
 })
-export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
+export class NodeComponent implements OnInit, AfterViewInit, OnChanges  {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
@@ -21,11 +21,11 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() title: string;
   @Input() left: number;
-  @Input() bottom: number;
+  @Input() top: number;
   @Output() sendId = new EventEmitter<string>();
   @Input() nodeColor: string;
   @Input() nodeImageUrl: string;
-  @Output() askForRepaint = new EventEmitter<string>();
+  @Output() askForRepaint = new EventEmitter();
 
   public status: any = {
     isFirstOpen: true,
@@ -81,13 +81,11 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
     const me = this;
     const element = document.getElementById(this.title);
     new ResizeSensor(element, function() {
-      console.log('JsPlumb do the repaint!');
-      me.askForRepaint.emit('REPAINT!');
+      me.askForRepaint.emit();
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-    this.askForRepaint.emit('REPAINT!');
+    this.askForRepaint.emit(this.title);
   }
 }

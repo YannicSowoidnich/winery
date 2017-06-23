@@ -2,6 +2,8 @@ import { AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild } 
 import {JsPlumbService} from '../jsPlumbService';
 import {JsonService} from '../json.service';
 import {SharedNodeNavbarService} from '../shared-node-navbar.service';
+import { TNodeTemplate } from '../tnode-template';
+import { TRelationshipTemplate } from '../trelationship-template';
 
 @Component({
   selector: 'app-canvas',
@@ -10,9 +12,9 @@ import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 })
 export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit {
   paletteClicked = false;
-  createdNodes = [];
   addedNewNode = false;
   nodeTemplates: any[] = [];
+  nodeTypes: any[] = [];
   relationshipTemplates: any[] = [];
   newJsPlumbInstance: any;
   visuals: any[];
@@ -49,11 +51,11 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         }
       });
     this.newJsPlumbInstance = this.jsPlumbService.getJsPlumbInstance();
+    this.newJsPlumbInstance.setContainer('container');
     this.nodeTemplates = this.jsonService.getNodes();
     this.relationshipTemplates = this.jsonService.getRelationships();
     this.visuals = this.jsonService.getVisuals();
     this.assignVisuals();
-
   }
 
   assignVisuals() {
@@ -67,19 +69,44 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         }
       }
     }
+     // this.addNodeTypesFromJSONToNodeTypesArray();
   }
 
+/*
+  addNodeTypesFromJSONToNodeTypesArray() {
+    for (const node of this.nodeTemplates) {
+        this.nodeTypes.push({
+            nodeType: node,
+            nodeFromJSON: true
+          }
+        );
+    }
+  }
+*/
+
   nodeFactory(paletteItem: any): void {
-    if (this.createdNodes.length > 0) {
-      for (let i = this.createdNodes.length - 1; i >= 0; i--) {
-        if (paletteItem.title === this.createdNodes[i].title) {
-          const numberOfNewInstance = this.createdNodes[i].numberOfInstance + 1;
-          this.createdNodes.push({
-            title: paletteItem.title,
+    if (this.nodeTypes.length > 0) {
+      for (let i = this.nodeTypes.length - 1; i >= 0; i--) {
+        if (paletteItem.name === this.nodeTypes[i].nodeType.name && this.nodeTypes[i].nodeFromJSON === false) {
+          const numberOfNewInstance = this.nodeTypes[i].numberOfInstance + 1;
+          this.nodeTypes.push({
+            nodeType: new TNodeTemplate(
+              [],
+              [],
+              {
+                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
+                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
+                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
+              },
+              [],
+              paletteItem.name.concat('_' + numberOfNewInstance.toString()),
+              [],
+              paletteItem.name,
+              1,
+              1
+            ),
             numberOfInstance: numberOfNewInstance,
-            id: paletteItem.title.concat('_' + numberOfNewInstance.toString()),
-            left: paletteItem.mousePositionX,
-            top: paletteItem.mousePositionY
+            nodeFromJSON: false
           });
           this.addedNewNode = true;
           break;
@@ -87,22 +114,46 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         this.addedNewNode = false;
       }
       if (this.addedNewNode === false) {
-        this.createdNodes.push({
-          title: paletteItem.title,
+        this.nodeTypes.push({
+          nodeType: new TNodeTemplate(
+            [],
+            [],
+            {
+              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
+              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
+              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
+            },
+            [],
+            paletteItem.name,
+            [],
+            paletteItem.name,
+            1,
+            1
+          ),
           numberOfInstance: 1,
-          id: paletteItem.title,
-          left: paletteItem.mousePositionX,
-          top: paletteItem.mousePositionY
-        });
+          nodeFromJSON: false
+          });
       }
     } else {
-      this.createdNodes.push({
-        title: paletteItem.title,
+      this.nodeTypes.push({
+        nodeType: new TNodeTemplate(
+          [],
+          [],
+          {
+            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
+           '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
+           '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
+          },
+          [],
+          paletteItem.name,
+          [],
+          paletteItem.name,
+          1,
+          1
+        ),
         numberOfInstance: 1,
-        id: paletteItem.title,
-        left: paletteItem.mousePositionX,
-        top: paletteItem.mousePositionY
-      });
+        nodeFromJSON: false
+        });
     }
   }
 
@@ -134,9 +185,10 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
       const targetElement = this.relationshipTemplates[i].targetElement;
       this.newJsPlumbInstance.draggable(sourceElement);
       this.newJsPlumbInstance.draggable(targetElement);
+      const connection = new TRelationshipTemplate(sourceElement, targetElement);
       this.newJsPlumbInstance.connect({
-        source: sourceElement,
-        target: targetElement,
+        source: connection.sourceElement,
+        target: connection.targetElement,
         overlays: [['Arrow', {width: 15, length: 15, location: 1, id: 'arrow', direction: 1}],
           ['Label', {
             label: '(Hosted On)',

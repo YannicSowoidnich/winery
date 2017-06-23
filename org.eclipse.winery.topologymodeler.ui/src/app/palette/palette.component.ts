@@ -83,7 +83,6 @@ export class PaletteComponent implements OnInit {
     const left = $event.pageX - 100;
     const top = $event.pageY - 30;
     this._sharedNodeNavbarService.publishPaletteItemTitle($event.target.innerHTML, left, top);
-    console.log($event);
   }
 }
 
