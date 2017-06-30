@@ -1,85 +1,63 @@
-<div class="container rounded" style="padding: 3px; position: absolute" [style.top]="top" [style.left]="left"
+<div class="old-container-style" [style.top]="top" [style.left]="left"
      id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor">
-  <div class="row rounded"
-       style="background-color: rgba(255,255,255,0.75); margin-left: 1px; margin-right: 1px; padding: 5px">
-    <div class="col-sm-3">
-      <img *ngIf="!nodeImageUrl" src="https://api.adorable.io/avatars/50/{{title}}" style="border-radius: 15%">
-      <img *ngIf="nodeImageUrl" src="{{nodeImageUrl}}">
+  <div class="old-row-style">
+    <div>
     </div>
-    <div id="specifierDiv" class="col-sm-9">
-      <p class="" align="right">{{title}}</p>
-      <p class="" align="right" style="color: tomato" *ngIf="idsVisible">{{title}}</p>
-      <a href="#" class="h6 btn-link" style="text-align: right; display: block" *ngIf="typesVisible">{{title}}</a>
+    <div id="specifierDiv">
+      <p class="old-name">{{title}}</p>
+      <p class="old-id" *ngIf="idsVisible">{{title}}</p>
+      <a href="#" class="old-type" *ngIf="typesVisible">{{title}}</a>
     </div>
   </div>
-  <accordion #accordion>
 
     <!-- PROPERTIES -->
-    <accordion-group
-      #propertiesgroup
-      panelClass="accordionGroupPanel"
+    <div class="old-properties-style"
       *ngIf="propertiesVisible">
-      <div accordion-heading>
+      <div class="old-properties-header-style">
         Properties
-        <i class="pull-sm-0 float-sm-right fa icon-styling"
-           [ngClass]="{'fa-chevron-down': propertiesgroup?.isOpen, 'fa-chevron-right': !propertiesgroup?.isOpen}"
-           style="padding-top: 3px"></i>
+        <i class="pull-sm-0 float-sm-right fa"></i>
       </div>
-    </accordion-group>
+    </div>
 
     <!-- DEPLOYMENT ARTIFACTS -->
-    <accordion-group
+    <div class="old-deployment-style"
       #deploymentartifactsgroup
-      panelClass="accordionGroupPanel"
       *ngIf="deploymentArtifactsVisible">
-      <div accordion-heading>
+      <div class="old-deployment-header-style">
         Deployment Artifacts
-        <i class="pull-sm-0 float-sm-right fa icon-styling"
-           [ngClass]="{'fa-chevron-down': deploymentartifactsgroup?.isOpen,
-           'fa-chevron-right': !deploymentartifactsgroup?.isOpen}"
-           style="padding-top: 3px"></i>
+        <i class="pull-sm-0 float-sm-right fa icon-styling"></i>
       </div>
-    </accordion-group>
+    </div>
 
     <!-- REQUIREMENTS & CAPABILITIES -->
-    <accordion-group
+    <div class="old-requirements-style"
       #requirementscapabilitiesgroup
-      panelClass="accordionGroupPanel"
       *ngIf="requirementsCapabilitiesVisible">
-      <div accordion-heading>
+      <div class="old-requirements-header-style">
         Requirements - Capabilities
-        <i class="pull-sm-0 float-sm-right fa icon-styling"
-           [ngClass]="{'fa-chevron-down': requirementscapabilitiesgroup?.isOpen,
-           'fa-chevron-right': !requirementscapabilitiesgroup?.isOpen}"
-           style="padding-top: 3px"></i>
+        <i class="pull-sm-0 float-sm-right fa icon-styling"></i>
       </div>
-    </accordion-group>
+    </div>
 
     <!-- POLICIES -->
-    <accordion-group
+    <div class="old-policies-style"
       #policiesgroup
-      panelClass="accordionGroupPanel"
       *ngIf="policiesVisible">
-      <div accordion-heading>
+      <div class="old-policies-header-style">
         Policies
-        <i class="pull-sm-0 float-sm-right fa icon-styling"
-           [ngClass]="{'fa-chevron-down': policiesgroup?.isOpen, 'fa-chevron-right': !policiesgroup?.isOpen}">
+        <i class="pull-sm-0 float-sm-right fa icon-styling">
         </i>
       </div>
-    </accordion-group>
+    </div>
 
     <!-- TARGET LOCATIONS -->
-    <accordion-group
+    <div class="old-target-style"
       #targetlocationsgroup
-      panelClass="accordionGroupPanel"
       *ngIf="targetLocationsVisible">
-      <div accordion-heading>
+      <div>
         Target Locations
-        <i class="pull-sm-0 float-sm-right fa icon-styling"
-           [ngClass]="{'fa-chevron-down': targetlocationsgroup?.isOpen,
-           'fa-chevron-right': !targetlocationsgroup?.isOpen}">
+        <i class="pull-sm-0 float-sm-right fa icon-styling">
         </i>
       </div>
-    </accordion-group>
-  </accordion>
-</div>
+    </div>
+  </div>
