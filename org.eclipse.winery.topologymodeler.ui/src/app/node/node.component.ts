@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SharedNodeNavbarService } from '../shared-node-navbar.service';
 import { ResizeSensor } from 'css-element-queries';
+import { TTopologyTemplate } from '../ttopology-template';
 
 @Component({
   selector: 'app-node',
@@ -92,4 +93,5 @@ export class NodeComponent implements OnInit, AfterViewInit {
     const config = { attributes: true };
     observer.observe(target, config);
   }
+
 }

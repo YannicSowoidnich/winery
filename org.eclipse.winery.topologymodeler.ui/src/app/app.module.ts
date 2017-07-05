@@ -22,7 +22,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutDirective } from './layout.directive';
 import {SharedNodeNavbarService} from './shared-node-navbar.service';
 import { RelationshipComponent } from './relationship/relationship.component';
-import {JsonService} from './json.service';
+import {JsonService} from './jsonService/json.service';
 
 @NgModule({
   declarations: [

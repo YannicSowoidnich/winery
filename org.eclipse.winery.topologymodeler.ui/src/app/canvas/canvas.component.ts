@@ -1,9 +1,9 @@
 import { AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import {JsPlumbService} from '../jsPlumbService';
-import {JsonService} from '../json.service';
+import {JsonService} from '../jsonService/json.service';
 import {SharedNodeNavbarService} from '../shared-node-navbar.service';
-import { TNodeTemplate } from '../tnode-template';
-import { TRelationshipTemplate } from '../trelationship-template';
+import { TNodeTemplate } from '../ttopology-template';
+import { TRelationshipTemplate } from '../ttopology-template';
 
 @Component({
   selector: 'app-canvas',
@@ -90,23 +90,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         if (paletteItem.name === this.nodeTypes[i].nodeType.name && this.nodeTypes[i].nodeFromJSON === false) {
           const numberOfNewInstance = this.nodeTypes[i].numberOfInstance + 1;
           this.nodeTypes.push({
-            nodeType: new TNodeTemplate(
-              [],
-              [],
-              {
-                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
-                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
-                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
-              },
-              [],
-              paletteItem.name.concat('_' + numberOfNewInstance.toString()),
-              [],
-              paletteItem.name,
-              1,
-              1
-            ),
-            numberOfInstance: numberOfNewInstance,
-            nodeFromJSON: false
+            nodeType: new TNodeTemplate({[], [], [], [], '', '', [], '', 1, 1)
           });
           this.addedNewNode = true;
           break;
@@ -114,22 +98,24 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         this.addedNewNode = false;
       }
       if (this.addedNewNode === false) {
+        let nodeType: new TNodeTemplate(((
+          [],
+          [],
+          {
+            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
+            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
+            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
+          },
+          [],
+          paletteItem.name,
+          [],
+          paletteItem.name,
+          1,
+          1
+        ));
+      }
         this.nodeTypes.push({
-          nodeType: new TNodeTemplate(
-            [],
-            [],
-            {
-              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
-              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
-              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
-            },
-            [],
-            paletteItem.name,
-            [],
-            paletteItem.name,
-            1,
-            1
-          ),
+
           numberOfInstance: 1,
           nodeFromJSON: false
           });

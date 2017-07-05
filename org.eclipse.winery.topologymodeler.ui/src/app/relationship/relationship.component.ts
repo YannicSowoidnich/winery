@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {TRelationshipTemplate} from '../trelationship-template';
+import {TRelationshipTemplate} from '../ttopology-template';
 
 @Component({
   selector: 'app-relationship',
