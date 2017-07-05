@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { ResizeSensor } from 'css-element-queries';
+import { TTopologyTemplate } from '../ttopology-template';
 
 @Component({
   selector: 'app-node',
@@ -83,4 +84,5 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
     }
     setTimeout(() => this.askForRepaint.emit(), 1);
   }
+
 }
