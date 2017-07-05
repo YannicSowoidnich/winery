@@ -2,8 +2,7 @@ import { AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild } 
 import {JsPlumbService} from '../jsPlumbService';
 import {JsonService} from '../jsonService/json.service';
 import {SharedNodeNavbarService} from '../shared-node-navbar.service';
-import { TNodeTemplate } from '../ttopology-template';
-import { TRelationshipTemplate } from '../ttopology-template';
+import { TNodeTemplate , TRelationshipTemplate} from '../ttopology-template';
 
 @Component({
   selector: 'app-canvas',
@@ -45,9 +44,9 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
       (buttonChangeObject) => {
         switch (buttonChangeObject.buttonID) {
           case 'layout': {
-              this.layoutNodes(buttonChangeObject.state);
-              break;
-            }
+            this.layoutNodes(buttonChangeObject.state);
+            break;
+          }
         }
       });
     this.newJsPlumbInstance = this.jsPlumbService.getJsPlumbInstance();
@@ -69,20 +68,20 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         }
       }
     }
-     // this.addNodeTypesFromJSONToNodeTypesArray();
+    // this.addNodeTypesFromJSONToNodeTypesArray();
   }
 
-/*
-  addNodeTypesFromJSONToNodeTypesArray() {
-    for (const node of this.nodeTemplates) {
-        this.nodeTypes.push({
-            nodeType: node,
-            nodeFromJSON: true
-          }
-        );
-    }
-  }
-*/
+  /*
+   addNodeTypesFromJSONToNodeTypesArray() {
+   for (const node of this.nodeTemplates) {
+   this.nodeTypes.push({
+   nodeType: node,
+   nodeFromJSON: true
+   }
+   );
+   }
+   }
+   */
 
   nodeFactory(paletteItem: any): void {
     if (this.nodeTypes.length > 0) {
@@ -90,7 +89,23 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         if (paletteItem.name === this.nodeTypes[i].nodeType.name && this.nodeTypes[i].nodeFromJSON === false) {
           const numberOfNewInstance = this.nodeTypes[i].numberOfInstance + 1;
           this.nodeTypes.push({
-            nodeType: new TNodeTemplate('', '', '', 2, 3),
+            nodeType: new TNodeTemplate(
+              [],
+              paletteItem.name.concat('_' + numberOfNewInstance.toString()),
+              paletteItem.name,
+              1,
+              1,
+              [],
+              [],
+              {
+                location: 'undefined',
+                x: paletteItem.mousePositionX,
+                y: paletteItem.mousePositionY,
+              }
+            ),
+            numberOfInstance: numberOfNewInstance,
+            nodeFromJSON: false
+          });
           this.addedNewNode = true;
           break;
         }
@@ -98,28 +113,43 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
       }
       if (this.addedNewNode === false) {
         this.nodeTypes.push({
-          nodeType: new TNodeTemplate();
+          nodeType: new TNodeTemplate(
+            [],
+            paletteItem.name,
+            paletteItem.name,
+            1,
+            1,
+            [],
+            [],
+            {
+              location: 'undefined',
+              x: paletteItem.mousePositionX,
+              y: paletteItem.mousePositionY
+            }
+          ),
+          numberOfInstance: 1,
+          nodeFromJSON: false
+        });
       }
     } else {
       this.nodeTypes.push({
         nodeType: new TNodeTemplate(
           [],
-          [],
-          {
-            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
-           '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
-           '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
-          },
-          [],
           paletteItem.name,
-          [],
           paletteItem.name,
           1,
-          1
+          1,
+          [],
+          [],
+          {
+            location: 'undefined',
+            x: paletteItem.mousePositionX,
+            y: paletteItem.mousePositionY
+          }
         ),
         numberOfInstance: 1,
         nodeFromJSON: false
-        });
+      });
     }
   }
 

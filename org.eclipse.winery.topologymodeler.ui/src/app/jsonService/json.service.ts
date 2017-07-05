@@ -4,7 +4,7 @@ import { TTopologyTemplate, Visuals } from '../ttopology-template';
 
 @Injectable()
 export class JsonService {
-  visuals: Visuals[] = [
+  visuals = [
     {
       imageUrl: 'http://www.example.org/winery/test/nodetypes/' +
       'http%253A%252F%252Fwinery.opentosca.org%252Ftest%252Fnodetypes%252Ffruits/baobab/appearance/50x50',
@@ -79,7 +79,7 @@ export class JsonService {
     }
   ];
 
-  testJson: TTopologyTemplate = {
+  testJson = {
     documentation: [],
     any: [],
     otherAttributes: {},

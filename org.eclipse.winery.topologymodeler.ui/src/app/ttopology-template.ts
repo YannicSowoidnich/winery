@@ -24,27 +24,29 @@ export class TNodeTemplate extends AbstractTTemplate {
 }
 
 export class TRelationshipTemplate extends AbstractTTemplate {
-  name?: string;
-  id?: string;
-  type?: any;
-  sourceElement: string;
-  targetElement: string;
+  get targetElement(): string {
+    return this._targetElement;
+  }
+  get sourceElement(): string {
+    return this._sourceElement;
+  }
   constructor(private _sourceElement: string,
               private _targetElement: string,
-              private _name: string,
-              private _id: string,
-              private _type: any,
+              private _name?: string,
+              private _id?: string,
+              private _type?: any,
               documentation?: any,
               any?: any,
               otherAttributes?: any) {
     super(documentation, any, otherAttributes);
   }
+
 }
 
 export class Visuals {
   constructor(private _color: string,
               private _nodeTypeId: string,
-              private _localName,
-              private _imageUrl) {
+              private _localName: string,
+              private _imageUrl?: string) {
   }
 }
