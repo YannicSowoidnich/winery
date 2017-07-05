@@ -7,6 +7,7 @@
   padding-bottom: 0;
   padding-top: 0;
   user-select: none;
+  scroll-padding-top: 1px;
 }
 
 .panel.accordionGroupPanel .panel-body {

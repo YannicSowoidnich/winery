@@ -90,35 +90,15 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         if (paletteItem.name === this.nodeTypes[i].nodeType.name && this.nodeTypes[i].nodeFromJSON === false) {
           const numberOfNewInstance = this.nodeTypes[i].numberOfInstance + 1;
           this.nodeTypes.push({
-            nodeType: new TNodeTemplate({[], [], [], [], '', '', [], '', 1, 1)
-          });
+            nodeType: new TNodeTemplate('', '', '', 2, 3),
           this.addedNewNode = true;
           break;
         }
         this.addedNewNode = false;
       }
       if (this.addedNewNode === false) {
-        let nodeType: new TNodeTemplate(((
-          [],
-          [],
-          {
-            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
-            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
-            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
-          },
-          [],
-          paletteItem.name,
-          [],
-          paletteItem.name,
-          1,
-          1
-        ));
-      }
         this.nodeTypes.push({
-
-          numberOfInstance: 1,
-          nodeFromJSON: false
-          });
+          nodeType: new TNodeTemplate();
       }
     } else {
       this.nodeTypes.push({
