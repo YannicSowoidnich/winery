@@ -89,8 +89,8 @@ export class JsonService {
         any: [],
         otherAttributes: {
           location: 'undefined',
-          x: 958,
-          y: 894
+          x: 600,
+          y: 49
         },
         id: 'plantage',
         type: '{http://winery.opentosca.org/test/nodetypes/fruits}plantage',
@@ -103,8 +103,8 @@ export class JsonService {
         any: [],
         otherAttributes: {
           location: 'undefined',
-          x: 606,
-          y: 67
+          x: 600,
+          y: 267
         },
         id: 'tree',
         type: '{http://winery.opentosca.org/test/nodetypes/fruits}tree',
@@ -117,7 +117,7 @@ export class JsonService {
         any: [],
         otherAttributes: {
           location: 'undefined',
-          x: 512,
+          x: 600,
           y: 785
         },
         id: 'baobab',
@@ -131,8 +131,8 @@ export class JsonService {
         any: [],
         otherAttributes: {
           location: 'undefined',
-          x: 658,
-          y: 394
+          x: 958,
+          y: 794
         },
         id: 'banana',
         type: '{http://winery.opentosca.org/test/nodetypes/fruits}banana',
@@ -146,7 +146,7 @@ export class JsonService {
         otherAttributes: {
           location: 'undefined',
           x: 214,
-          y: 864
+          y: 764
         },
         id : 'mango',
         type: '{http://winery.opentosca.org/test/nodetypes/fruits}mango',
@@ -156,6 +156,34 @@ export class JsonService {
       }
     ],
     relationshipTemplates: [
+      {
+        'sourceElement': 'baobab',
+        'targetElement': 'tree'
+      },
+      {
+        'sourceElement': 'banana',
+        'targetElement': 'tree'
+      },
+      {
+        'sourceElement': 'mango',
+        'targetElement': 'tree'
+      },
+      {
+        'sourceElement': 'orange',
+        'targetElement': 'tree_2'
+      },
+      {
+        'sourceElement': 'orange_2',
+        'targetElement': 'tree_2'
+      },
+      {
+        'sourceElement': 'tree_2',
+        'targetElement': 'plantage'
+      },
+      {
+        'sourceElement': 'tree',
+        'targetElement': 'plantage'
+      }
     ]
   };
 
@@ -231,8 +259,9 @@ export class JsonService {
   }
 
   setData(visuals: Visuals[], topologyTemplate: TTopologyTemplate) {
-    this.visuals = visuals;
-    this.testJson = topologyTemplate;
+    // This causes "type not compatible error"
+    // this.visuals = visuals;
+    // this.testJson = topologyTemplate;
   }
 
   constructor() {

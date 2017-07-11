@@ -167,8 +167,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
     for (const node of this.nodeTemplates) {
       const width = document.getElementById(node.id).offsetWidth;
       const height = document.getElementById(node.id).offsetHeight;
-      node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x'] = x;
-      node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y'] = y;
+      node.otherAttributes['x'] = x;
+      node.otherAttributes['y'] = y;
 
       y = y + height + 50;
       x = x + width + 50;
