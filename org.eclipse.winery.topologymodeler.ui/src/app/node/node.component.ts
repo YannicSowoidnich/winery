@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { SharedNodeNavbarService } from '../shared-node-navbar.service';
 import { ResizeSensor } from 'css-element-queries';
 
@@ -7,7 +7,7 @@ import { ResizeSensor } from 'css-element-queries';
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css']
 })
-export class NodeComponent implements OnInit, AfterViewInit {
+export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
@@ -16,7 +16,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   requirementsCapabilitiesVisible = false;
   deploymentArtifactsVisible = false;
   propertiesVisible = false;
-  typesVisible = true;
+  typesVisible = false;
   idsVisible = true;
 
   @Input() title: string;
@@ -26,6 +26,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @Input() nodeColor: string;
   @Input() nodeImageUrl: string;
   @Output() askForRepaint = new EventEmitter();
+  @Input() navBarButtonClicked: any;
+
 
   public status: any = {
     isFirstOpen: true,
@@ -36,60 +38,62 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.items.push(`Items ${this.items.length + 1}`);
   }
 
-  constructor(private _sharedNodeNavbarService: SharedNodeNavbarService) {
+  constructor() {
 
   }
 
   ngOnInit() {
-    this._sharedNodeNavbarService.buttonStates$.subscribe(
-      (buttonChangeObject) => {
-        switch (buttonChangeObject.buttonID) {
-          case 'targetLocations': {
-            this.targetLocationsVisible = buttonChangeObject.state;
-            break;
-          }
-          case 'policies': {
-            this.policiesVisible = buttonChangeObject.state;
-            break;
-          }
-          case 'requirementsCapabilities': {
-            this.requirementsCapabilitiesVisible = buttonChangeObject.state;
-            break;
-          }
-          case 'deploymentArtifacts': {
-            this.deploymentArtifactsVisible = buttonChangeObject.state;
-            break;
-          }
-          case 'properties': {
-            this.propertiesVisible = buttonChangeObject.state;
-            break;
-          }
-          case 'types': {
-            this.typesVisible = buttonChangeObject.state;
-            break;
-          }
-          case 'ids': {
-            this.idsVisible = buttonChangeObject.state;
-            break;
-          }
-        }
-      });
   }
 
   ngAfterViewInit(): void {
     this.sendId.emit(this.title);
     const me = this;
     const element = document.getElementById(this.title);
-    new ResizeSensor(element, function() {
+    new ResizeSensor(element, function () {
       me.askForRepaint.emit();
     });
     const target = document.getElementById(this.title);
-    const observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function() {
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function () {
         me.askForRepaint.emit();
       });
     });
-    const config = { attributes: true };
+    const config = {attributes: true};
     observer.observe(target, config);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.navBarButtonClicked.currentValue !== undefined) {
+      switch (changes.navBarButtonClicked.currentValue.name) {
+        case 'targetLocations': {
+          this.targetLocationsVisible = !this.targetLocationsVisible;
+          break;
+        }
+        case 'policies': {
+          this.policiesVisible = !this.policiesVisible;
+          break;
+        }
+        case 'requirementsCapabilities': {
+          this.requirementsCapabilitiesVisible = !this.requirementsCapabilitiesVisible;
+          break;
+        }
+        case 'deploymentArtifacts': {
+          this.deploymentArtifactsVisible = !this.deploymentArtifactsVisible;
+          break;
+        }
+        case 'properties': {
+          this.propertiesVisible = !this.propertiesVisible;
+          break;
+        }
+        case 'types': {
+          this.typesVisible = !this.typesVisible;
+          break;
+        }
+        case 'ids': {
+          this.idsVisible = !this.idsVisible;
+          break;
+        }
+      }
+    }
   }
 }

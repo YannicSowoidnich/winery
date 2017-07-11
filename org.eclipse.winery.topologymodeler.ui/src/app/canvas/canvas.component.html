@@ -5,7 +5,8 @@
             (sendId)="makeDraggable($event)"
             [left]="node.nodeType.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x']"
             [top]="node.nodeType.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y']"
-            [nodeColor]="node.nodeType.color">
+            [nodeColor]="node.nodeType.color"
+            [navBarButtonClicked]="pressedNavBarButton">
   </app-node>
 </div>
 <app-node *ngFor="let node of nodeTemplates"
@@ -14,6 +15,7 @@
           [left]="node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x']+'px'"
           [top]="node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y']+'px'"
           [nodeImageUrl]="node.imageUrl"
-          (askForRepaint)="repaintJsPlumb()">
+          (askForRepaint)="repaintJsPlumb()"
+          [navBarButtonClicked]="pressedNavBarButton">
 </app-node>
 </div>

@@ -1,7 +1,6 @@
-import { AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import {JsPlumbService} from '../jsPlumbService';
 import {JsonService} from '../json.service';
-import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 import { TNodeTemplate } from '../tnode-template';
 import { TRelationshipTemplate } from '../trelationship-template';
 
@@ -10,7 +9,7 @@ import { TRelationshipTemplate } from '../trelationship-template';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
-export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges {
   paletteClicked = false;
   addedNewNode = false;
   nodeTemplates: any[] = [];
@@ -20,10 +19,10 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
   visuals: any[];
   width = 0;
   height = 0;
+  @Input() pressedNavBarButton: any;
+  @Input() pressedPaletteItem: any;
 
-  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService,
-              private _sharedNodeNavbarService: SharedNodeNavbarService) {
-
+  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService) {
   }
 
   ngAfterContentInit() {
@@ -33,23 +32,21 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
     this.newJsPlumbInstance.repaintEverything();
   }
 
-  ngOnInit() {
-
-    this._sharedNodeNavbarService.paletteItem$.subscribe(
-      (paletteItem) => {
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.pressedNavBarButton) {
+      if (changes.pressedPaletteItem.currentValue !== undefined) {
+        const paletteItem = changes.pressedPaletteItem.currentValue;
         this.nodeFactory(paletteItem);
         this.paletteClicked = true;
       }
-    );
-    this._sharedNodeNavbarService.buttonStates$.subscribe(
-      (buttonChangeObject) => {
-        switch (buttonChangeObject.buttonID) {
-          case 'layout': {
-              this.layoutNodes(buttonChangeObject.state);
-              break;
-            }
-        }
-      });
+    } else if (!changes.pressedPaletteItem) {
+      if (changes.pressedNavBarButton.currentValue.name === 'layout') {
+        this.layoutNodes(changes.pressedNavBarButton.currentValue.state);
+      }
+    }
+  }
+
+  ngOnInit() {
     this.newJsPlumbInstance = this.jsPlumbService.getJsPlumbInstance();
     this.newJsPlumbInstance.setContainer('container');
     this.nodeTemplates = this.jsonService.getNodes();
@@ -69,20 +66,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit 
         }
       }
     }
-     // this.addNodeTypesFromJSONToNodeTypesArray();
   }
-
-/*
-  addNodeTypesFromJSONToNodeTypesArray() {
-    for (const node of this.nodeTemplates) {
-        this.nodeTypes.push({
-            nodeType: node,
-            nodeFromJSON: true
-          }
-        );
-    }
-  }
-*/
 
   nodeFactory(paletteItem: any): void {
     if (this.nodeTypes.length > 0) {

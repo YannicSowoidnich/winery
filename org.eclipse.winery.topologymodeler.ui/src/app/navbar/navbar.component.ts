@@ -9,10 +9,9 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {WineryAlertService} from '../winery-alert/winery-alert.service';
 import {LayoutDirective} from '../layout.directive';
-import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -33,14 +32,9 @@ export class NavbarComponent implements OnInit {
   propertiesPressed = false;
   typesPressed = true;
   idsPressed = true;
+  @Output() sendPressedNavbarTab = new EventEmitter();
 
-  constructor(private alert: WineryAlertService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
-    /*    this._sharedNodeNavbarService.targetLocationsVisible$.subscribe(
-     state => {
-     console.log('Sibling1Component-received from sibling2: ' + state);
-     if (!(state === false)) { this.targetLocationsPressed = true; }
-     });*/
-
+  constructor(private alert: WineryAlertService) {
   }
 
   getStyle(thisButtonIsPressed: boolean): string {
@@ -61,42 +55,74 @@ export class NavbarComponent implements OnInit {
     switch (event.target.id) {
       case 'targetLocations': {
         this.targetLocationsPressed = !this.targetLocationsPressed;
-        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.targetLocationsPressed);
+        const targetLocationsObject = {
+          name: 'targetLocations',
+          state: this.targetLocationsPressed
+        };
+        this.sendPressedNavbarTab.emit(targetLocationsObject);
         break;
       }
       case 'policies': {
         this.policiesPressed = !this.policiesPressed;
-        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.policiesPressed);
+        const policiesObject = {
+          name: 'policies',
+          state: this.policiesPressed
+        };
+        this.sendPressedNavbarTab.emit(policiesObject);
         break;
       }
       case 'requirementsCapabilities': {
         this.requirementsCapabilitiesPressed = !this.requirementsCapabilitiesPressed;
-        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.requirementsCapabilitiesPressed);
+        const requirementsCapabilitiesObject = {
+          name: 'requirementsCapabilities',
+          state: this.requirementsCapabilitiesPressed
+        };
+        this.sendPressedNavbarTab.emit(requirementsCapabilitiesObject);
         break;
       }
       case 'deploymentArtifacts': {
         this.deploymentArtifactsPressed = !this.deploymentArtifactsPressed;
-        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.deploymentArtifactsPressed);
+        const deploymentArtifactsObject = {
+          name: 'deploymentArtifacts',
+          state: this.deploymentArtifactsPressed
+        };
+        this.sendPressedNavbarTab.emit(deploymentArtifactsObject);
         break;
       }
       case 'properties': {
         this.propertiesPressed = !this.propertiesPressed;
-        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.propertiesPressed);
+        const propertiesObject = {
+          name: 'properties',
+          state: this.propertiesPressed
+        };
+        this.sendPressedNavbarTab.emit(propertiesObject);
         break;
       }
       case 'types': {
         this.typesPressed = !this.typesPressed;
-        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.typesPressed);
+        const typesObject = {
+          name: 'types',
+          state: this.typesPressed
+        };
+        this.sendPressedNavbarTab.emit(typesObject);
         break;
       }
       case 'ids': {
         this.idsPressed = !this.idsPressed;
-        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.idsPressed);
+        const idsObject = {
+          name: 'ids',
+          state: this.idsPressed
+        };
+        this.sendPressedNavbarTab.emit(idsObject);
         break;
       }
       case 'layout': {
         this.layoutPressed = !this.layoutPressed;
-        this._sharedNodeNavbarService.publishButtonState(event.target.id, this.layoutPressed);
+        const layoutObject = {
+          name: 'layout',
+          state: this.layoutPressed
+        };
+        this.sendPressedNavbarTab.emit(layoutObject);
         break;
       }
     }
