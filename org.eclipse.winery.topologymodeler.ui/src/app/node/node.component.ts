@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { ResizeSensor } from 'css-element-queries';
 
 @Component({
@@ -6,7 +6,7 @@ import { ResizeSensor } from 'css-element-queries';
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css']
 })
-export class NodeComponent implements OnInit, OnChanges {
+export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
@@ -42,6 +42,10 @@ export class NodeComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+    this.sendId.emit(this.title);
   }
 
   ngOnChanges(changes: SimpleChanges) {
