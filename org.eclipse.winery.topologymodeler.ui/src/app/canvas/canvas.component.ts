@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewInit, Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import {JsPlumbService} from '../jsPlumbService';
 import {JsonService} from '../json.service';
 import { TNodeTemplate } from '../tnode-template';
@@ -9,7 +9,7 @@ import { TRelationshipTemplate } from '../trelationship-template';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
-export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges {
+export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   paletteClicked = false;
   addedNewNode = false;
   nodeTemplates: any[] = [];
@@ -23,9 +23,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, AfterContentInit,
   @Input() pressedPaletteItem: any;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService) {
-  }
-
-  ngAfterContentInit() {
   }
 
   repaintJsPlumb() {

@@ -20,8 +20,6 @@ import { PaletteComponent } from './palette/palette.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutDirective } from './layout.directive';
-import {SharedNodeNavbarService} from './shared-node-navbar.service';
-import { RelationshipComponent } from './relationship/relationship.component';
 import {JsonService} from './json.service';
 
 @NgModule({
@@ -33,7 +31,6 @@ import {JsonService} from './json.service';
     CanvasComponent,
     SidebarComponent,
     LayoutDirective,
-    RelationshipComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +45,6 @@ import {JsonService} from './json.service';
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},
     JsPlumbService,
-    SharedNodeNavbarService,
     JsonService
   ],
 

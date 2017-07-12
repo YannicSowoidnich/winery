@@ -1,7 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PaletteService } from '../palette.service';
-import {SharedNodeNavbarService} from '../shared-node-navbar.service';
 
 @Component({
   selector: 'app-palette-component',
@@ -59,7 +58,7 @@ export class PaletteComponent implements OnInit {
   paletteItems = [];
   @Output() sendPressedPaletteItem = new EventEmitter();
 
-  constructor(private paletteService: PaletteService, private _sharedNodeNavbarService: SharedNodeNavbarService) {
+  constructor(private paletteService: PaletteService) {
     this.paletteItems = paletteService.getPaletteData();
   }
 
@@ -88,7 +87,6 @@ export class PaletteComponent implements OnInit {
       mousePositionX: left.toString().concat('px'),
       mousePositionY: top.toString().concat('px')
     };
-    // this._sharedNodeNavbarService.publishPaletteItemTitle($event.target.innerHTML, left, top);
     this.sendPressedPaletteItem.emit(pressedPaletteItem);
   }
 }

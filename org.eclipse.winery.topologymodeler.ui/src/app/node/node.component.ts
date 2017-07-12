@@ -1,5 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import { SharedNodeNavbarService } from '../shared-node-navbar.service';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { ResizeSensor } from 'css-element-queries';
 
 @Component({
@@ -7,7 +6,7 @@ import { ResizeSensor } from 'css-element-queries';
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css']
 })
-export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
+export class NodeComponent implements OnInit, OnChanges {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
@@ -45,23 +44,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
-    this.sendId.emit(this.title);
-    const me = this;
-    const element = document.getElementById(this.title);
-    new ResizeSensor(element, function () {
-      me.askForRepaint.emit();
-    });
-    const target = document.getElementById(this.title);
-    const observer = new MutationObserver(function (mutations) {
-      mutations.forEach(function () {
-        me.askForRepaint.emit();
-      });
-    });
-    const config = {attributes: true};
-    observer.observe(target, config);
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.navBarButtonClicked.currentValue !== undefined) {
       switch (changes.navBarButtonClicked.currentValue.name) {
@@ -95,5 +77,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
     }
+    setTimeout(() => this.askForRepaint.emit(), 1);
   }
 }
