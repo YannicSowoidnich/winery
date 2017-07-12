@@ -1,8 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import {JsPlumbService} from '../jsPlumbService';
-import {JsonService} from '../json.service';
-import { TNodeTemplate } from '../tnode-template';
-import { TRelationshipTemplate } from '../trelationship-template';
+import {JsonService} from '../jsonService/json.service';
+import {TRelationshipTemplate , TNodeTemplate } from '../ttopology-template';
 
 @Component({
   selector: 'app-canvas',
@@ -73,18 +72,17 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
           this.nodeTypes.push({
             nodeType: new TNodeTemplate(
               [],
-              [],
-              {
-                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
-                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
-                '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
-              },
-              [],
               paletteItem.name.concat('_' + numberOfNewInstance.toString()),
-              [],
               paletteItem.name,
               1,
-              1
+              1,
+              [],
+              [],
+              {
+                location: 'undefined',
+                x: paletteItem.mousePositionX,
+                y: paletteItem.mousePositionY,
+              }
             ),
             numberOfInstance: numberOfNewInstance,
             nodeFromJSON: false
@@ -98,18 +96,17 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
         this.nodeTypes.push({
           nodeType: new TNodeTemplate(
             [],
-            [],
-            {
-              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
-              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
-              '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
-            },
-            [],
             paletteItem.name,
-            [],
             paletteItem.name,
             1,
-            1
+            1,
+            [],
+            [],
+            {
+              location: 'undefined',
+              x: paletteItem.mousePositionX,
+              y: paletteItem.mousePositionY
+            }
           ),
           numberOfInstance: 1,
           nodeFromJSON: false
@@ -119,18 +116,17 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       this.nodeTypes.push({
         nodeType: new TNodeTemplate(
           [],
-          [],
-          {
-            '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}location': 'undefined',
-           '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x': paletteItem.mousePositionX,
-           '{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y': paletteItem.mousePositionY
-          },
-          [],
           paletteItem.name,
-          [],
           paletteItem.name,
           1,
-          1
+          1,
+          [],
+          [],
+          {
+            location: 'undefined',
+            x: paletteItem.mousePositionX,
+            y: paletteItem.mousePositionY
+          }
         ),
         numberOfInstance: 1,
         nodeFromJSON: false
@@ -152,8 +148,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     for (const node of this.nodeTemplates) {
       const width = document.getElementById(node.id).offsetWidth;
       const height = document.getElementById(node.id).offsetHeight;
-      node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x'] = x;
-      node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y'] = y;
+      node.otherAttributes['x'] = x;
+      node.otherAttributes['y'] = y;
 
       y = y + height + 50;
       x = x + width + 50;

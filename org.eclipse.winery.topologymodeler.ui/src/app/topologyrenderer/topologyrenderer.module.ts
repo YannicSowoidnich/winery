@@ -7,7 +7,6 @@ import { NodeComponent } from '../node/node.component';
 import { CanvasComponent } from '../canvas/canvas.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { LayoutDirective } from '../layout.directive';
-import { RelationshipComponent } from '../relationship/relationship.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -35,7 +34,6 @@ import { ToastModule } from 'ng2-toastr';
     CanvasComponent,
     SidebarComponent,
     LayoutDirective,
-    RelationshipComponent,
   ]
 })
 export class TopologyrendererModule { }

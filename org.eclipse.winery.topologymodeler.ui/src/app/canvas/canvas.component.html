@@ -3,8 +3,8 @@
   <app-node *ngFor="let node of nodeTypes"
             [title]="node.nodeType.id"
             (sendId)="makeDraggable($event)"
-            [left]="node.nodeType.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x']"
-            [top]="node.nodeType.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y']"
+            [left]="node.otherAttributes['x']+'px'"
+            [top]="node.otherAttributes['y']+'px'"
             [nodeColor]="node.nodeType.color"
             [navBarButtonClicked]="pressedNavBarButton">
   </app-node>
@@ -12,8 +12,8 @@
 <app-node *ngFor="let node of nodeTemplates"
           [title]="node.id"
           [nodeColor]="node.color"
-          [left]="node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}x']+'px'"
-          [top]="node.otherAttributes['{http://www.opentosca.org/winery/extensions/tosca/2013/02/12}y']+'px'"
+          [left]="node.otherAttributes['x']+'px'"
+          [top]="node.otherAttributes['y']+'px'"
           [nodeImageUrl]="node.imageUrl"
           (askForRepaint)="repaintJsPlumb()"
           [navBarButtonClicked]="pressedNavBarButton">
