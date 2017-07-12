@@ -209,6 +209,10 @@ export class AppComponent implements OnInit {
       this.pressedNavBarButton = $event;
   }
 
+  sendPressedPaletteItem($event): void {
+    this.pressedPaletteItem = $event;
+  }
+
   ngOnInit() {
     this.jsonService.setVisuals(this.visuals);
     this.jsonService.setTopologyTemplate(this.topologyTemplate);

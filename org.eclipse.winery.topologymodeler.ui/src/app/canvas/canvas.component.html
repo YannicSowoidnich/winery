@@ -1,10 +1,10 @@
 <div id="container">
 <div *ngIf="paletteClicked">
   <app-node *ngFor="let node of nodeTypes"
-            [title]="node.nodeType.id"
+            [title]="node.nodeType._id"
             (sendId)="makeDraggable($event)"
-            [left]="node.otherAttributes['x']+'px'"
-            [top]="node.otherAttributes['y']+'px'"
+            [left]="node.nodeType._otherAttributes['x']"
+            [top]="node.nodeType._otherAttributes['y']"
             [nodeColor]="node.nodeType.color"
             [navBarButtonClicked]="pressedNavBarButton">
   </app-node>

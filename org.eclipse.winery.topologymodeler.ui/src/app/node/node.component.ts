@@ -22,10 +22,10 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() title: string;
   @Input() left: number;
   @Input() top: number;
-  @Output() sendId = new EventEmitter<string>();
+  @Output() sendId: EventEmitter<string>;
   @Input() nodeColor: string;
   @Input() nodeImageUrl: string;
-  @Output() askForRepaint = new EventEmitter();
+  @Output() askForRepaint: EventEmitter<string>;
   @Input() navBarButtonClicked: any;
 
 
@@ -39,7 +39,8 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   constructor() {
-
+    this.sendId = new EventEmitter();
+    this.askForRepaint = new EventEmitter();
   }
 
   ngOnInit() {

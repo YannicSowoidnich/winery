@@ -67,7 +67,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   nodeFactory(paletteItem: any): void {
     if (this.nodeTypes.length > 0) {
       for (let i = this.nodeTypes.length - 1; i >= 0; i--) {
-        if (paletteItem.name === this.nodeTypes[i].nodeType.name && this.nodeTypes[i].nodeFromJSON === false) {
+        if (paletteItem.name === this.nodeTypes[i].nodeType._type && this.nodeTypes[i].nodeFromJSON === false) {
           const numberOfNewInstance = this.nodeTypes[i].numberOfInstance + 1;
           this.nodeTypes.push({
             nodeType: new TNodeTemplate(
