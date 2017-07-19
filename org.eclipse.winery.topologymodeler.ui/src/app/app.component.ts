@@ -4,7 +4,7 @@ import { TTopologyTemplate, Visuals } from './ttopology-template';
 import { JsonService } from './jsonService/json.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-topologyrenderer',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

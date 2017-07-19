@@ -23,6 +23,7 @@ import { LayoutDirective } from './layout.directive';
 import {SharedNodeNavbarService} from './shared-node-navbar.service';
 import { RelationshipComponent } from './relationship/relationship.component';
 import {JsonService} from './jsonService/json.service';
+import { TopologyrendererModule } from './topologyrenderer/index';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {JsonService} from './jsonService/json.service';
     WineryAlertModule.forRoot(),
     ToastModule.forRoot(),
     AccordionModule.forRoot(),
+    TopologyrendererModule.forRoot()
   ],
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},
