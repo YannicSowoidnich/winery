@@ -3,7 +3,7 @@ import { WineryAlertService } from './winery-alert/winery-alert.service';
 import { JsonService } from './jsonService/json.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-topologyrenderer',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
