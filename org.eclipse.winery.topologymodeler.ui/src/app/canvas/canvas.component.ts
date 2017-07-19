@@ -1,7 +1,8 @@
-import {AfterViewInit, Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
-import {JsPlumbService} from '../jsPlumbService';
-import {JsonService} from '../jsonService/json.service';
-import {TRelationshipTemplate , TNodeTemplate } from '../ttopology-template';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { JsPlumbService } from '../jsPlumbService';
+import { JsonService } from '../jsonService/json.service';
+import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
+import ELK from 'elkjs/lib/elk.bundled.js';
 
 @Component({
   selector: 'app-canvas',
@@ -110,7 +111,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
           ),
           numberOfInstance: 1,
           nodeFromJSON: false
-          });
+        });
       }
     } else {
       this.nodeTypes.push({
@@ -130,7 +131,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
         ),
         numberOfInstance: 1,
         nodeFromJSON: false
-        });
+      });
     }
   }
 
@@ -154,6 +155,25 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       y = y + height + 50;
       x = x + width + 50;
     }
+
+    const elk = new ELK();
+    const graph = {
+      id: 'root',
+      properties: {'elk.algorithm': 'layered'},
+      children: [
+        {id: 'n1', width: 221, height: 56},
+        {id: 'n2', width: 221, height: 56},
+        {id: 'n3', width: 221, height: 56}
+      ],
+      edges: [
+        {id: 'e1', sources: ['n1'], targets: ['n2']},
+        {id: 'e2', sources: ['n1'], targets: ['n3']}
+      ]
+    };
+
+    elk.layout(graph)
+      .then(console.log)
+      .catch(console.error);
   }
 
   ngAfterViewInit(): void {
@@ -174,6 +194,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
           }]
         ],
       });
+
     }
   }
 }
