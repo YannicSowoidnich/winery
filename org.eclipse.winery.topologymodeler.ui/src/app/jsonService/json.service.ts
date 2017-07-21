@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { QName } from '../qname';
 import { TTopologyTemplate, Visuals } from '../ttopology-template';
 
 @Injectable()
-export class JsonService {
+export class JsonService implements OnInit {
 
   testJson: any;
-  visuals: any;
+  visuals: Visuals[];
 
   testJson2 = {
     'nodeTemplates': [
@@ -87,6 +87,10 @@ export class JsonService {
 
   setVisuals(visuals: any) {
     this.visuals = visuals;
+    // TODO Josip: replace with proper QName implementation: Parse localName from QName
+    for (const visual of this.visuals) {
+      visual.localName = visual.nodeTypeId.split('}')[1];
+    }
   }
 
   setTopologyTemplate(topologyTemplate: any) {
@@ -94,12 +98,11 @@ export class JsonService {
   }
 
   constructor() {
-    // this is commented out because not sure if we need that. Also causes bugs, because visuals is undefined at the start of the program
-/*    for (const el of this.visuals) {
-      const singleQName = new QName(el.nodeTypeId);
-      const singleLocalName = singleQName.localName;
-      el.localName = singleLocalName;
-    }*/
+  }
+
+  ngOnInit() {
+    // TODO visual local name
+
   }
 
 }

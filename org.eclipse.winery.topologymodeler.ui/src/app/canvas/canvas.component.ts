@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } fro
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
-import ELK from 'elkjs/lib/elk.bundled.js';
+// TODO import ELK from 'elkjs/lib/elk.bundled.js';
 
 @Component({
   selector: 'app-canvas',
@@ -53,8 +53,11 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   assignVisuals() {
+    this.visuals = this.jsonService.getVisuals();
     for (const node of this.nodeTemplates) {
       for (const visual of this.visuals) {
+        console.log('node.id = ' + node.id);
+        console.log('visual = ' + JSON.stringify(visual));
         if (node.id === visual.localName || node.id.startsWith(visual.localName + '_')) {
           node.color = visual.color;
           if (visual.hasOwnProperty('imageUrl')) {
@@ -156,7 +159,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       x = x + width + 50;
     }
 
-    const elk = new ELK();
+    // TODO const elk = new ELK();
     const graph = {
       id: 'root',
       properties: {'elk.algorithm': 'layered'},
@@ -171,9 +174,9 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       ]
     };
 
-    elk.layout(graph)
-      .then(console.log)
-      .catch(console.error);
+    // TODO elk.layout(graph)
+    //  .then(console.log)
+    //  .catch(console.error);
   }
 
   ngAfterViewInit(): void {

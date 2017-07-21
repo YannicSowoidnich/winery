@@ -16,7 +16,7 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   requirementsCapabilitiesVisible = false;
   deploymentArtifactsVisible = false;
   propertiesVisible = false;
-  typesVisible = false;
+  typesVisible = true;
   idsVisible = true;
 
   @Input() title: string;

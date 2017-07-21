@@ -189,7 +189,7 @@ export class AppComponent implements OnInit {
     },
     {
       color: '#e47c98',
-      nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}unicorn',
+      nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}banana',
       localName: ''
     }
   ];
@@ -203,6 +203,7 @@ export class AppComponent implements OnInit {
     this.notify.init(vcr);
     this.topologyTemplate = this.testJson;
     this.visuals = this.testVisuals;
+    console.log(this.visuals);
   }
 
   sendPressedNavBarButtonToCanvas($event): void {

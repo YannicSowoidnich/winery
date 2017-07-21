@@ -44,9 +44,43 @@ export class TRelationshipTemplate extends AbstractTTemplate {
 }
 
 export class Visuals {
+
   constructor(private _color: string,
               private _nodeTypeId: string,
-              private _localName: string,
+              private _localName?: string,
               private _imageUrl?: string) {
+  }
+
+  get color(): string {
+    return this._color;
+  }
+
+  set color(value: string) {
+    this._color = value;
+  }
+
+  get nodeTypeId(): string {
+    return this._nodeTypeId;
+  }
+
+  set nodeTypeId(value: string) {
+    this._nodeTypeId = value;
+  }
+
+  get localName(): string {
+    this._localName = this._nodeTypeId.split('}')[1];
+    return this._localName;
+  }
+
+  set localName(value: string) {
+    this._localName = value;
+  }
+
+  get imageUrl(): string {
+    return this._imageUrl;
+  }
+
+  set imageUrl(value: string) {
+    this._imageUrl = value;
   }
 }
