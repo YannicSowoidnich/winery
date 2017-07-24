@@ -40,7 +40,7 @@ import {JsonService} from './jsonService/json.service';
     BsDropdownModule.forRoot(),
     WineryAlertModule.forRoot(),
     ToastModule.forRoot(),
-    AccordionModule.forRoot(),
+    AccordionModule.forRoot()
   ],
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},

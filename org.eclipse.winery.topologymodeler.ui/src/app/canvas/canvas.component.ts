@@ -1,16 +1,14 @@
-import {
-  AfterViewInit, Component, Input, OnInit, OnChanges, SimpleChanges, ElementRef, Output,
-  EventEmitter, HostListener
-} from '@angular/core';
-import {JsPlumbService} from '../jsPlumbService';
-import {JsonService} from '../jsonService/json.service';
-import {TRelationshipTemplate , TNodeTemplate } from '../ttopology-template';
-
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ElementRef, Output,
+  EventEmitter, HostListener } from '@angular/core';
+import { JsPlumbService } from '../jsPlumbService';
+import { JsonService } from '../jsonService/json.service';
+import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
+// TODO import ELK from 'elkjs/lib/elk.bundled.js';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.css'],
+  styleUrls: ['./canvas.component.css']
 })
 export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   paletteClicked = false;
@@ -139,7 +137,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     if (!changes.pressedNavBarButton) {
       if (changes.pressedPaletteItem.currentValue !== undefined) {
         const paletteItem = changes.pressedPaletteItem.currentValue;
-        console.log(paletteItem);
         this.nodeFactory(paletteItem);
         this.paletteClicked = true;
       }
@@ -160,8 +157,11 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   assignVisuals() {
+    this.visuals = this.jsonService.getVisuals();
     for (const node of this.nodeTemplates) {
       for (const visual of this.visuals) {
+        console.log('node.id = ' + node.id);
+        console.log('visual = ' + JSON.stringify(visual));
         if (node.id === visual.localName || node.id.startsWith(visual.localName + '_')) {
           node.color = visual.color;
           if (visual.hasOwnProperty('imageUrl')) {
@@ -228,6 +228,25 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       y = y + height + 50;
       x = x + width + 50;
     }
+
+    // TODO const elk = new ELK();
+    const graph = {
+      id: 'root',
+      properties: {'elk.algorithm': 'layered'},
+      children: [
+        {id: 'n1', width: 221, height: 56},
+        {id: 'n2', width: 221, height: 56},
+        {id: 'n3', width: 221, height: 56}
+      ],
+      edges: [
+        {id: 'e1', sources: ['n1'], targets: ['n2']},
+        {id: 'e2', sources: ['n1'], targets: ['n3']}
+      ]
+    };
+
+    // TODO elk.layout(graph)
+    //  .then(console.log)
+    //  .catch(console.error);
   }
 
   ngAfterViewInit(): void {

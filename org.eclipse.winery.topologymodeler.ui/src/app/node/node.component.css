@@ -1,4 +1,3 @@
-/*
 div.container {
   border-style: solid;
   border-width: 1px;
@@ -57,40 +56,23 @@ div.selected {
   background-image: linear-gradient(to bottom, #FFFFFF 0%, #FFD391 100%);
 }
 
-.old-container-style {
-  font-family: arial, verdana;
-  font-size: 12px;
 
-  border: 1px solid black;
-  border: 2px solid rgb(112, 152, 179);
-  border-radius: 12px;
-  width: 225px;
-  z-index: 20;
-  position: absolute;
-  box-shadow: 5px 5px 17px #aaa;
-  background: #ffffff;
-  cursor: move;
-
-  /* IE10 Consumer Preview */
-  background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EBF2F7 100%);
-
-  /* Mozilla Firefox */
-  background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EBF2F7 100%);
-
-  /* Opera */
-  background-image: -o-linear-gradient(top, #FFFFFF 0%, #EBF2F7 100%);
-
-  /* Webkit (Safari/Chrome 10) */
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EBF2F7));
-
-  /* Webkit (Chrome 11+) */
-  background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EBF2F7 100%);
-
-  /* W3C Markup, IE10 Release Preview */
-  background-image: linear-gradient(to bottom, #FFFFFF 0%, #EBF2F7 100%);
+.container rounded {
+  pointer-events: auto;
 }
 
-.old-row-style {
+/*
+
+  !* IE10 Consumer Preview *!
+  !* Mozilla Firefox *!
+  !* Opera *!
+  !* Webkit (Safari/Chrome 10) *!
+  !* Webkit (Chrome 11+) *!
+  !* W3C Markup, IE10 Release Preview *!
+   background-image: linear-gradient(to bottom, #FFFFFF 0%, #EBF2F7 100%);
+}
+
+  .old-row-style {
   height: 65px;
 }
 
@@ -241,6 +223,7 @@ div.selected {
   float: left;
   overflow-x: hidden;
 }
+*/
 
 div.endpointContainer {
   background: #ffffff;

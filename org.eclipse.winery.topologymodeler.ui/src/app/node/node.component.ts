@@ -17,7 +17,7 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   requirementsCapabilitiesVisible = false;
   deploymentArtifactsVisible = false;
   propertiesVisible = false;
-  typesVisible = false;
+  typesVisible = true;
   idsVisible = true;
   connectorEndpointVisible = false;
   startTime;
