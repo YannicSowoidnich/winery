@@ -2,9 +2,13 @@
 <app-canvas
   [pressedNavBarButton]="pressedNavBarButton"
   [pressedPaletteItem]="pressedPaletteItem"
+  (closePalette)="passClosePaletteToPalette()"
 ></app-canvas>
 
 <!--
-<app-palette-component style="width:200px;float:left;" (sendPressedPaletteItem)="sendPressedPaletteItem($event)"></app-palette-component>
+<app-palette-component style="width:200px;float:left;"
+                       (sendPressedPaletteItem)="sendPressedPaletteItem($event)"
+                       [closePalette]="closePalette"
+></app-palette-component>
 <app-sidebar style="width : 300px; float:right"></app-sidebar>
 -->

@@ -197,7 +197,7 @@ export class AppComponent implements OnInit {
 
   pressedNavBarButton: any;
   pressedPaletteItem: string;
-  private instanceNumber = 1;
+  closePalette: boolean;
 
   constructor(vcr: ViewContainerRef, private notify: WineryAlertService, private jsonService: JsonService) {
     this.notify.init(vcr);
@@ -211,6 +211,10 @@ export class AppComponent implements OnInit {
 
   sendPressedPaletteItem($event): void {
     this.pressedPaletteItem = $event;
+  }
+
+  passClosePaletteToPalette(): void {
+    this.closePalette = !this.closePalette;
   }
 
   ngOnInit() {

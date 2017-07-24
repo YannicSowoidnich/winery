@@ -1,5 +1,9 @@
 <div class="old-container-style" [style.top]="top" [style.left]="left"
-     id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor">
+     id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor"
+     [class.selected]="makeSelectionVisible"
+     (mousedown)="trackTimeOfMouseDown()"
+     (mouseup)="trackTimeOfMouseUp()"
+     (click)="showConnectorEndpoint($event)">
   <div class="old-row-style">
     <div>
     </div>
@@ -9,6 +13,15 @@
       <a href="#" class="old-type" *ngIf="typesVisible">{{title}}</a>
     </div>
   </div>
+
+    <div class="endpointContainer" *ngIf="connectorEndpointVisible">
+      <div class="connectorEndpoint">
+        <div class="connectorBox">
+        </div>
+        <div class="connectorLabel">
+        </div>
+      </div>
+    </div>
 
     <!-- PROPERTIES -->
     <div class="old-properties-style"

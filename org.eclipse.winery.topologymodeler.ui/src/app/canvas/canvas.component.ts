@@ -1,27 +1,134 @@
-import {AfterViewInit, Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {
+  AfterViewInit, Component, Input, OnInit, OnChanges, SimpleChanges, ElementRef, Output,
+  EventEmitter, HostListener
+} from '@angular/core';
 import {JsPlumbService} from '../jsPlumbService';
 import {JsonService} from '../jsonService/json.service';
 import {TRelationshipTemplate , TNodeTemplate } from '../ttopology-template';
 
+
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.css']
+  styleUrls: ['./canvas.component.css'],
 })
 export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   paletteClicked = false;
   addedNewNode = false;
   nodeTemplates: any[] = [];
   nodeTypes: any[] = [];
+  selectedNodes: string[] = [];
   relationshipTemplates: any[] = [];
   newJsPlumbInstance: any;
   visuals: any[];
-  width = 0;
-  height = 0;
   @Input() pressedNavBarButton: any;
   @Input() pressedPaletteItem: any;
+  unselectNodes: any[] = [];
+  isThisNodeInSelection = false;
+  arrayContainsElement = false;
+  @Output() closePalette: EventEmitter<string>;
+  pageX: Number;
+  pageY: Number;
+  selectionActive: boolean;
+  initialW: number;
+  initialH: number;
+  selectionWidth: number;
+  selectionHeight: number;
+  callOpenSelector: boolean;
+  callSelectItems: boolean;
+  offsetY = 75;
+  offsetX = -200;
+  startTime: number;
+  endTime: number;
+  longPress: boolean;
 
-  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService) {
+  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef) {
+    this.closePalette = new EventEmitter();
+  }
+
+  @HostListener('click', ['$event'])
+  onClick($event) {
+    if (this._eref.nativeElement.contains($event.target) && this.longPress === false) {
+      this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
+      this.unselectNodes = this.selectedNodes;
+      this.selectedNodes = [];
+      console.log('ausgeführt');
+      if ($event.clientX > 200) {
+        this.closePalette.emit('Close Palette');
+      }
+    }
+  }
+
+  @HostListener('mousedown', ['$event'])
+  showSelectionRange($event) {
+    if (($event.pageY  - this.offsetY) > 0) {
+      this.selectionActive = true;
+      this.pageX = $event.pageX + this.offsetX;
+      this.pageY = $event.pageY - this.offsetY;
+      this.initialW = $event.pageX;
+      this.initialH = $event.pageY;
+      this.callOpenSelector = true;
+      this.callSelectItems = true;
+    }
+  }
+
+  @HostListener('mousemove', ['$event'])
+  openSelector($event) {
+    if (this.callOpenSelector) {
+      this.selectionWidth = Math.abs(this.initialW - $event.pageX);
+      this.selectionHeight = Math.abs(this.initialH - $event.pageY);
+      if ($event.pageX <= this.initialW && $event.pageY >= this.initialH) {
+        this.pageX = $event.pageX + this.offsetX;
+      } else if ($event.pageY <= this.initialH && $event.pageX >= this.initialW) {
+        this.pageY = $event.pageY - this.offsetY;
+      } else if ($event.pageY < this.initialH && $event.pageX < this.initialW) {
+        this.pageX = $event.pageX + this.offsetX;
+        this.pageY = $event.pageY - this.offsetY;
+      }
+    }
+  }
+  @HostListener('mouseup', ['$event'])
+  selectElements($event) {
+    if (this.callSelectItems) {
+      this.callOpenSelector = false;
+      this.callSelectItems = false;
+      for (const node of this.nodeTemplates) {
+        const aElem = document.getElementById('selection');
+        const bElem = document.getElementById(node.id);
+        const result = this.doObjectsCollide(aElem, bElem);
+        if (result === true) {
+          this.enhanceDragSelection(node.id);
+        }
+      }
+    }
+    this.selectionActive = false;
+    this.selectionWidth = 0;
+    this.selectionHeight = 0;
+  }
+
+  private getOffset( el ) {
+    let _x = 0;
+    let _y = 0;
+    while ( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+      _x += el.offsetLeft - el.scrollLeft;
+      _y += el.offsetTop - el.scrollTop;
+      el = el.offsetParent;
+    }
+    return { top: _y, left: _x };
+  }
+
+  doObjectsCollide(a, b): boolean {
+    const aTop = this.getOffset(a).top;
+    const aLeft = this.getOffset(a).left;
+    const bTop = this.getOffset(b).top;
+    const bLeft = this.getOffset(b).left;
+
+    return !(
+      ((aTop + a.getBoundingClientRect().height) < (bTop)) ||
+      (aTop > (bTop + b.getBoundingClientRect().height)) ||
+      ((aLeft + a.getBoundingClientRect().width) < bLeft) ||
+      (aLeft > (bLeft + b.getBoundingClientRect().width))
+    );
   }
 
   repaintJsPlumb() {
@@ -32,6 +139,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     if (!changes.pressedNavBarButton) {
       if (changes.pressedPaletteItem.currentValue !== undefined) {
         const paletteItem = changes.pressedPaletteItem.currentValue;
+        console.log(paletteItem);
         this.nodeFactory(paletteItem);
         this.paletteClicked = true;
       }
@@ -93,44 +201,10 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
         this.addedNewNode = false;
       }
       if (this.addedNewNode === false) {
-        this.nodeTypes.push({
-          nodeType: new TNodeTemplate(
-            [],
-            paletteItem.name,
-            paletteItem.name,
-            1,
-            1,
-            [],
-            [],
-            {
-              location: 'undefined',
-              x: paletteItem.mousePositionX,
-              y: paletteItem.mousePositionY
-            }
-          ),
-          numberOfInstance: 1,
-          nodeFromJSON: false
-          });
+        this.pushNodeToArray(paletteItem);
       }
     } else {
-      this.nodeTypes.push({
-        nodeType: new TNodeTemplate(
-          [],
-          paletteItem.name,
-          paletteItem.name,
-          1,
-          1,
-          [],
-          [],
-          {
-            location: 'undefined',
-            x: paletteItem.mousePositionX,
-            y: paletteItem.mousePositionY
-          }
-        ),
-        numberOfInstance: 1,
-        nodeFromJSON: false
-        });
+      this.pushNodeToArray(paletteItem);
     }
   }
 
@@ -174,6 +248,87 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
           }]
         ],
       });
+    }
+  }
+
+  private checkingNodeSelectionForDuplicateIDs(id: string) {
+    this.isThisNodeInSelection = false;
+    for (const node of this.selectedNodes) {
+      if (node === id) {
+        this.isThisNodeInSelection = true;
+      }
+    }
+    if (this.isThisNodeInSelection === false) {
+      this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
+      this.unselectNodes = this.selectedNodes;
+      this.selectedNodes = [];
+    }
+  }
+
+  checkIfNodeInSelection($event): void {
+    this.checkingNodeSelectionForDuplicateIDs($event);
+  }
+
+  private checkIfArrayContainsElement(arrayOfNodes: any[], id: string): boolean {
+    if (arrayOfNodes !== null && arrayOfNodes.length > 0) {
+      for (let i = 0; i < arrayOfNodes.length; i++) {
+        if (arrayOfNodes[i] === id) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private enhanceDragSelection(id: string) {
+    this.arrayContainsElement = false;
+    this.newJsPlumbInstance.addToPosse(id, 'dragSelection');
+    this.arrayContainsElement = this.checkIfArrayContainsElement(this.selectedNodes, id);
+    if (!this.arrayContainsElement) {
+      console.log('ausgeführt');
+      this.selectedNodes.push(id);
+    }
+  }
+
+  addNodeToDragSelection($event): void {
+    this.enhanceDragSelection($event);
+  }
+
+  pushNodeToArray(paletteItem: any): void {
+    this.nodeTypes.push({
+      nodeType: new TNodeTemplate(
+        [],
+        paletteItem.name,
+        paletteItem.name,
+        1,
+        1,
+        [],
+        [],
+        {
+          location: 'undefined',
+          x: paletteItem.mousePositionX,
+          y: paletteItem.mousePositionY
+        }
+      ),
+      numberOfInstance: 1,
+      nodeFromJSON: false
+    });
+  }
+
+  trackTimeOfMouseDown(): void {
+    this.startTime = new Date().getTime();
+  }
+
+  trackTimeOfMouseUp(): void {
+    this.endTime = new Date().getTime();
+    this.testTimeDifference();
+  }
+
+  private testTimeDifference(): void {
+    if ((this.endTime - this.startTime) < 250) {
+      this.longPress = false;
+    } else if (this.endTime - this.startTime >= 300) {
+      this.longPress = true;
     }
   }
 }
