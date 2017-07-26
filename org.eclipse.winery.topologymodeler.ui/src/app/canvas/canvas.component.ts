@@ -1,9 +1,19 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ElementRef, Output,
-  EventEmitter, HostListener } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
-// TODO import ELK from 'elkjs/lib/elk.bundled.js';
+import ELK from 'elkjs/lib/elk.bundled.js';
 
 @Component({
   selector: 'app-canvas',
@@ -39,6 +49,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   startTime: number;
   endTime: number;
   longPress: boolean;
+  xPos: number;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef) {
     this.closePalette = new EventEmitter();
@@ -59,7 +70,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
 
   @HostListener('mousedown', ['$event'])
   showSelectionRange($event) {
-    if (($event.pageY  - this.offsetY) > 0) {
+    if (($event.pageY - this.offsetY) > 0) {
       this.selectionActive = true;
       this.pageX = $event.pageX + this.offsetX;
       this.pageY = $event.pageY - this.offsetY;
@@ -85,6 +96,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
   }
+
   @HostListener('mouseup', ['$event'])
   selectElements($event) {
     if (this.callSelectItems) {
@@ -104,15 +116,15 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     this.selectionHeight = 0;
   }
 
-  private getOffset( el ) {
+  private getOffset(el) {
     let _x = 0;
     let _y = 0;
-    while ( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+    while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
       _x += el.offsetLeft - el.scrollLeft;
       _y += el.offsetTop - el.scrollTop;
       el = el.offsetParent;
     }
-    return { top: _y, left: _x };
+    return {top: _y, left: _x};
   }
 
   doObjectsCollide(a, b): boolean {
@@ -213,40 +225,60 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   layoutNodes(state: boolean): void {
-    let y = 0;
-    let x = 0;
-    if (state === true) {
-      y = y + 1;
-      x = x + 1;
-    }
+
+    const children: any[] = [];
+    const edges: any[] = [];
+    let counter = 0;
+    const xPos = 0;
+    const yPos = 0;
+
+    // get with and height of nodes
     for (const node of this.nodeTemplates) {
       const width = document.getElementById(node.id).offsetWidth;
       const height = document.getElementById(node.id).offsetHeight;
-      node.otherAttributes['x'] = x;
-      node.otherAttributes['y'] = y;
+      children.push({id: node.id, width: width, height: height});
+    }
+    // get source and targets of relationships
+    for (const rel of this.relationshipTemplates) {
+      const sourceElement = rel.sourceElement;
+      const targetElement = rel.targetElement;
 
-      y = y + height + 50;
-      x = x + width + 50;
+      edges.push({id: counter.toString(), sources: [sourceElement], targets: [targetElement]});
+      counter = counter + 1;
     }
 
-    // TODO const elk = new ELK();
+    const elk = new ELK();
     const graph = {
       id: 'root',
       properties: {'elk.algorithm': 'layered'},
-      children: [
-        {id: 'n1', width: 221, height: 56},
-        {id: 'n2', width: 221, height: 56},
-        {id: 'n3', width: 221, height: 56}
-      ],
-      edges: [
-        {id: 'e1', sources: ['n1'], targets: ['n2']},
-        {id: 'e2', sources: ['n1'], targets: ['n3']}
-      ]
+      children: children,
+      edges: edges
     };
 
-    // TODO elk.layout(graph)
-    //  .then(console.log)
-    //  .catch(console.error);
+    const promise = elk.layout(graph);
+
+    promise.then(data => {
+
+      this.xPos = data.children;
+
+      // yPos = data.children[counter].y;
+
+    }).then(this.test());
+
+  }
+
+  test(): void {
+    let counter = 0;
+    for (const node of this.nodeTemplates) {
+      const width = document.getElementById(node.id).offsetWidth;
+      const height = document.getElementById(node.id).offsetHeight;
+
+      console.log('Schleife:');
+      console.log(this.xPos);
+      // node.otherAttributes['x'] = xPos;
+      // node.otherAttributes['y'] = yPos;
+      counter = counter + 1;
+    }
   }
 
   ngAfterViewInit(): void {

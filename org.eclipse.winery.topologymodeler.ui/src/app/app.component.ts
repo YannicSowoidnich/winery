@@ -101,19 +101,11 @@ export class AppComponent implements OnInit {
         'targetElement': 'tree'
       },
       {
-        'sourceElement': 'orange',
-        'targetElement': 'tree_2'
+        'sourceElement': 'banana',
+        'targetElement': 'mango'
       },
       {
-        'sourceElement': 'orange_2',
-        'targetElement': 'tree_2'
-      },
-      {
-        'sourceElement': 'tree_2',
-        'targetElement': 'plantage'
-      },
-      {
-        'sourceElement': 'tree',
+        'sourceElement': 'baobab',
         'targetElement': 'plantage'
       }
     ]
