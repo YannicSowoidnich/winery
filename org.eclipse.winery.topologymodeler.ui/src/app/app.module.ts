@@ -21,16 +21,12 @@ import { CanvasComponent } from './canvas/canvas.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutDirective } from './layout.directive';
 import {JsonService} from './jsonService/json.service';
+import { TopologyRendererComponent } from './topology-renderer/topology-renderer.component';
+import { TopologyRendererModule } from './topology-renderer/topology-renderer.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent,
-    PaletteComponent,
-    NodeComponent,
-    CanvasComponent,
-    SidebarComponent,
-    LayoutDirective,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +36,8 @@ import {JsonService} from './jsonService/json.service';
     BsDropdownModule.forRoot(),
     WineryAlertModule.forRoot(),
     ToastModule.forRoot(),
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    TopologyRendererModule.forRoot()
   ],
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},

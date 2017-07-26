@@ -16,7 +16,7 @@ export class JsPlumbService {
         strokeWidth: 2,
         stroke: 'rgba(0,0,55,0.5)',
       },
-      Connector: ['Flowchart'],
+      Connector: ['Bezier', { curviness: 150 }],
       Endpoints: [
         ['Blank', {radius: 0}], ['Blank', {radius: 0}]],
       ConnectionsDetachable: false,
