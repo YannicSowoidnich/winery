@@ -9,7 +9,7 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { WineryAlertService } from '../winery-alert/winery-alert.service';
 import { JsonService } from '../jsonService/json.service';
 
@@ -25,6 +25,7 @@ export class TopologyRendererComponent implements OnInit {
   pressedNavBarButton: any;
   pressedPaletteItem: string;
   private instanceNumber = 1;
+  closePalette: boolean;
 
   testJson = {
     documentation: [],
@@ -65,7 +66,7 @@ export class TopologyRendererComponent implements OnInit {
         otherAttributes: {
           location: 'undefined',
           x: 600,
-          y: 785
+          y: 585
         },
         id: 'baobab',
         type: '{http://winery.opentosca.org/test/nodetypes/fruits}baobab',
@@ -79,7 +80,7 @@ export class TopologyRendererComponent implements OnInit {
         otherAttributes: {
           location: 'undefined',
           x: 958,
-          y: 794
+          y: 594
         },
         id: 'banana',
         type: '{http://winery.opentosca.org/test/nodetypes/fruits}banana',
@@ -93,7 +94,7 @@ export class TopologyRendererComponent implements OnInit {
         otherAttributes: {
           location: 'undefined',
           x: 214,
-          y: 764
+          y: 564
         },
         id: 'mango',
         type: '{http://winery.opentosca.org/test/nodetypes/fruits}mango',
@@ -219,6 +220,10 @@ export class TopologyRendererComponent implements OnInit {
 
   sendPressedPaletteItem($event): void {
     this.pressedPaletteItem = $event;
+  }
+
+  passClosePaletteToPalette(): void {
+    this.closePalette = !this.closePalette;
   }
 
   ngOnInit() {

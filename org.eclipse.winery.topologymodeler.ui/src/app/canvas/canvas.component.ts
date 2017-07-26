@@ -1,19 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ElementRef, Output,
+  EventEmitter, HostListener } from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
-import ELK from 'elkjs/lib/elk.bundled.js';
+// TODO import ELK from 'elkjs/lib/elk.bundled.js';
 
 @Component({
   selector: 'app-canvas',
@@ -32,8 +22,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() pressedNavBarButton: any;
   @Input() pressedPaletteItem: any;
   unselectNodes: any[] = [];
-  isThisNodeInSelection = false;
-  arrayContainsElement = false;
+  nodeSelected = false;
+  nodeArrayEmpty = false;
   @Output() closePalette: EventEmitter<string>;
   pageX: Number;
   pageY: Number;
@@ -44,12 +34,12 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   selectionHeight: number;
   callOpenSelector: boolean;
   callSelectItems: boolean;
-  offsetY = 75;
-  offsetX = -200;
+  offsetY = 40;
+  offsetX = 0;
   startTime: number;
   endTime: number;
   longPress: boolean;
-  xPos: number;
+  crosshair = false;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef) {
     this.closePalette = new EventEmitter();
@@ -70,7 +60,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
 
   @HostListener('mousedown', ['$event'])
   showSelectionRange($event) {
-    if (($event.pageY - this.offsetY) > 0) {
+    if (($event.pageY  - this.offsetY) > 0) {
       this.selectionActive = true;
       this.pageX = $event.pageX + this.offsetX;
       this.pageY = $event.pageY - this.offsetY;
@@ -79,6 +69,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       this.callOpenSelector = true;
       this.callSelectItems = true;
     }
+    this.crosshair = true;
   }
 
   @HostListener('mousemove', ['$event'])
@@ -96,7 +87,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
   }
-
   @HostListener('mouseup', ['$event'])
   selectElements($event) {
     if (this.callSelectItems) {
@@ -111,20 +101,21 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
     }
+    this.crosshair = false;
     this.selectionActive = false;
     this.selectionWidth = 0;
     this.selectionHeight = 0;
   }
 
-  private getOffset(el) {
+  private getOffset( el ) {
     let _x = 0;
     let _y = 0;
-    while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+    while ( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
       _x += el.offsetLeft - el.scrollLeft;
       _y += el.offsetTop - el.scrollTop;
       el = el.offsetParent;
     }
-    return {top: _y, left: _x};
+    return { top: _y, left: _x };
   }
 
   doObjectsCollide(a, b): boolean {
@@ -303,13 +294,13 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private checkingNodeSelectionForDuplicateIDs(id: string) {
-    this.isThisNodeInSelection = false;
+    this.nodeSelected = false;
     for (const node of this.selectedNodes) {
       if (node === id) {
-        this.isThisNodeInSelection = true;
+        this.nodeSelected = true;
       }
     }
-    if (this.isThisNodeInSelection === false) {
+    if (this.nodeSelected === false) {
       this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
       this.unselectNodes = this.selectedNodes;
       this.selectedNodes = [];
@@ -320,7 +311,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     this.checkingNodeSelectionForDuplicateIDs($event);
   }
 
-  private checkIfArrayContainsElement(arrayOfNodes: any[], id: string): boolean {
+  private arrayContainsNode(arrayOfNodes: any[], id: string): boolean {
     if (arrayOfNodes !== null && arrayOfNodes.length > 0) {
       for (let i = 0; i < arrayOfNodes.length; i++) {
         if (arrayOfNodes[i] === id) {
@@ -332,10 +323,10 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private enhanceDragSelection(id: string) {
-    this.arrayContainsElement = false;
+    this.nodeArrayEmpty = false;
     this.newJsPlumbInstance.addToPosse(id, 'dragSelection');
-    this.arrayContainsElement = this.checkIfArrayContainsElement(this.selectedNodes, id);
-    if (!this.arrayContainsElement) {
+    this.nodeArrayEmpty = this.arrayContainsNode(this.selectedNodes, id);
+    if (!this.nodeArrayEmpty) {
       console.log('ausgeführt');
       this.selectedNodes.push(id);
     }

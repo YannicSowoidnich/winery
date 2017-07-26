@@ -1,26 +1,32 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:900');
 .selection {
-  display: none;
+  position: absolute !important;
+  border: 1px dashed #89B;
+  background: #BCE;
+  background-color: #BEC;
+  border-color: #8B9;
+  opacity: 0.2;
   z-index: 9000;
-  position: absolute;
-  cursor: default;
+  display: none;
+  cursor: default !important;
 }
-
+.crosshair {
+  cursor: crosshair;
+}
 .selection-active {
-  display: block;
+  display: block !important;
 }
 
 .selection > span {
-  background-color: rgba(239, 28, 190, 0.6);
-  border: 1px solid #b20e8c;
-  width: 100%;
+  background-color: rgba(239, 28, 190, 0.2);
+  border: 1px dashed #b20e8c;
+  position: absolute;
   height: 100%;
-  float: left;
+  width: 100%;
 }
 
 #grid {
   width: 100%;
-  margin-left: 19%;
   height: 100%;
   position: absolute;
 }
