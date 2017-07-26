@@ -1,4 +1,16 @@
 <div id="container">
+<div id="grid"
+     (mousedown)="trackTimeOfMouseDown($event)"
+     (mouseup)="trackTimeOfMouseUp($event)">
+  <div class="selection" id="selection"
+       [class.selection-active]="selectionActive"
+       [style.left.px]="pageX"
+       [style.top.px]="pageY"
+       [style.width.px]="selectionWidth"
+       [style.height.px]="selectionHeight">
+    <span></span>
+  </div>
+</div>
 <div *ngIf="paletteClicked">
   <app-node *ngFor="let node of nodeTypes"
             [title]="node.nodeType._id"
@@ -6,7 +18,10 @@
             [left]="node.nodeType._otherAttributes['x']"
             [top]="node.nodeType._otherAttributes['y']"
             [nodeColor]="node.nodeType.color"
-            [navBarButtonClicked]="pressedNavBarButton">
+            [navBarButtonClicked]="pressedNavBarButton"
+            (addNodeToDragSelection)="addNodeToDragSelection($event)"
+            (checkIfNodeInSelection)="checkIfNodeInSelection($event)"
+            [unselectNodes]="unselectNodes">
   </app-node>
 </div>
 <app-node *ngFor="let node of nodeTemplates"
@@ -16,6 +31,9 @@
           [top]="node.otherAttributes['y']+'px'"
           [nodeImageUrl]="node.imageUrl"
           (askForRepaint)="repaintJsPlumb()"
-          [navBarButtonClicked]="pressedNavBarButton">
+          [navBarButtonClicked]="pressedNavBarButton"
+          (addNodeToDragSelection)="addNodeToDragSelection($event)"
+          (checkIfNodeInSelection)="checkIfNodeInSelection($event)"
+          [unselectNodes]="unselectNodes">
 </app-node>
 </div>

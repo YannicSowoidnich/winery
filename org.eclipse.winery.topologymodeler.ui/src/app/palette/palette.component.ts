@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PaletteService } from '../palette.service';
 
@@ -52,11 +52,12 @@ import { PaletteService } from '../palette.service';
     ])
   ]
 })
-export class PaletteComponent implements OnInit {
+export class PaletteComponent implements OnInit, OnChanges {
   detailsAreHidden = true;
   paletteRootState = 'shrunk';
   paletteItems = [];
   @Output() sendPressedPaletteItem = new EventEmitter();
+  @Input() closePalette;
 
   constructor(private paletteService: PaletteService) {
     this.paletteItems = paletteService.getPaletteData();
@@ -87,7 +88,14 @@ export class PaletteComponent implements OnInit {
       mousePositionX: left.toString().concat('px'),
       mousePositionY: top.toString().concat('px')
     };
+    console.log(pressedPaletteItem);
     this.sendPressedPaletteItem.emit(pressedPaletteItem);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.paletteRootState = 'extended') {
+      this.toggleRootState();
+    }
   }
 }
 

@@ -20,13 +20,11 @@ export class JsPlumbService {
       Endpoints: [
         ['Blank', {radius: 0}], ['Blank', {radius: 0}]],
       ConnectionsDetachable: false,
-      Anchor: 'Continuous'
-      /*
+      Anchor: 'Continuous',
       Anchors: [
         ['Perimeter', {shape: 'Rectangle'}],
         [ 'Perimeter', { shape: 'Rectangle'} ]
       ],
-      */
     });
   }
 }

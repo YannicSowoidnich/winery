@@ -1,5 +1,9 @@
 <div class="container rounded" style="padding: 3px; position: absolute" [style.top]="top" [style.left]="left"
-     id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor">
+     id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor"
+     [class.selected]="makeSelectionVisible"
+     (mousedown)="trackTimeOfMouseDown()"
+     (mouseup)="trackTimeOfMouseUp()"
+     (click)="showConnectorEndpoint($event)">
   <div class="row rounded"
        style="background-color: rgba(255,255,255,0.75); margin-left: 1px; margin-right: 1px; padding: 5px">
     <div class="col-sm-3">
@@ -12,6 +16,15 @@
       <a href="#" class="h6 btn-link" style="text-align: right; display: block" *ngIf="typesVisible">{{title}}</a>
     </div>
   </div>
+  <div class="endpointContainer" *ngIf="connectorEndpointVisible">
+    <div class="connectorEndpoint">
+      <div class="connectorBox">
+      </div>
+      <div class="connectorLabel">
+      </div>
+    </div>
+  </div>
+
   <accordion #accordion>
 
     <!-- PROPERTIES -->
@@ -85,7 +98,11 @@
 </div>
 <!--
 <div class="old-container-style" [style.top]="top" [style.left]="left"
-     id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor">
+     id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor"
+     [class.selected]="makeSelectionVisible"
+     (mousedown)="trackTimeOfMouseDown()"
+     (mouseup)="trackTimeOfMouseUp()"
+     (click)="showConnectorEndpoint($event)">
   <div class="old-row-style">
     <div>
     </div>
