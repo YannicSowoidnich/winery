@@ -3,7 +3,7 @@ import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, Elem
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
-// TODO import ELK from 'elkjs/lib/elk.bundled.js';
+import ELK from 'elkjs/lib/elk.bundled.js';
 
 @Component({
   selector: 'app-canvas',
@@ -40,6 +40,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   endTime: number;
   longPress: boolean;
   crosshair = false;
+  xPos: number;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef) {
     this.closePalette = new EventEmitter();
