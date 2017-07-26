@@ -197,7 +197,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
           }]
         ],
       });
-
     }
   }
 }
