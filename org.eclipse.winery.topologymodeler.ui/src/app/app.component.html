@@ -1,9 +1,5 @@
-<app-navbar (sendPressedNavbarTab)="sendPressedNavBarButtonToCanvas($event)"></app-navbar>
-<app-canvas
-  [pressedNavBarButton]="pressedNavBarButton"
-  [pressedPaletteItem]="pressedPaletteItem"
-  (closePalette)="passClosePaletteToPalette()"
-></app-canvas>
+<app-topology-renderer [topologyTemplate]="this.topologyTemplate" [visuals]="this.visuals">
+</app-topology-renderer>
 
 <!--
 <app-palette-component style="width:200px;float:left;"

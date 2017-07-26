@@ -1,15 +1,30 @@
-import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
-import { WineryAlertService } from './winery-alert/winery-alert.service';
-import { JsonService } from './jsonService/json.service';
+/**
+ * Copyright (c) 2017 University of Stuttgart.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     Josip Ledic - initial API and implementation
+ */
+import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
+import { WineryAlertService } from '../winery-alert/winery-alert.service';
+import { JsonService } from '../jsonService/json.service';
 
 @Component({
-  selector: 'app-topologyrenderer',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-topology-renderer',
+  templateUrl: './topology-renderer.component.html',
+  styleUrls: ['./topology-renderer.component.css']
 })
-export class AppComponent implements OnInit {
-  // @Input() topologyTemplate: any;
-  // @Input() visuals: any;
+export class TopologyRendererComponent implements OnInit {
+  @Input() topologyTemplate: any;
+  @Input() visuals: any;
+
+  pressedNavBarButton: any;
+  pressedPaletteItem: string;
+  private instanceNumber = 1;
 
   testJson = {
     documentation: [],
@@ -101,11 +116,19 @@ export class AppComponent implements OnInit {
         'targetElement': 'tree'
       },
       {
-        'sourceElement': 'banana',
-        'targetElement': 'mango'
+        'sourceElement': 'orange',
+        'targetElement': 'tree_2'
       },
       {
-        'sourceElement': 'baobab',
+        'sourceElement': 'orange_2',
+        'targetElement': 'tree_2'
+      },
+      {
+        'sourceElement': 'tree_2',
+        'targetElement': 'plantage'
+      },
+      {
+        'sourceElement': 'tree',
         'targetElement': 'plantage'
       }
     ]
@@ -186,6 +209,22 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  constructor(vcr: ViewContainerRef, private notify: WineryAlertService, private jsonService: JsonService) {
+    this.notify.init(vcr);
+  }
+
+  sendPressedNavBarButtonToCanvas($event): void {
+    this.pressedNavBarButton = $event;
+  }
+
+  sendPressedPaletteItem($event): void {
+    this.pressedPaletteItem = $event;
+  }
+
   ngOnInit() {
+    this.topologyTemplate = this.testJson;
+    this.visuals = this.testVisuals;
+    this.jsonService.setVisuals(this.visuals);
+    this.jsonService.setTopologyTemplate(this.topologyTemplate);
   }
 }

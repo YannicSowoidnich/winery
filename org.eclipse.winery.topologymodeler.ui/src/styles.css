@@ -2,12 +2,14 @@
 
 .card.accordionGroupPanel,
 .card.accordionGroupPanel .card-header,
-.panel.accordionGroupPanel {
+.panel.accordionGroupPanel,
+.card-title {
   font-size: small;
   padding-bottom: 0;
   padding-top: 0;
   user-select: none;
   scroll-padding-top: 1px;
+  margin-bottom: 0 !important;
 }
 
 .panel.accordionGroupPanel .panel-body {
