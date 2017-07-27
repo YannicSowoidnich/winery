@@ -117,18 +117,6 @@ export class TopologyRendererComponent implements OnInit {
         'targetElement': 'tree'
       },
       {
-        'sourceElement': 'orange',
-        'targetElement': 'tree_2'
-      },
-      {
-        'sourceElement': 'orange_2',
-        'targetElement': 'tree_2'
-      },
-      {
-        'sourceElement': 'tree_2',
-        'targetElement': 'plantage'
-      },
-      {
         'sourceElement': 'tree',
         'targetElement': 'plantage'
       }

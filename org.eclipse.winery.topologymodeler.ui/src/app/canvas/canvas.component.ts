@@ -1,5 +1,15 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ElementRef, Output,
-  EventEmitter, HostListener } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
@@ -40,7 +50,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   endTime: number;
   longPress: boolean;
   crosshair = false;
-  xPos: number;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef) {
     this.closePalette = new EventEmitter();
@@ -61,7 +70,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
 
   @HostListener('mousedown', ['$event'])
   showSelectionRange($event) {
-    if (($event.pageY  - this.offsetY) > 0) {
+    if (($event.pageY - this.offsetY) > 0) {
       this.selectionActive = true;
       this.pageX = $event.pageX + this.offsetX;
       this.pageY = $event.pageY - this.offsetY;
@@ -88,6 +97,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
   }
+
   @HostListener('mouseup', ['$event'])
   selectElements($event) {
     if (this.callSelectItems) {
@@ -108,15 +118,15 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     this.selectionHeight = 0;
   }
 
-  private getOffset( el ) {
+  private getOffset(el) {
     let _x = 0;
     let _y = 0;
-    while ( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+    while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
       _x += el.offsetLeft - el.scrollLeft;
       _y += el.offsetTop - el.scrollTop;
       el = el.offsetParent;
     }
-    return { top: _y, left: _x };
+    return {top: _y, left: _x};
   }
 
   doObjectsCollide(a, b): boolean {
@@ -221,8 +231,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     const children: any[] = [];
     const edges: any[] = [];
     let counter = 0;
-    const xPos = 0;
-    const yPos = 0;
 
     // get with and height of nodes
     for (const node of this.nodeTemplates) {
@@ -230,45 +238,39 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
       const height = document.getElementById(node.id).offsetHeight;
       children.push({id: node.id, width: width, height: height});
     }
+
     // get source and targets of relationships
     for (const rel of this.relationshipTemplates) {
       const sourceElement = rel.sourceElement;
       const targetElement = rel.targetElement;
-
       edges.push({id: counter.toString(), sources: [sourceElement], targets: [targetElement]});
       counter = counter + 1;
     }
-
-    const elk = new ELK();
+    // initialize elk object which will layout the graph
+    const elk = new ELK({});
     const graph = {
       id: 'root',
-      properties: {'elk.algorithm': 'layered'},
+      properties: {
+        'elk.algorithm': 'layered',
+        'elk.spacing.nodeNode': '200',
+        'elk.direction': 'DOWN',
+        'elk.layered.spacing.nodeNodeBetweenLayers': '200'},
       children: children,
-      edges: edges
+      edges: edges,
     };
 
     const promise = elk.layout(graph);
-
-    promise.then(data => {
-
-      this.xPos = data.children;
-
-      // yPos = data.children[counter].y;
-
-    }).then(this.test());
-
+    promise.then((data) => {
+      this.applyPositions(data);
+    });
   }
 
-  test(): void {
+  applyPositions(data: any): void {
     let counter = 0;
     for (const node of this.nodeTemplates) {
-      const width = document.getElementById(node.id).offsetWidth;
-      const height = document.getElementById(node.id).offsetHeight;
-
-      console.log('Schleife:');
-      console.log(this.xPos);
-      // node.otherAttributes['x'] = xPos;
-      // node.otherAttributes['y'] = yPos;
+      // the algorithm layouts the nodes horizontally, so we swap them
+      node.otherAttributes['x'] = data.children[counter].x;
+      node.otherAttributes['y'] = data.children[counter].y + 40;
       counter = counter + 1;
     }
   }
