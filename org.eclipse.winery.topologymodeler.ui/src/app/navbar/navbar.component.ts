@@ -32,13 +32,13 @@ export class NavbarComponent implements OnInit {
   propertiesPressed = false;
   typesPressed = true;
   idsPressed = true;
-  @Output() sendPressedNavbarTab = new EventEmitter();
+  @Output() navbarEventEmitter = new EventEmitter();
 
   constructor(private alert: WineryAlertService) {
   }
 
-  getStyle(thisButtonIsPressed: boolean): string {
-    if (thisButtonIsPressed) {
+  getStyle(buttonPressed: boolean): string {
+    if (buttonPressed) {
       return 'lightgrey';
     }
   }
@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit {
           name: 'targetLocations',
           state: this.targetLocationsPressed
         };
-        this.sendPressedNavbarTab.emit(targetLocationsObject);
+        this.navbarEventEmitter.emit(targetLocationsObject);
         break;
       }
       case 'policies': {
@@ -68,7 +68,7 @@ export class NavbarComponent implements OnInit {
           name: 'policies',
           state: this.policiesPressed
         };
-        this.sendPressedNavbarTab.emit(policiesObject);
+        this.navbarEventEmitter.emit(policiesObject);
         break;
       }
       case 'requirementsCapabilities': {
@@ -77,7 +77,7 @@ export class NavbarComponent implements OnInit {
           name: 'requirementsCapabilities',
           state: this.requirementsCapabilitiesPressed
         };
-        this.sendPressedNavbarTab.emit(requirementsCapabilitiesObject);
+        this.navbarEventEmitter.emit(requirementsCapabilitiesObject);
         break;
       }
       case 'deploymentArtifacts': {
@@ -86,7 +86,7 @@ export class NavbarComponent implements OnInit {
           name: 'deploymentArtifacts',
           state: this.deploymentArtifactsPressed
         };
-        this.sendPressedNavbarTab.emit(deploymentArtifactsObject);
+        this.navbarEventEmitter.emit(deploymentArtifactsObject);
         break;
       }
       case 'properties': {
@@ -95,7 +95,7 @@ export class NavbarComponent implements OnInit {
           name: 'properties',
           state: this.propertiesPressed
         };
-        this.sendPressedNavbarTab.emit(propertiesObject);
+        this.navbarEventEmitter.emit(propertiesObject);
         break;
       }
       case 'types': {
@@ -104,7 +104,7 @@ export class NavbarComponent implements OnInit {
           name: 'types',
           state: this.typesPressed
         };
-        this.sendPressedNavbarTab.emit(typesObject);
+        this.navbarEventEmitter.emit(typesObject);
         break;
       }
       case 'ids': {
@@ -113,7 +113,7 @@ export class NavbarComponent implements OnInit {
           name: 'ids',
           state: this.idsPressed
         };
-        this.sendPressedNavbarTab.emit(idsObject);
+        this.navbarEventEmitter.emit(idsObject);
         break;
       }
       case 'layout': {
@@ -122,7 +122,7 @@ export class NavbarComponent implements OnInit {
           name: 'layout',
           state: this.layoutPressed
         };
-        this.sendPressedNavbarTab.emit(layoutObject);
+        this.navbarEventEmitter.emit(layoutObject);
         break;
       }
     }

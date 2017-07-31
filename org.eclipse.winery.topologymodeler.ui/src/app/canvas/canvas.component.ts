@@ -174,8 +174,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     this.visuals = this.jsonService.getVisuals();
     for (const node of this.nodeTemplates) {
       for (const visual of this.visuals) {
-        console.log('node.id = ' + node.id);
-        console.log('visual = ' + JSON.stringify(visual));
+        // console.log('node.id = ' + node.id);
+        // console.log('visual = ' + JSON.stringify(visual));
         if (node.id === visual.localName || node.id.startsWith(visual.localName + '_')) {
           node.color = visual.color;
           if (visual.hasOwnProperty('imageUrl')) {
