@@ -23,12 +23,24 @@ import { LayoutDirective } from './layout.directive';
 import {JsonService} from './jsonService/json.service';
 import { TopologyRendererComponent } from './topology-renderer/topology-renderer.component';
 import { TopologyRendererModule } from './topology-renderer/topology-renderer.module';
+import { PropertiesComponent } from './properties/properties.component';
+import { DeploymentArtifactsComponent } from './deployment-artifacts/deployment-artifacts.component';
+import { RequirementsCapabilitiesComponent } from './requirements-capabilities/requirements-capabilities.component';
+import { PoliciesComponent } from './policies/policies.component';
+import { TargetlocationsComponent } from './targetlocations/targetlocations.component';
+import { PrintViewComponent } from './print-view/print-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PaletteComponent,
-    SidebarComponent
+    SidebarComponent,
+    PropertiesComponent,
+    DeploymentArtifactsComponent,
+    RequirementsCapabilitiesComponent,
+    PoliciesComponent,
+    TargetlocationsComponent,
+    PrintViewComponent
   ],
   imports: [
     BrowserModule,
