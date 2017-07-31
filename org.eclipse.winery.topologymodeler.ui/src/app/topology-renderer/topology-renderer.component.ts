@@ -215,8 +215,6 @@ export class TopologyRendererComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.topologyTemplate = this.testJson;
-    this.visuals = this.testVisuals;
     this.jsonService.setVisuals(this.visuals);
     this.jsonService.setTopologyTemplate(this.topologyTemplate);
   }

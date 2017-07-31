@@ -360,11 +360,11 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
-  trackTimeOfMouseDown(): void {
+  trackTimeOfMouseDown(e: Event): void {
     this.startTime = new Date().getTime();
   }
 
-  trackTimeOfMouseUp(): void {
+  trackTimeOfMouseUp(e: Event): void {
     this.endTime = new Date().getTime();
     this.testTimeDifference();
   }

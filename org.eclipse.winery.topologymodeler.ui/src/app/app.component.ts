@@ -8,8 +8,8 @@ import { JsonService } from './jsonService/json.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  // @Input() topologyTemplate: any;
-  // @Input() visuals: any;
+  @Input() topologyTemplate: any;
+  @Input() visuals: any;
 
   testJson = {
     documentation: [],
@@ -187,5 +187,7 @@ export class AppComponent implements OnInit {
   ];
 
   ngOnInit() {
+    this.topologyTemplate = this.testJson;
+    this.visuals = this.testVisuals;
   }
 }
