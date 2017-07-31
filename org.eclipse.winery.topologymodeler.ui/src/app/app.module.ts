@@ -29,6 +29,7 @@ import { RequirementsCapabilitiesComponent } from './requirements-capabilities/r
 import { PoliciesComponent } from './policies/policies.component';
 import { TargetlocationsComponent } from './targetlocations/targetlocations.component';
 import { PrintViewComponent } from './print-view/print-view.component';
+import { TargetLocationsComponent } from './target-locations/target-locations.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PrintViewComponent } from './print-view/print-view.component';
     RequirementsCapabilitiesComponent,
     PoliciesComponent,
     TargetlocationsComponent,
-    PrintViewComponent
+    PrintViewComponent,
+    TargetLocationsComponent
   ],
   imports: [
     BrowserModule,
