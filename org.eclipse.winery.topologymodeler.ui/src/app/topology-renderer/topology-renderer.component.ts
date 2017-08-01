@@ -10,7 +10,7 @@
  *     Josip Ledic - initial API and implementation
  */
 import {
-  Component, DoCheck, EventEmitter, Input, KeyValueDiffers, OnInit, Output,
+  Component, EventEmitter, Input, OnInit, Output,
   ViewContainerRef
 } from '@angular/core';
 import { WineryAlertService } from '../winery-alert/winery-alert.service';
@@ -21,15 +21,7 @@ import { JsonService } from '../jsonService/json.service';
   templateUrl: './topology-renderer.component.html',
   styleUrls: ['./topology-renderer.component.css']
 })
-export class TopologyRendererComponent implements OnInit, DoCheck {
-  @Input() topologyTemplate: any;
-  @Input() visuals: any;
-  @Output() passClosePaletteToRoot: EventEmitter<string>;
-  @Input() pressedPaletteItemToCanvas: any;
-
-  pressedNavBarButton: any;
-  pressedPaletteItem: string;
-  differPressedPaletteItem: any;
+export class TopologyRendererComponent implements OnInit {
 
   testJson = {
     documentation: [],
@@ -202,31 +194,26 @@ export class TopologyRendererComponent implements OnInit, DoCheck {
     }
   ];
 
-  constructor(vcr: ViewContainerRef, private notify: WineryAlertService, private jsonService: JsonService, differs: KeyValueDiffers) {
+  @Input() topologyTemplate: any;
+  @Input() visuals: any;
+  @Output() passClosePaletteToRoot: EventEmitter<string>;
+  @Input() pressedPaletteItem: any;
+  @Input() paletteStatus: any;
+
+  pressedNavBarButton: any;
+
+  constructor(vcr: ViewContainerRef, private notify: WineryAlertService,
+              private jsonService: JsonService) {
     this.notify.init(vcr);
     this.passClosePaletteToRoot = new EventEmitter();
-    this.differPressedPaletteItem = differs.find([]).create(null);
   }
 
   sendPressedNavBarButtonToCanvas($event): void {
     this.pressedNavBarButton = $event;
   }
 
-  passClosePalette(): void {
+  closePalette(): void {
     this.passClosePaletteToRoot.emit('Close Palette!');
-  }
-
-  ngDoCheck(): void {
-    const pressedPaletteItem = this.differPressedPaletteItem.diff(this.pressedPaletteItemToCanvas);
-
-    if (pressedPaletteItem) {
-      const paletteItem: any = {
-        name: pressedPaletteItem._mapHead.currentValue,
-        mousePositionX: pressedPaletteItem._appendAfter._prev.currentValue,
-        mousePositionY: pressedPaletteItem._appendAfter.currentValue
-      };
-      this.pressedPaletteItem = paletteItem;
-    }
   }
 
   ngOnInit() {

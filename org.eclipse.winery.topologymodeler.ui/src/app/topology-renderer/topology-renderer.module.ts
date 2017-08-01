@@ -9,7 +9,7 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import {NgModule, ModuleWithProviders} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -26,8 +26,6 @@ import { JsonService } from '../jsonService/json.service';
 import { JsPlumbService } from '../jsPlumbService';
 import { WineryCustomOption } from '../winery-alert/winery-alert-options';
 import { TopologyRendererComponent } from './topology-renderer.component';
-import { PaletteComponent } from '../palette/palette.component';
-
 
 @NgModule({
   imports: [

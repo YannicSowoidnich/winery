@@ -27,14 +27,13 @@ import { PropertiesComponent } from './properties/properties.component';
 import { DeploymentArtifactsComponent } from './deployment-artifacts/deployment-artifacts.component';
 import { RequirementsCapabilitiesComponent } from './requirements-capabilities/requirements-capabilities.component';
 import { PoliciesComponent } from './policies/policies.component';
-import { TargetlocationsComponent } from './targetlocations/targetlocations.component';
 import { PrintViewComponent } from './print-view/print-view.component';
 import { TargetLocationsComponent } from './target-locations/target-locations.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PaletteComponent
+    PaletteComponent,
     AppComponent,
     PaletteComponent,
     SidebarComponent,
@@ -42,7 +41,6 @@ import { TargetLocationsComponent } from './target-locations/target-locations.co
     DeploymentArtifactsComponent,
     RequirementsCapabilitiesComponent,
     PoliciesComponent,
-    TargetlocationsComponent,
     PrintViewComponent,
     TargetLocationsComponent
   ],

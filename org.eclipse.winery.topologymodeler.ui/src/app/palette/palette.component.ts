@@ -56,11 +56,15 @@ export class PaletteComponent implements OnInit, OnChanges {
   detailsAreHidden = true;
   paletteRootState = 'shrunk';
   paletteItems = [];
-  @Output() sendPressedPaletteItem = new EventEmitter();
+  @Output() sendPressedPaletteItem: EventEmitter<string>;
   @Input() closePalette;
+  @Output() adjustGridSizeToPalette: EventEmitter<any>;
+  paletteStatus: any;
 
   constructor(private paletteService: PaletteService) {
     this.paletteItems = paletteService.getPaletteData();
+    this.adjustGridSizeToPalette = new EventEmitter();
+    this.sendPressedPaletteItem = new EventEmitter();
   }
 
   ngOnInit() {
@@ -75,8 +79,16 @@ export class PaletteComponent implements OnInit, OnChanges {
   public toggleRootState(): void {
     if (this.paletteRootState === 'shrunk') {
       this.paletteRootState = 'extended';
+      this.paletteStatus = {
+        Open: true
+      };
+      this.adjustGridSizeToPalette.emit(this.paletteStatus);
     } else {
       this.paletteRootState = 'shrunk';
+      this.paletteStatus = {
+        Open: false
+      };
+      this.adjustGridSizeToPalette.emit(this.paletteStatus);
     }
   }
 

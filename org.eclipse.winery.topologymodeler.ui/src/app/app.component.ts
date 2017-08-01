@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-topologyrenderer',
@@ -9,7 +9,6 @@ export class AppComponent implements OnInit {
   @Input() topologyTemplate: any;
   @Input() visuals: any;
 
-  /*
   testJson = {
     documentation: [],
     any: [],
@@ -184,9 +183,10 @@ export class AppComponent implements OnInit {
       localName: ''
     }
   ];
-*/
+
   closePalette: boolean;
   pressedPaletteItemFromRoot: string;
+  paletteStatus: any;
 
   passClosePaletteToPalette(): void {
     this.closePalette = !this.closePalette;
@@ -194,6 +194,11 @@ export class AppComponent implements OnInit {
 
   sendPressedPaletteItem($event): void {
     this.pressedPaletteItemFromRoot = $event;
+  }
+
+  adjustGridSize($event): void {
+    this.paletteStatus = $event;
+    console.log(this.paletteStatus);
   }
 
   ngOnInit() {

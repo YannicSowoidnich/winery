@@ -2,7 +2,8 @@
   <div id="grid"
        (mousedown)="trackTimeOfMouseDown($event)"
        (mouseup)="trackTimeOfMouseUp($event)"
-       [class.crosshair]="this.crosshair">
+       [class.crosshair]="this.crosshair"
+       [style.marginLeft.px]="enhanceGrid">
     <div class="selection" id="selection"
          [class.selection-active]="selectionActive"
          [style.left.px]="pageX"

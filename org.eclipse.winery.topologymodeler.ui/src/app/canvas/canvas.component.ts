@@ -23,6 +23,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   visuals: any[];
   @Input() pressedNavBarButton: any;
   @Input() pressedPaletteItem: any;
+  @Input() paletteStatus: any;
   nodeSelected = false;
   nodeArrayEmpty = false;
   @Output() closePalette: EventEmitter<string>;
@@ -45,15 +46,18 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   endTime: number;
   longPress: boolean;
   crosshair = false;
-  xPos: number;
   differPressedNavBarButton: any;
   differPressedPaletteItem: any;
+  differPaletteStatus: any;
+  enhanceGrid: number;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef,
-              differsPressedPaletteItem: KeyValueDiffers, differsPressedNavBarButton: KeyValueDiffers) {
+              differsPressedPaletteItem: KeyValueDiffers, differsPressedNavBarButton: KeyValueDiffers,
+              differsPaletteStatus: KeyValueDiffers) {
     this.closePalette = new EventEmitter();
     this.differPressedNavBarButton = differsPressedNavBarButton.find([]).create(null);
     this.differPressedPaletteItem = differsPressedPaletteItem.find([]).create(null);
+    this.differPaletteStatus = differsPaletteStatus.find([]).create(null);
   }
 
   @HostListener('click', ['$event'])
@@ -155,6 +159,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   ngDoCheck(): void {
     const pressedNavBarButton = this.differPressedNavBarButton.diff(this.pressedNavBarButton);
     const pressedPaletteItem = this.differPressedPaletteItem.diff(this.pressedPaletteItem);
+    const paletteStatus = this.differPaletteStatus.diff(this.paletteStatus);
 
     if (pressedNavBarButton) {
       console.log(pressedNavBarButton._appendAfter.currentValue);
@@ -169,6 +174,14 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
       };
       this.nodeFactory(paletteItem);
       this.paletteClicked = true;
+    } else if (paletteStatus) {
+      if (paletteStatus._appendAfter.currentValue === false) {
+        this.enhanceGrid = 0;
+        this.offsetX = 0;
+      } else {
+        this.offsetX = -200;
+        this.enhanceGrid = 200;
+      }
     }
   }
 
@@ -284,6 +297,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
       node.otherAttributes['y'] = data.children[counter].y + 40;
       counter = counter + 1;
     }
+    setTimeout(() => this.repaintJsPlumb(), 1);
   }
 
   ngAfterViewInit(): void {
