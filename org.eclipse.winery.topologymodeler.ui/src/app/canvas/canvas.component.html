@@ -22,7 +22,7 @@
               [navBarButtonClicked]="pressedNavBarButton"
               (addNodeToDragSelection)="addNodeToDragSelection($event)"
               (checkIfNodeInSelection)="checkIfNodeInSelection($event)"
-              [unselectNodes]="unselectNodes">
+              [selectedNodes]="selectedNodes">
     </app-node>
   </div>
   <app-node *ngFor="let node of nodeTemplates"
@@ -35,6 +35,6 @@
             [navBarButtonClicked]="pressedNavBarButton"
             (addNodeToDragSelection)="addNodeToDragSelection($event)"
             (checkIfNodeInSelection)="checkIfNodeInSelection($event)"
-            [unselectNodes]="unselectNodes">
+            [selectedNodes]="selectedNodes">
   </app-node>
 </div>

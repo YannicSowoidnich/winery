@@ -26,7 +26,8 @@ import { TopologyRendererModule } from './topology-renderer/topology-renderer.mo
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PaletteComponent
   ],
   imports: [
     BrowserModule,

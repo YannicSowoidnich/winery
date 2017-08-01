@@ -1,5 +1,7 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ElementRef, Output,
-  EventEmitter, HostListener } from '@angular/core';
+import {
+  AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ElementRef, Output,
+  EventEmitter, HostListener, KeyValueDiffers, DoCheck
+} from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
@@ -10,7 +12,7 @@ import ELK from 'elkjs/lib/elk.bundled.js';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
-export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
+export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   paletteClicked = false;
   addedNewNode = false;
   nodeTemplates: any[] = [];
@@ -21,7 +23,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   visuals: any[];
   @Input() pressedNavBarButton: any;
   @Input() pressedPaletteItem: any;
-  unselectNodes: any[] = [];
   nodeSelected = false;
   nodeArrayEmpty = false;
   @Output() closePalette: EventEmitter<string>;
@@ -34,28 +35,41 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   selectionHeight: number;
   callOpenSelector: boolean;
   callSelectItems: boolean;
-  offsetY = 40;
-  offsetX = 0;
+  /*
+  offsetY = 70;
+  offsetX = 5;
+  */
+  offsetY = 70;
+  offsetX = -200;
   startTime: number;
   endTime: number;
   longPress: boolean;
   crosshair = false;
   xPos: number;
+  differPressedNavBarButton: any;
+  differPressedPaletteItem: any;
 
-  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef) {
+  constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef,
+              differsPressedPaletteItem: KeyValueDiffers, differsPressedNavBarButton: KeyValueDiffers) {
     this.closePalette = new EventEmitter();
+    this.differPressedNavBarButton = differsPressedNavBarButton.find([]).create(null);
+    this.differPressedPaletteItem = differsPressedPaletteItem.find([]).create(null);
   }
 
   @HostListener('click', ['$event'])
   onClick($event) {
     if (this._eref.nativeElement.contains($event.target) && this.longPress === false) {
       this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
-      this.unselectNodes = this.selectedNodes;
-      this.selectedNodes = [];
-      console.log('ausgeführt');
+      this.emptySelectedNodes();
       if ($event.clientX > 200) {
         this.closePalette.emit('Close Palette');
       }
+    }
+  }
+
+  emptySelectedNodes(): void {
+    while (this.selectedNodes.length !== 0) {
+      this.selectedNodes.pop();
     }
   }
 
@@ -101,11 +115,11 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
           this.enhanceDragSelection(node.id);
         }
       }
+      this.crosshair = false;
+      this.selectionActive = false;
+      this.selectionWidth = 0;
+      this.selectionHeight = 0;
     }
-    this.crosshair = false;
-    this.selectionActive = false;
-    this.selectionWidth = 0;
-    this.selectionHeight = 0;
   }
 
   private getOffset( el ) {
@@ -137,17 +151,23 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     this.newJsPlumbInstance.repaintEverything();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes.pressedNavBarButton) {
-      if (changes.pressedPaletteItem.currentValue !== undefined) {
-        const paletteItem = changes.pressedPaletteItem.currentValue;
-        this.nodeFactory(paletteItem);
-        this.paletteClicked = true;
+  ngDoCheck(): void {
+    const pressedNavBarButton = this.differPressedNavBarButton.diff(this.pressedNavBarButton);
+    const pressedPaletteItem = this.differPressedPaletteItem.diff(this.pressedPaletteItem);
+
+    if (pressedNavBarButton) {
+      console.log(pressedNavBarButton._appendAfter.currentValue);
+      if (pressedNavBarButton._mapHead.currentValue === 'layout') {
+        this.layoutNodes(pressedNavBarButton._appendAfter.currentValue);
       }
-    } else if (!changes.pressedPaletteItem) {
-      if (changes.pressedNavBarButton.currentValue.name === 'layout') {
-        this.layoutNodes(changes.pressedNavBarButton.currentValue.state);
-      }
+    } else if (pressedPaletteItem) {
+      const paletteItem: any = {
+        name: pressedPaletteItem._mapHead.currentValue,
+        mousePositionX: pressedPaletteItem._appendAfter._prev.currentValue,
+        mousePositionY: pressedPaletteItem._appendAfter.currentValue
+      };
+      this.nodeFactory(paletteItem);
+      this.paletteClicked = true;
     }
   }
 
@@ -164,8 +184,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     this.visuals = this.jsonService.getVisuals();
     for (const node of this.nodeTemplates) {
       for (const visual of this.visuals) {
-        console.log('node.id = ' + node.id);
-        console.log('visual = ' + JSON.stringify(visual));
+        // console.log('node.id = ' + node.id);
+        // console.log('visual = ' + JSON.stringify(visual));
         if (node.id === visual.localName || node.id.startsWith(visual.localName + '_')) {
           node.color = visual.color;
           if (visual.hasOwnProperty('imageUrl')) {
@@ -303,8 +323,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     }
     if (this.nodeSelected === false) {
       this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
-      this.unselectNodes = this.selectedNodes;
-      this.selectedNodes = [];
+      this.emptySelectedNodes();
     }
   }
 
@@ -328,7 +347,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     this.newJsPlumbInstance.addToPosse(id, 'dragSelection');
     this.nodeArrayEmpty = this.arrayContainsNode(this.selectedNodes, id);
     if (!this.nodeArrayEmpty) {
-      console.log('ausgeführt');
       this.selectedNodes.push(id);
     }
   }

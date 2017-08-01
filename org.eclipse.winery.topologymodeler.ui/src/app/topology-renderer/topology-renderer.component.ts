@@ -9,7 +9,10 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
+import {
+  Component, DoCheck, EventEmitter, Input, KeyValueDiffers, OnInit, Output,
+  ViewContainerRef
+} from '@angular/core';
 import { WineryAlertService } from '../winery-alert/winery-alert.service';
 import { JsonService } from '../jsonService/json.service';
 
@@ -18,14 +21,15 @@ import { JsonService } from '../jsonService/json.service';
   templateUrl: './topology-renderer.component.html',
   styleUrls: ['./topology-renderer.component.css']
 })
-export class TopologyRendererComponent implements OnInit {
+export class TopologyRendererComponent implements OnInit, DoCheck {
   @Input() topologyTemplate: any;
   @Input() visuals: any;
+  @Output() passClosePaletteToRoot: EventEmitter<string>;
+  @Input() pressedPaletteItemToCanvas: any;
 
   pressedNavBarButton: any;
   pressedPaletteItem: string;
-  private instanceNumber = 1;
-  closePalette: boolean;
+  differPressedPaletteItem: any;
 
   testJson = {
     documentation: [],
@@ -210,20 +214,31 @@ export class TopologyRendererComponent implements OnInit {
     }
   ];
 
-  constructor(vcr: ViewContainerRef, private notify: WineryAlertService, private jsonService: JsonService) {
+  constructor(vcr: ViewContainerRef, private notify: WineryAlertService, private jsonService: JsonService, differs: KeyValueDiffers) {
     this.notify.init(vcr);
+    this.passClosePaletteToRoot = new EventEmitter();
+    this.differPressedPaletteItem = differs.find([]).create(null);
   }
 
   sendPressedNavBarButtonToCanvas($event): void {
     this.pressedNavBarButton = $event;
   }
 
-  sendPressedPaletteItem($event): void {
-    this.pressedPaletteItem = $event;
+  passClosePalette(): void {
+    this.passClosePaletteToRoot.emit('Close Palette!');
   }
 
-  passClosePaletteToPalette(): void {
-    this.closePalette = !this.closePalette;
+  ngDoCheck(): void {
+    const pressedPaletteItem = this.differPressedPaletteItem.diff(this.pressedPaletteItemToCanvas);
+
+    if (pressedPaletteItem) {
+      const paletteItem: any = {
+        name: pressedPaletteItem._mapHead.currentValue,
+        mousePositionX: pressedPaletteItem._appendAfter._prev.currentValue,
+        mousePositionY: pressedPaletteItem._appendAfter.currentValue
+      };
+      this.pressedPaletteItem = paletteItem;
+    }
   }
 
   ngOnInit() {

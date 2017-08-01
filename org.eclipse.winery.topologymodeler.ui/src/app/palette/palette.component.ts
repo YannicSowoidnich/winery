@@ -88,7 +88,6 @@ export class PaletteComponent implements OnInit, OnChanges {
       mousePositionX: left.toString().concat('px'),
       mousePositionY: top.toString().concat('px')
     };
-    console.log(pressedPaletteItem);
     this.sendPressedPaletteItem.emit(pressedPaletteItem);
   }
 

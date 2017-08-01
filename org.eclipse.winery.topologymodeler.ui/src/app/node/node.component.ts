@@ -1,14 +1,14 @@
 import {
-  AfterViewInit, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild
+  AfterViewInit, Component, DoCheck, EventEmitter, Input, IterableDiffers, KeyValueDiffers, OnInit, Output,
+  SimpleChanges
 } from '@angular/core';
-import { TTopologyTemplate } from '../ttopology-template';
 
 @Component({
   selector: 'app-node',
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css'],
 })
-export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
+export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
@@ -24,7 +24,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   endTime;
   longpress = false;
   makeSelectionVisible = false;
-  unselectedNodeIdPresent = false;
 
   @Input() title: string;
   @Input() left: number;
@@ -36,7 +35,11 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() navBarButtonClicked: any;
   @Output() addNodeToDragSelection: EventEmitter<any>;
   @Output() checkIfNodeInSelection: EventEmitter<string>;
-  @Input() unselectNodes: any[] = [];
+  @Input() selectedNodes: any[] = [];
+  differSelectedNodes: any;
+  differNavBar: any;
+  differUnselectedNodes: any;
+
 
   public status: any = {
     isFirstOpen: true,
@@ -47,11 +50,14 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
     this.items.push(`Items ${this.items.length + 1}`);
   }
 
-  constructor() {
+  constructor(differsSelectedNodes: IterableDiffers, differsNavBar: KeyValueDiffers, differsUnselectedNodes: IterableDiffers) {
     this.sendId = new EventEmitter();
     this.askForRepaint = new EventEmitter();
     this.addNodeToDragSelection = new EventEmitter();
     this.checkIfNodeInSelection = new EventEmitter();
+    this.differSelectedNodes = differsSelectedNodes.find([]).create(null);
+    this.differNavBar = differsNavBar.find([]).create(null);
+    this.differUnselectedNodes = differsUnselectedNodes.find([]).create(null);
   }
 
   ngOnInit() {
@@ -61,9 +67,25 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
     this.sendId.emit(this.title);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes.unselectNodes && !changes.updatingNode) {
-      switch (changes.navBarButtonClicked.currentValue.name) {
+  ngDoCheck(): void {
+    const selectedNodes = this.differSelectedNodes.diff(this.selectedNodes);
+    const navBarButtonClicked = this.differNavBar.diff(this.navBarButtonClicked);
+
+    if (selectedNodes) {
+      selectedNodes.forEachAddedItem(r => {
+          if (this.title === r.item) {
+            this.makeSelectionVisible = true;
+          }
+        }
+        );
+      selectedNodes.forEachRemovedItem(r => {
+          if (this.title === r.item) {
+            this.makeSelectionVisible = false;
+          }
+        }
+      );
+      } else if (navBarButtonClicked) {
+      switch (navBarButtonClicked._mapHead.currentValue) {
         case 'targetLocations': {
           this.targetLocationsVisible = !this.targetLocationsVisible;
           break;
@@ -94,12 +116,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
       setTimeout(() => this.askForRepaint.emit(), 1);
-    } else if (!changes.navBarButtonClicked) {
-      this.unselectedNodeIdPresent = false;
-      this.unselectedNodeIdPresent = this.checkIfArrayContainsElement(this.unselectNodes, this.title);
-      if (this.unselectedNodeIdPresent) {
-        this.makeSelectionVisible = false;
-      }
     }
   }
 

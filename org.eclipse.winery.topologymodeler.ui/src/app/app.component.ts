@@ -1,6 +1,4 @@
-import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
-import { WineryAlertService } from './winery-alert/winery-alert.service';
-import { JsonService } from './jsonService/json.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-topologyrenderer',
@@ -11,6 +9,7 @@ export class AppComponent implements OnInit {
   // @Input() topologyTemplate: any;
   // @Input() visuals: any;
 
+  /*
   testJson = {
     documentation: [],
     any: [],
@@ -185,6 +184,17 @@ export class AppComponent implements OnInit {
       localName: ''
     }
   ];
+*/
+  closePalette: boolean;
+  pressedPaletteItemFromRoot: string;
+
+  passClosePaletteToPalette(): void {
+    this.closePalette = !this.closePalette;
+  }
+
+  sendPressedPaletteItem($event): void {
+    this.pressedPaletteItemFromRoot = $event;
+  }
 
   ngOnInit() {
   }
