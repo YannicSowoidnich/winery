@@ -121,18 +121,6 @@ export class TopologyRendererComponent implements OnInit, DoCheck {
         'targetElement': 'tree'
       },
       {
-        'sourceElement': 'orange',
-        'targetElement': 'tree_2'
-      },
-      {
-        'sourceElement': 'orange_2',
-        'targetElement': 'tree_2'
-      },
-      {
-        'sourceElement': 'tree_2',
-        'targetElement': 'plantage'
-      },
-      {
         'sourceElement': 'tree',
         'targetElement': 'plantage'
       }
@@ -242,8 +230,6 @@ export class TopologyRendererComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this.topologyTemplate = this.testJson;
-    this.visuals = this.testVisuals;
     this.jsonService.setVisuals(this.visuals);
     this.jsonService.setTopologyTemplate(this.topologyTemplate);
   }

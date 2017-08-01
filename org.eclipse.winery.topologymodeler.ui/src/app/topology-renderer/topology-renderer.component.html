@@ -1,4 +1,4 @@
-<app-navbar (sendPressedNavbarTab)="sendPressedNavBarButtonToCanvas($event)"></app-navbar>
+<app-navbar (navbarEventEmitter)="sendPressedNavBarButtonToCanvas($event)"></app-navbar>
 <app-canvas
   [pressedNavBarButton]="pressedNavBarButton"
   [pressedPaletteItem]="pressedPaletteItem"

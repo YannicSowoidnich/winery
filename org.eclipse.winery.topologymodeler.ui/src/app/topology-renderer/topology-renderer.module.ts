@@ -26,6 +26,7 @@ import { JsonService } from '../jsonService/json.service';
 import { JsPlumbService } from '../jsPlumbService';
 import { WineryCustomOption } from '../winery-alert/winery-alert-options';
 import { TopologyRendererComponent } from './topology-renderer.component';
+import { PaletteComponent } from '../palette/palette.component';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { TopologyRendererComponent } from './topology-renderer.component';
     NodeComponent,
     CanvasComponent,
     LayoutDirective,
-    TopologyRendererComponent
+    TopologyRendererComponent,
   ],
   exports: [
     TopologyRendererComponent
