@@ -25,6 +25,8 @@ export class NavbarComponent implements OnInit {
    * @type {boolean}
    */
   layoutPressed = false;
+  alignvPressed = false;
+  alignhPressed = false;
   targetLocationsPressed = false;
   policiesPressed = false;
   requirementsCapabilitiesPressed = false;
@@ -123,6 +125,24 @@ export class NavbarComponent implements OnInit {
           state: this.layoutPressed
         };
         this.navbarEventEmitter.emit(layoutObject);
+        break;
+      }
+      case 'alignh': {
+        this.alignhPressed = !this.alignhPressed;
+        const alignhObject = {
+          name: 'alignh',
+          state: this.alignhPressed
+        };
+        this.navbarEventEmitter.emit(alignhObject);
+        break;
+      }
+      case 'alignv': {
+        this.alignvPressed = !this.alignvPressed;
+        const alignvObject = {
+          name: 'alignv',
+          state: this.alignvPressed
+        };
+        this.navbarEventEmitter.emit(alignvObject);
         break;
       }
     }

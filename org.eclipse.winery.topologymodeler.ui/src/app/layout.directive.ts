@@ -57,6 +57,76 @@ export class LayoutDirective implements AfterViewInit {
     setTimeout(() => jsPlumbInstance.repaintEverything(), 1);
   }
 
+  public alignHorizontal(selectedNodes: any[], jsPlumbInstance: any): void {
+    let smallestVal = 0;
+    let biggestVal = 0;
+    let result;
+    let counter = 0;
+    // if there is only 1 node selected, do nothing
+    if (!( selectedNodes.length === 1)) {
+      for (const node of selectedNodes) {
+        // if its the first iteration, inititalize
+        if ( counter === 0 ) {
+          smallestVal = document.getElementById(node.id).offsetTop;
+          biggestVal = document.getElementById(node.id).offsetTop;
+        } else {
+          // if the biggestValue is smaller than the current value, save it
+          if (biggestVal < document.getElementById(node.id).offsetTop) {
+            biggestVal = document.getElementById(node.id).offsetTop;
+          }
+          // if the smallest val is bigger than the current value, save it.
+          if (smallestVal > document.getElementById(node.id).offsetTop) {
+            smallestVal = document.getElementById(node.id).offsetTop;
+          }
+        }
+        counter = counter + 1;
+      }
+      result = biggestVal - smallestVal;
+      result = (result / 2);
+      result = smallestVal + result;
+      // iterate over the nodes again, and apply positions
+      for (const node of selectedNodes) {
+        node.otherAttributes['y'] = result;
+      }
+      setTimeout(() => jsPlumbInstance.repaintEverything(), 1);
+    }
+  }
+
+  public alignVertical(selectedNodes: any[], jsPlumbInstance: any): void {
+    let smallestVal = 0;
+    let biggestVal = 0;
+    let result;
+    let counter = 0;
+    // if there is only 1 node selected, do nothing
+    if (!( selectedNodes.length === 1)) {
+      for (const node of selectedNodes) {
+        // if its the first iteration, inititalize
+        if ( counter === 0 ) {
+          smallestVal = document.getElementById(node.id).offsetLeft;
+          biggestVal = document.getElementById(node.id).offsetLeft;
+        } else {
+          // if the biggestValue is smaller than the current value, save it
+          if (biggestVal < document.getElementById(node.id).offsetLeft) {
+            biggestVal = document.getElementById(node.id).offsetLeft;
+          }
+          // if the smallest val is bigger than the current value, save it.
+          if (smallestVal > document.getElementById(node.id).offsetLeft) {
+            smallestVal = document.getElementById(node.id).offsetLeft;
+          }
+        }
+        counter = counter + 1;
+      }
+      result = biggestVal - smallestVal;
+      result = (result / 2);
+      result = smallestVal + result;
+      // iterate over the nodes again, and apply positions
+      for (const node of selectedNodes) {
+        node.otherAttributes['x'] = result;
+      }
+      setTimeout(() => jsPlumbInstance.repaintEverything(), 1);
+    }
+  }
+
   ngAfterViewInit() {
 
   }

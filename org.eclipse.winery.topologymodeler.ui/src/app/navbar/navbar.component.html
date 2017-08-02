@@ -12,8 +12,20 @@
         (click)="toggleButton($event)">
         Layout
       </button>
-      <button class="btn btn-sm align-middle btn-secondary" type="button">Align-h (|)</button>
-      <button class="btn btn-sm align-middle btn-secondary" type="button">Align-v (―)</button>
+      <button
+        class="btn btn-sm align-middle btn-secondary"
+        type="button"
+        id="alignh"
+        (click)="toggleButton($event)">
+        Align-h (|)
+      </button>
+      <button
+        class="btn btn-sm align-middle btn-secondary"
+        type="button"
+        id="alignv"
+        (click)="toggleButton($event)">
+        Align-v (―)
+      </button>
     </div>
     <div class="btn-group" data-toggle="buttons" style="margin-left: 4px">
       <button
