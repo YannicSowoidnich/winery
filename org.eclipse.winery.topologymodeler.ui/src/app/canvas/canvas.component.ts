@@ -176,10 +176,10 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
         this._layoutDirective.layoutNodes(this.nodeTemplates, this.relationshipTemplates, this.newJsPlumbInstance);
       }
       if (pressedNavBarButton._mapHead.currentValue === 'alignv') {
-        this._layoutDirective.alignVertical(this.selectedNodes, this.newJsPlumbInstance);
+        this._layoutDirective.alignVertical(this.nodeTemplates, this.newJsPlumbInstance);
       }
       if (pressedNavBarButton._mapHead.currentValue === 'alignh') {
-        this._layoutDirective.alignHorizontal(this.selectedNodes, this.newJsPlumbInstance);
+        this._layoutDirective.alignHorizontal(this.nodeTemplates, this.newJsPlumbInstance);
       }
     } else if (pressedPaletteItem) {
       const paletteItem: any = {
