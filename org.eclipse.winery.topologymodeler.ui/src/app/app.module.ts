@@ -34,15 +34,13 @@ import { TargetLocationsComponent } from './target-locations/target-locations.co
   declarations: [
     AppComponent,
     PaletteComponent,
-    AppComponent,
-    PaletteComponent,
     SidebarComponent,
     PropertiesComponent,
     DeploymentArtifactsComponent,
     RequirementsCapabilitiesComponent,
     PoliciesComponent,
     PrintViewComponent,
-    TargetLocationsComponent
+    TargetLocationsComponent,
   ],
   imports: [
     BrowserModule,

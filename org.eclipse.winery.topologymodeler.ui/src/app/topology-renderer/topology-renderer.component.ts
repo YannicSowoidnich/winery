@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { WineryAlertService } from '../winery-alert/winery-alert.service';
 import { JsonService } from '../jsonService/json.service';
+import { Visuals } from '../ttopology-template';
 
 @Component({
   selector: 'app-topology-renderer',
@@ -195,7 +196,7 @@ export class TopologyRendererComponent implements OnInit {
   ];
 
   @Input() topologyTemplate: any;
-  @Input() visuals: any;
+  @Input() visuals: Visuals[] = [new Visuals('red', 'apple', 'apple', 'abc')];
   @Output() passClosePaletteToRoot: EventEmitter<string>;
   @Input() pressedPaletteItem: any;
   @Input() paletteStatus: any;

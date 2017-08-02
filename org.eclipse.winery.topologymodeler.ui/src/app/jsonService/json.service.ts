@@ -1,23 +1,59 @@
 import { Injectable, OnInit } from '@angular/core';
-import { QName } from '../qname';
-import { TTopologyTemplate, Visuals } from '../ttopology-template';
+import { Visuals } from '../ttopology-template';
 
 @Injectable()
 export class JsonService implements OnInit {
 
   testJson: any;
   visuals: Visuals[];
+  mockNodesArray = [
+    {
+      documentation: [],
+      any: [],
+      otherAttributes: {},
+      id: 'test',
+      type: '{http://winery.opentosca.org/test/nodetypes/fruits}test',
+      name: 'test',
+      minInstances: 1,
+      maxInstances: 1
+    }
+  ];
+  mockRelationshipsArray = [
+    {
+      'sourceElement': 'baobab',
+      'targetElement': 'tree'
+    }
+  ];
+  mockVisuals = [{
+    imageUrl: 'http://www.example.org/winery/test/nodetypes/' +
+    'http%253A%252F%252Fwinery.opentosca.org%252Ftest%252Fnodetypes%252Ffruits/baobab/appearance/50x50',
+    color: '#89ee01',
+    nodeTypeId: '{http://winery.opentosca.org/test/nodetypes/fruits}baobab',
+    localName: ''
+  }];
 
   getRelationships(): any {
-    return this.testJson.relationshipTemplates;
+    if (!this.testJson === null) {
+      return this.testJson.relationshipTemplates;
+    } else {
+      return this.mockRelationshipsArray;
+    }
   }
 
   getNodes(): any {
-    return this.testJson.nodeTemplates;
+    if (!this.testJson === null) {
+      return this.testJson.nodeTemplates;
+    } else {
+      return this.mockNodesArray;
+    }
   }
 
   getVisuals(): any {
-    return this.visuals;
+    if (!this.visuals === null) {
+      return this.visuals;
+    } else {
+      return this.mockVisuals;
+    }
   }
 
   setData(visuals: any, topologyTemplate: any) {

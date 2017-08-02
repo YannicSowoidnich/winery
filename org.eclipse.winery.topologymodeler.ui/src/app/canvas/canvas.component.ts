@@ -299,7 +299,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
     this.checkingNodeSelectionForDuplicateIDs($event);
   }
 
-  private arrayContainsNode(arrayOfNodes: any[], id: string): boolean {
+  arrayContainsNode(arrayOfNodes: any[], id: string): boolean {
     if (arrayOfNodes !== null && arrayOfNodes.length > 0) {
       for (let i = 0; i < arrayOfNodes.length; i++) {
         if (arrayOfNodes[i] === id) {

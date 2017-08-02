@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CanvasComponent } from './canvas.component';
+import { NodeComponent } from '../node/node.component';
+import { AccordionModule } from 'ngx-bootstrap';
+import { JsPlumbService } from '../jsPlumbService';
+import { JsonService } from '../jsonService/json.service';
 
 describe('CanvasComponent', () => {
   let component: CanvasComponent;
@@ -8,7 +12,10 @@ describe('CanvasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CanvasComponent ]
+      declarations: [CanvasComponent,
+        NodeComponent],
+      imports: [AccordionModule.forRoot()],
+      providers: [JsPlumbService, JsonService]
     })
     .compileComponents();
   }));
@@ -21,5 +28,10 @@ describe('CanvasComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should return true if array contains node with the given id', () => {
+    const trueResult = component.arrayContainsNode(['banana', 'apple', 'kiwi'], 'apple');
+    expect(trueResult).toBe(true);
   });
 });

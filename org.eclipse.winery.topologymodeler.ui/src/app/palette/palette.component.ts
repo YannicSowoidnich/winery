@@ -57,7 +57,7 @@ export class PaletteComponent implements OnInit, OnChanges {
   paletteRootState = 'shrunk';
   paletteItems = [];
   @Output() sendPressedPaletteItem: EventEmitter<string>;
-  @Input() closePalette;
+  @Input() closePalette: any;
   @Output() adjustGridSizeToPalette: EventEmitter<any>;
   paletteStatus: any;
 
