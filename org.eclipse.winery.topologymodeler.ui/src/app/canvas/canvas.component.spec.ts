@@ -5,9 +5,11 @@ import { NodeComponent } from '../node/node.component';
 import { AccordionModule } from 'ngx-bootstrap';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
+import { MockJsonService } from '../jsonService/mock-json.service';
 
 describe('CanvasComponent', () => {
   let component: CanvasComponent;
+  let jsonService: JsonService;
   let fixture: ComponentFixture<CanvasComponent>;
 
   beforeEach(async(() => {
@@ -15,7 +17,7 @@ describe('CanvasComponent', () => {
       declarations: [CanvasComponent,
         NodeComponent],
       imports: [AccordionModule.forRoot()],
-      providers: [JsPlumbService, JsonService]
+      providers: [JsPlumbService, {provide: JsonService, useClass: MockJsonService }]
     })
     .compileComponents();
   }));
@@ -24,6 +26,7 @@ describe('CanvasComponent', () => {
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    jsonService = TestBed.get(JsonService);
   });
 
   it('should create', () => {
@@ -31,6 +34,7 @@ describe('CanvasComponent', () => {
   });
 
   it('should return true if array contains node with the given id', () => {
+    component.ngOnInit();
     const trueResult = component.arrayContainsNode(['banana', 'apple', 'kiwi'], 'apple');
     expect(trueResult).toBe(true);
   });
