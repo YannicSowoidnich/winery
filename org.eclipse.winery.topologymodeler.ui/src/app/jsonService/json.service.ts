@@ -33,27 +33,18 @@ export class JsonService implements OnInit {
   }];
 
   getRelationships(): any {
-    if (!this.testJson === null) {
       return this.testJson.relationshipTemplates;
-    } else {
-      return this.mockRelationshipsArray;
-    }
+
   }
 
   getNodes(): any {
-    if (!this.testJson === null) {
       return this.testJson.nodeTemplates;
-    } else {
-      return this.mockNodesArray;
-    }
+
   }
 
   getVisuals(): any {
-    if (!this.visuals === null) {
       return this.visuals;
-    } else {
-      return this.mockVisuals;
-    }
+
   }
 
   setData(visuals: any, topologyTemplate: any) {
