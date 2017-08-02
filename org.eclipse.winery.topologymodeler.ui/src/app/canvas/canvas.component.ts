@@ -176,7 +176,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
         this._layoutDirective.layoutNodes(this.nodeTemplates, this.relationshipTemplates, this.newJsPlumbInstance);
       }
       if (pressedNavBarButton._mapHead.currentValue === 'alignv') {
-        console.log(pressedNavBarButton._mapHead.state);
         this._layoutDirective.alignVertical(this.selectedNodes, this.newJsPlumbInstance);
       }
       if (pressedNavBarButton._mapHead.currentValue === 'alignh') {
