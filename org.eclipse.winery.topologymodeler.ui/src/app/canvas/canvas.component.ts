@@ -1,14 +1,23 @@
 import {
-  AfterViewInit, Component, Input, OnInit, ElementRef, Output,
-  EventEmitter, HostListener, KeyValueDiffers, DoCheck
+  AfterViewInit,
+  Component,
+  DoCheck,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  KeyValueDiffers,
+  OnInit,
+  Output
 } from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
-import ELK from 'elkjs/lib/elk.bundled.js';
+import { LayoutDirective } from '../layout.directive';
 
 @Component({
   selector: 'app-canvas',
+  providers: [LayoutDirective],
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
@@ -37,9 +46,9 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   callOpenSelector: boolean;
   callSelectItems: boolean;
   /*
-  offsetY = 70;
-  offsetX = 5;
-  */
+   offsetY = 70;
+   offsetX = 5;
+   */
   offsetY = 70;
   offsetX = -200;
   startTime: number;
@@ -52,6 +61,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   enhanceGrid: number;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef,
+              private _layoutDirective: LayoutDirective,
               differsPressedPaletteItem: KeyValueDiffers, differsPressedNavBarButton: KeyValueDiffers,
               differsPaletteStatus: KeyValueDiffers) {
     this.closePalette = new EventEmitter();
@@ -164,7 +174,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
     if (pressedNavBarButton) {
       console.log(pressedNavBarButton._appendAfter.currentValue);
       if (pressedNavBarButton._mapHead.currentValue === 'layout') {
-        this.layoutNodes(pressedNavBarButton._appendAfter.currentValue);
+        this._layoutDirective.layoutNodes(this.nodeTemplates, this.relationshipTemplates, this.newJsPlumbInstance);
+
       }
     } else if (pressedPaletteItem) {
       const paletteItem: any = {
@@ -248,56 +259,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
 
   makeDraggable($event): void {
     this.newJsPlumbInstance.draggable($event);
-  }
-
-  layoutNodes(state: boolean): void {
-
-    const children: any[] = [];
-    const edges: any[] = [];
-    let counter = 0;
-
-    // get with and height of nodes
-    for (const node of this.nodeTemplates) {
-      const width = document.getElementById(node.id).offsetWidth;
-      const height = document.getElementById(node.id).offsetHeight;
-      children.push({id: node.id, width: width, height: height});
-    }
-
-    // get source and targets of relationships
-    for (const rel of this.relationshipTemplates) {
-      const sourceElement = rel.sourceElement;
-      const targetElement = rel.targetElement;
-      edges.push({id: counter.toString(), sources: [sourceElement], targets: [targetElement]});
-      counter = counter + 1;
-    }
-    // initialize elk object which will layout the graph
-    const elk = new ELK({});
-    const graph = {
-      id: 'root',
-      properties: {
-        'elk.algorithm': 'layered',
-        'elk.spacing.nodeNode': '200',
-        'elk.direction': 'DOWN',
-        'elk.layered.spacing.nodeNodeBetweenLayers': '200'},
-      children: children,
-      edges: edges,
-    };
-
-    const promise = elk.layout(graph);
-    promise.then((data) => {
-      this.applyPositions(data);
-    });
-  }
-
-  applyPositions(data: any): void {
-    let counter = 0;
-    for (const node of this.nodeTemplates) {
-      // the algorithm layouts the nodes horizontally, so we swap them
-      node.otherAttributes['x'] = data.children[counter].x;
-      node.otherAttributes['y'] = data.children[counter].y + 40;
-      counter = counter + 1;
-    }
-    setTimeout(() => this.repaintJsPlumb(), 1);
   }
 
   ngAfterViewInit(): void {
