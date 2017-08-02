@@ -45,10 +45,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   selectionHeight: number;
   callOpenSelector: boolean;
   callSelectItems: boolean;
-  /*
-   offsetY = 70;
-   offsetX = 5;
-   */
   offsetY = 70;
   offsetX = -200;
   startTime: number;
@@ -128,6 +124,14 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
         const result = this.doObjectsCollide(aElem, bElem);
         if (result === true) {
           this.enhanceDragSelection(node.id);
+        }
+      }
+      for (const node of this.nodeTypes) {
+        const aElem = document.getElementById('selection');
+        const bElem = document.getElementById(node.nodeType._id);
+        const result = this.doObjectsCollide(aElem, bElem);
+        if (result === true) {
+          this.enhanceDragSelection(node.nodeType._id);
         }
       }
       this.crosshair = false;

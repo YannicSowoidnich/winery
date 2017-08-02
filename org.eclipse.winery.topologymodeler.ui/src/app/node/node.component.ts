@@ -1,6 +1,5 @@
 import {
-  AfterViewInit, Component, DoCheck, EventEmitter, Input, IterableDiffers, KeyValueDiffers, OnInit, Output,
-  SimpleChanges
+  AfterViewInit, Component, DoCheck, EventEmitter, Input, IterableDiffers, KeyValueDiffers, OnInit, Output
 } from '@angular/core';
 
 @Component({

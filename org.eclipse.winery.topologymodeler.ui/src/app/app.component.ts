@@ -6,8 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  @Input() topologyTemplate: any;
-  @Input() visuals: any;
+  topologyTemplate: any;
+  visuals: any;
 
   testJson = {
     documentation: [],
@@ -198,7 +198,6 @@ export class AppComponent implements OnInit {
 
   adjustGridSize($event): void {
     this.paletteStatus = $event;
-    console.log(this.paletteStatus);
   }
 
   ngOnInit() {
