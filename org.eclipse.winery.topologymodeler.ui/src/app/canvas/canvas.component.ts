@@ -70,17 +70,15 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   onClick($event) {
     if (this._eref.nativeElement.contains($event.target) && this.longPress === false) {
       this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
-      this.emptySelectedNodes();
+      this.clearArray(this.selectedNodes);
       if ($event.clientX > 200) {
         this.closePalette.emit('Close Palette');
       }
     }
   }
 
-  emptySelectedNodes(): void {
-    while (this.selectedNodes.length !== 0) {
-      this.selectedNodes.pop();
-    }
+  clearArray(array: any[]): void {
+    array.length = 0;
   }
 
   @HostListener('mousedown', ['$event'])
@@ -299,7 +297,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
     }
     if (this.nodeSelected === false) {
       this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
-      this.emptySelectedNodes();
+      this.clearArray(this.selectedNodes);
     }
   }
 
