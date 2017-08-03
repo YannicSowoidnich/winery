@@ -17,6 +17,12 @@ export class LayoutDirective implements AfterViewInit {
       const width = document.getElementById(node.id).offsetWidth;
       const height = document.getElementById(node.id).offsetHeight;
       children.push({id: node.id, width: width, height: height});
+      // also get their current positions and apply them to the internal list
+      const left = document.getElementById(node.id).offsetLeft;
+      const top = document.getElementById(node.id).offsetTop;
+      // apply the old positions to the nodeslist
+      node.otherAttributes['x'] = left;
+      node.otherAttributes['y'] = top;
     }
 
     // get source and targets of relationships
