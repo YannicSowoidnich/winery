@@ -10,10 +10,9 @@ export class LayoutDirective implements AfterViewInit {
 
     const children: any[] = [];
     const edges: any[] = [];
-    let counter = 0;
 
     // get with and height of nodes
-    for (const node of nodeTemplates) {
+    nodeTemplates.forEach((node) => {
       const width = document.getElementById(node.id).offsetWidth;
       const height = document.getElementById(node.id).offsetHeight;
       children.push({id: node.id, width: width, height: height});
@@ -23,15 +22,15 @@ export class LayoutDirective implements AfterViewInit {
       // apply the old positions to the nodeslist
       node.otherAttributes['x'] = left;
       node.otherAttributes['y'] = top;
-    }
+    });
 
     // get source and targets of relationships
-    for (const rel of relationshipTemplates) {
+    relationshipTemplates.forEach((rel, index) => {
       const sourceElement = rel.sourceElement;
       const targetElement = rel.targetElement;
-      edges.push({id: counter.toString(), sources: [sourceElement], targets: [targetElement]});
-      counter = counter + 1;
-    }
+      edges.push({id: index.toString(), sources: [sourceElement], targets: [targetElement]});
+    });
+
     // initialize elk object which will layout the graph
     const elk = new ELK({});
     const graph = {
@@ -53,26 +52,24 @@ export class LayoutDirective implements AfterViewInit {
   }
 
   private applyPositions(data: any, nodeTemplates: any[], jsPlumbInstance: any): void {
-    let counter = 0;
-    for (const node of nodeTemplates) {
+    nodeTemplates.forEach((node, index) => {
       // apply the new positions to the nodes
-      node.otherAttributes['x'] = data.children[counter].x;
-      node.otherAttributes['y'] = data.children[counter].y + 40;
-      counter = counter + 1;
-    }
-    setTimeout(() => jsPlumbInstance.repaintEverything(), 1);
+      node.otherAttributes['x'] = data.children[index].x;
+      node.otherAttributes['y'] = data.children[index].y + 40;
+    });
+
+    this.repaintEverything(jsPlumbInstance);
   }
 
   public alignHorizontal(selectedNodes: any[], jsPlumbInstance: any): void {
     let smallestVal = 0;
     let biggestVal = 0;
     let result;
-    let counter = 0;
     // if there is only 1 node selected, do nothing
     if (!( selectedNodes.length === 1)) {
-      for (const node of selectedNodes) {
+      selectedNodes.forEach((node, index) => {
         // if its the first iteration, inititalize
-        if ( counter === 0 ) {
+        if (index === 0) {
           smallestVal = document.getElementById(node.id).offsetTop;
           biggestVal = document.getElementById(node.id).offsetTop;
         } else {
@@ -85,16 +82,16 @@ export class LayoutDirective implements AfterViewInit {
             smallestVal = document.getElementById(node.id).offsetTop;
           }
         }
-        counter = counter + 1;
-      }
+      });
+
       result = biggestVal - smallestVal;
       result = (result / 2);
       result = smallestVal + result;
       // iterate over the nodes again, and apply positions
-      for (const node of selectedNodes) {
+      selectedNodes.forEach((node) => {
         node.otherAttributes['y'] = result;
-      }
-      setTimeout(() => jsPlumbInstance.repaintEverything(), 1);
+      });
+      this.repaintEverything(jsPlumbInstance);
     }
   }
 
@@ -102,12 +99,12 @@ export class LayoutDirective implements AfterViewInit {
     let smallestVal = 0;
     let biggestVal = 0;
     let result;
-    let counter = 0;
     // if there is only 1 node selected, do nothing
     if (!( selectedNodes.length === 1)) {
-      for (const node of selectedNodes) {
+      selectedNodes.forEach((node, index) => {
         // if its the first iteration, inititalize
-        if ( counter === 0 ) {
+        console.log(node, index);
+        if (index === 0) {
           smallestVal = document.getElementById(node.id).offsetLeft;
           biggestVal = document.getElementById(node.id).offsetLeft;
         } else {
@@ -120,17 +117,21 @@ export class LayoutDirective implements AfterViewInit {
             smallestVal = document.getElementById(node.id).offsetLeft;
           }
         }
-        counter = counter + 1;
-      }
+      });
+
       result = biggestVal - smallestVal;
       result = (result / 2);
       result = smallestVal + result;
       // iterate over the nodes again, and apply positions
-      for (const node of selectedNodes) {
+      selectedNodes.forEach((node) => {
         node.otherAttributes['x'] = result;
-      }
-      setTimeout(() => jsPlumbInstance.repaintEverything(), 1);
+      });
+      this.repaintEverything(jsPlumbInstance);
     }
+  }
+
+  public repaintEverything(jsPlumbInstance: any): void {
+    setTimeout(() => jsPlumbInstance.repaintEverything(), 1);
   }
 
   ngAfterViewInit() {
