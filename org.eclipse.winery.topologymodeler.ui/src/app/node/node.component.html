@@ -12,8 +12,8 @@
     </div>
     <div id="specifierDiv" class="col-sm-9">
       <p class="" align="right">{{title}}</p>
-      <p class="" align="right" style="color: tomato" *ngIf="idsVisible">{{title}}</p>
-      <a href="#" class="h6 btn-link" style="text-align: right; display: block" *ngIf="typesVisible">{{title}}</a>
+      <p class="" align="right" style="color: tomato" *ngIf="navbarButtonsState.idsButton">{{title}}</p>
+      <a href="#" class="h6 btn-link" style="text-align: right; display: block" *ngIf="navbarButtonsState.typesButton">{{title}}</a>
     </div>
   </div>
   <div class="endpointContainer" *ngIf="connectorEndpointVisible">
@@ -31,7 +31,7 @@
     <accordion-group
       #propertiesgroup
       panelClass="accordionGroupPanel"
-      *ngIf="propertiesVisible">
+      *ngIf="navbarButtonsState.propertiesButton">
       <div accordion-heading>
         Properties
         <i class="pull-sm-0 float-sm-right fa icon-styling"
@@ -44,7 +44,7 @@
     <accordion-group
       #deploymentartifactsgroup
       panelClass="accordionGroupPanel"
-      *ngIf="deploymentArtifactsVisible">
+      *ngIf="navbarButtonsState.deploymentArtifactsButton">
       <div accordion-heading>
         Deployment Artifacts
         <i class="pull-sm-0 float-sm-right fa icon-styling"
@@ -58,7 +58,7 @@
     <accordion-group
       #requirementscapabilitiesgroup
       panelClass="accordionGroupPanel"
-      *ngIf="requirementsCapabilitiesVisible">
+      *ngIf="navbarButtonsState.requirementsCapabilitiesButton">
       <div accordion-heading>
         Requirements - Capabilities
         <i class="pull-sm-0 float-sm-right fa icon-styling"
@@ -72,7 +72,7 @@
     <accordion-group
       #policiesgroup
       panelClass="accordionGroupPanel"
-      *ngIf="policiesVisible">
+      *ngIf="navbarButtonsState.policiesButton">
       <div accordion-heading>
         Policies
         <i class="pull-sm-0 float-sm-right fa icon-styling"
@@ -85,7 +85,7 @@
     <accordion-group
       #targetlocationsgroup
       panelClass="accordionGroupPanel"
-      *ngIf="targetLocationsVisible">
+      *ngIf="navbarButtonsState.targetLocationsButton">
       <div accordion-heading>
         Target Locations
         <i class="pull-sm-0 float-sm-right fa icon-styling"

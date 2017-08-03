@@ -26,6 +26,9 @@ import { JsonService } from '../jsonService/json.service';
 import { JsPlumbService } from '../jsPlumbService';
 import { WineryCustomOption } from '../winery-alert/winery-alert-options';
 import { TopologyRendererComponent } from './topology-renderer.component';
+import { NgReduxModule, NgRedux } from '@angular-redux/store';
+import { ButtonActions } from '../redux/actions/app.actions';
+import { IAppState, INITIAL_STATE, rootReducer } from '../redux/reducers/store';
 
 @NgModule({
   imports: [
@@ -36,7 +39,8 @@ import { TopologyRendererComponent } from './topology-renderer.component';
     BsDropdownModule.forRoot(),
     WineryAlertModule.forRoot(),
     ToastModule.forRoot(),
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    NgReduxModule
   ],
   declarations: [
     NavbarComponent,
@@ -56,8 +60,17 @@ export class TopologyRendererModule {
       providers: [
         {provide: ToastOptions, useClass: WineryCustomOption},
         JsPlumbService,
-        JsonService
+        JsonService,
+        ButtonActions
       ]
     };
+  }
+  constructor(ngRedux: NgRedux<IAppState>) {
+    // Tell @angular-redux/store about our rootReducer and our initial state.
+    // It will use this to create a redux store for us and wire up all the
+    // events.
+    ngRedux.configureStore(
+      rootReducer,
+      INITIAL_STATE);
   }
 }

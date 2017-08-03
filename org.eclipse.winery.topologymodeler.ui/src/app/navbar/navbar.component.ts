@@ -9,35 +9,37 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {WineryAlertService} from '../winery-alert/winery-alert.service';
-import {LayoutDirective} from '../layout.directive';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { WineryAlertService } from '../winery-alert/winery-alert.service';
+import { IAppState } from '../redux/reducers/store';
+import { NgRedux } from '@angular-redux/store';
+import { ButtonActions } from '../redux/actions/app.actions';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   /**
    * Boolean variables that hold the state {pressed vs. !pressed} of the navbar buttons.
    * @type {boolean}
    */
-  layoutPressed = false;
-  alignvPressed = false;
-  alignhPressed = false;
-  targetLocationsPressed = false;
-  policiesPressed = false;
-  requirementsCapabilitiesPressed = false;
-  deploymentArtifactsPressed = false;
-  propertiesPressed = false;
-  typesPressed = true;
-  idsPressed = true;
-  @Output() navbarEventEmitter = new EventEmitter();
+  navbarButtonsState = {
+    buttonsState: {
+      targetLocationsButton: false,
+      policiesButton: false,
+      requirementsCapabilitiesButton: false,
+      deploymentArtifactsButton: false,
+      propertiesButton: false,
+      typesButton: true,
+      idsButton: true,
+    }
+  };
 
-  constructor(private alert: WineryAlertService) {
-  }
+  @Output() navbarEventEmitter = new EventEmitter();
+  subscription;
 
   getStyle(buttonPressed: boolean): string {
     if (buttonPressed) {
@@ -56,93 +58,31 @@ export class NavbarComponent implements OnInit {
   toggleButton(event) {
     switch (event.target.id) {
       case 'targetLocations': {
-        this.targetLocationsPressed = !this.targetLocationsPressed;
-        const targetLocationsObject = {
-          name: 'targetLocations',
-          state: this.targetLocationsPressed
-        };
-        this.navbarEventEmitter.emit(targetLocationsObject);
+        this.ngRedux.dispatch(this.actions.toggleTargetLocations());
         break;
       }
       case 'policies': {
-        this.policiesPressed = !this.policiesPressed;
-        const policiesObject = {
-          name: 'policies',
-          state: this.policiesPressed
-        };
-        this.navbarEventEmitter.emit(policiesObject);
+        this.ngRedux.dispatch(this.actions.togglePolicies());
         break;
       }
       case 'requirementsCapabilities': {
-        this.requirementsCapabilitiesPressed = !this.requirementsCapabilitiesPressed;
-        const requirementsCapabilitiesObject = {
-          name: 'requirementsCapabilities',
-          state: this.requirementsCapabilitiesPressed
-        };
-        this.navbarEventEmitter.emit(requirementsCapabilitiesObject);
+        this.ngRedux.dispatch(this.actions.toggleRequirementsCapabilities());
         break;
       }
       case 'deploymentArtifacts': {
-        this.deploymentArtifactsPressed = !this.deploymentArtifactsPressed;
-        const deploymentArtifactsObject = {
-          name: 'deploymentArtifacts',
-          state: this.deploymentArtifactsPressed
-        };
-        this.navbarEventEmitter.emit(deploymentArtifactsObject);
+        this.ngRedux.dispatch(this.actions.toggleDeploymentArtifacts());
         break;
       }
       case 'properties': {
-        this.propertiesPressed = !this.propertiesPressed;
-        const propertiesObject = {
-          name: 'properties',
-          state: this.propertiesPressed
-        };
-        this.navbarEventEmitter.emit(propertiesObject);
+        this.ngRedux.dispatch(this.actions.toggleProperties());
         break;
       }
       case 'types': {
-        this.typesPressed = !this.typesPressed;
-        const typesObject = {
-          name: 'types',
-          state: this.typesPressed
-        };
-        this.navbarEventEmitter.emit(typesObject);
+        this.ngRedux.dispatch(this.actions.toggleTypes());
         break;
       }
       case 'ids': {
-        this.idsPressed = !this.idsPressed;
-        const idsObject = {
-          name: 'ids',
-          state: this.idsPressed
-        };
-        this.navbarEventEmitter.emit(idsObject);
-        break;
-      }
-      case 'layout': {
-        this.layoutPressed = !this.layoutPressed;
-        const layoutObject = {
-          name: 'layout',
-          state: this.layoutPressed
-        };
-        this.navbarEventEmitter.emit(layoutObject);
-        break;
-      }
-      case 'alignh': {
-        this.alignhPressed = !this.alignhPressed;
-        const alignhObject = {
-          name: 'alignh',
-          state: this.alignhPressed
-        };
-        this.navbarEventEmitter.emit(alignhObject);
-        break;
-      }
-      case 'alignv': {
-        this.alignvPressed = !this.alignvPressed;
-        const alignvObject = {
-          name: 'alignv',
-          state: this.alignvPressed
-        };
-        this.navbarEventEmitter.emit(alignvObject);
+        this.ngRedux.dispatch(this.actions.toggleIds());
         break;
       }
     }
@@ -153,5 +93,16 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  constructor(private alert: WineryAlertService,
+              private ngRedux: NgRedux<IAppState>,
+              private actions: ButtonActions) {
+    this.subscription = ngRedux.select<any>('buttonsState')
+      .subscribe(newObject => this.navbarButtonsState = newObject);
   }
 }

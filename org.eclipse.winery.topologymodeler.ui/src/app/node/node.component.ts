@@ -1,29 +1,65 @@
+/**
+ * Copyright (c) 2017 University of Stuttgart.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     Josip Ledic - initial API and implementation, Refactoring to use Redux instead
+ */
 import {
-  AfterViewInit, Component, DoCheck, EventEmitter, Input, IterableDiffers, KeyValueDiffers, OnInit, Output
+  AfterViewInit,
+  Component,
+  DoCheck,
+  EventEmitter,
+  Input,
+  IterableDiffers,
+  KeyValueDiffers,
+  OnDestroy,
+  OnInit,
+  Output
 } from '@angular/core';
+import { ButtonActions } from '../redux/actions/app.actions';
+import { IAppState } from '../redux/reducers/store';
+import { NgRedux } from '@angular-redux/store';
 
 @Component({
   selector: 'app-node',
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css'],
 })
-export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
+export class NodeComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
   public items: string[] = ['Item 1', 'Item 2', 'Item 3'];
   public accordionGroupPanel = 'accordionGroupPanel';
   public customClass = 'customClass';
-  targetLocationsVisible = false;
-  policiesVisible = false;
-  requirementsCapabilitiesVisible = false;
-  deploymentArtifactsVisible = false;
-  propertiesVisible = false;
-  typesVisible = true;
-  idsVisible = true;
   connectorEndpointVisible = false;
   startTime;
   endTime;
   longpress = false;
   makeSelectionVisible = false;
-
+  /**
+   * local representation of the Redux state of the navbar buttons.
+   */
+  navbarButtonsState = {
+    buttonsState: {
+      targetLocationsButton: false,
+      policiesButton: false,
+      requirementsCapabilitiesButton: false,
+      deploymentArtifactsButton: false,
+      propertiesButton: false,
+      typesButton: true,
+      idsButton: true,
+    }
+  };
+  /**
+   * Redux subscriptions
+   */
+  subscription;
+  /**
+   * Input/Output variables
+   */
   @Input() title: string;
   @Input() left: number;
   @Input() top: number;
@@ -39,7 +75,6 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
   differNavBar: any;
   differUnselectedNodes: any;
 
-
   public status: any = {
     isFirstOpen: true,
     isOpen: false
@@ -49,7 +84,11 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
     this.items.push(`Items ${this.items.length + 1}`);
   }
 
-  constructor(differsSelectedNodes: IterableDiffers, differsNavBar: KeyValueDiffers, differsUnselectedNodes: IterableDiffers) {
+  constructor(differsSelectedNodes: IterableDiffers,
+              differsNavBar: KeyValueDiffers,
+              differsUnselectedNodes: IterableDiffers,
+              private ngRedux: NgRedux<IAppState>,
+              private actions: ButtonActions) {
     this.sendId = new EventEmitter();
     this.askForRepaint = new EventEmitter();
     this.addNodeToDragSelection = new EventEmitter();
@@ -57,6 +96,15 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
     this.differSelectedNodes = differsSelectedNodes.find([]).create(null);
     this.differNavBar = differsNavBar.find([]).create(null);
     this.differUnselectedNodes = differsUnselectedNodes.find([]).create(null);
+    /**
+     * Redux subscriptions
+     * @type {Subscription}
+     */
+    this.subscription = ngRedux.select<any>('buttonsState')
+      .subscribe(newObject => {
+        this.navbarButtonsState = newObject;
+        setTimeout(() => this.askForRepaint.emit(), 1);
+      });
   }
 
   ngOnInit() {
@@ -76,15 +124,16 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
             this.makeSelectionVisible = true;
           }
         }
-        );
+      );
       selectedNodes.forEachRemovedItem(r => {
           if (this.title === r.item) {
             this.makeSelectionVisible = false;
           }
         }
       );
-      } else if (navBarButtonClicked) {
-      switch (navBarButtonClicked._mapHead.currentValue) {
+    } else if (navBarButtonClicked) {
+      // TODO Auf Redux umändern bzw. nicht zwingend notwendig einzelne nodes auszuklappen.
+      /*switch (navBarButtonClicked._mapHead.currentValue) {
         case 'targetLocations': {
           this.targetLocationsVisible = !this.targetLocationsVisible;
           break;
@@ -113,7 +162,7 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
           this.idsVisible = !this.idsVisible;
           break;
         }
-      }
+      }*/
       setTimeout(() => this.askForRepaint.emit(), 1);
     }
   }
@@ -144,7 +193,7 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
     } else if (this.endTime - this.startTime >= 300) {
       this.longpress = true;
     }
-    }
+  }
 
   showConnectorEndpoint($event): void {
     $event.stopPropagation();
@@ -154,6 +203,10 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck {
     } else {
       (this.longpress) ? $event.preventDefault() : this.connectorEndpointVisible = !this.connectorEndpointVisible;
       this.checkIfNodeInSelection.emit(this.title);
-      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
