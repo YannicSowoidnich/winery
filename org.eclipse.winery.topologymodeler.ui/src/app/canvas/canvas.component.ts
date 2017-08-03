@@ -45,8 +45,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   selectionHeight: number;
   callOpenSelector: boolean;
   callSelectItems: boolean;
-  offsetY = 70;
-  offsetX = -200;
+  offsetY = 110;
+  offsetX = 0;
   startTime: number;
   endTime: number;
   longPress: boolean;
