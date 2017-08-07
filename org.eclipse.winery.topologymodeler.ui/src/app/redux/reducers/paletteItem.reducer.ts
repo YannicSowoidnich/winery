@@ -9,9 +9,9 @@
  * Contributors:
  *     Thommy Zelenik - initial API and implementation
  */
-import {PaletteItem} from './paletteItem.model';
+import {PaletteItem} from '../models/paletteItem.model';
 import {Action} from 'redux';
-import {CREATE_PALETTEITEM, CreatePaletteItemAction} from './paletteItem.actions';
+import {CREATE_PALETTEITEM, CreatePaletteItemAction} from '../actions/paletteItem.actions';
 
 export interface PaletteItemState {
   currentPaletteItemState: PaletteItem;
@@ -21,9 +21,9 @@ const initialState: PaletteItemState = {
   currentPaletteItemState: null
 };
 
-export const getPaletteItemState = (state): PaletteItemState => state.paletteItem.currentPaletteItemState;
+export const getPaletteItemState = (state): PaletteItemState => state.currentPaletteItemState;
 
-export const PaletteItemReducer =
+export const paletteItemReducer =
   function (state: PaletteItemState = initialState, action: Action): PaletteItemState {
   switch (action.type) {
     case CREATE_PALETTEITEM:
@@ -35,3 +35,5 @@ export const PaletteItemReducer =
       return state;
   }
   };
+
+export default paletteItemReducer;

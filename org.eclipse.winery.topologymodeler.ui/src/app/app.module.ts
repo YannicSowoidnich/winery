@@ -22,7 +22,8 @@ import { RequirementsCapabilitiesComponent } from './requirements-capabilities/r
 import { PoliciesComponent } from './policies/policies.component';
 import { PrintViewComponent } from './print-view/print-view.component';
 import { TargetLocationsComponent } from './target-locations/target-locations.component';
-import {appStoreProviders} from './redux/store/app.store';
+import {paletteItemStoreProviders} from './redux/stores/paletteItem.store';
+import {paletteStateStoreProviders} from './redux/stores/paletteOpened.store';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {appStoreProviders} from './redux/store/app.store';
     {provide: ToastOptions, useClass: WineryCustomOption},
     JsPlumbService,
     JsonService,
-    appStoreProviders
+    paletteItemStoreProviders,
+    paletteStateStoreProviders
   ],
 
   bootstrap: [AppComponent]

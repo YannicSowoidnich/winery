@@ -9,27 +9,30 @@
  * Contributors:
  *     Thommy Zelenik - initial API and implementation
  */
-import {PaletteStatus} from './paletteState.model';
 import {Action} from 'redux';
-import {SEND_PALETTESTATUS, SendPaletteStatusAction} from './paletteState.actions';
+import {SEND_PALETTESTATUS, SendPaletteStatusAction} from '../actions/paletteState.actions';
 
-export interface PaletteStatusState {
-  currentPaletteState: PaletteStatus;
+export interface PaletteOpenedState {
+  currentPaletteOpened: boolean;
 }
 
-const initialState: PaletteStatusState = {
-  currentPaletteState: null
+const initialState: PaletteOpenedState = {
+  currentPaletteOpened: false
 };
 
-export const PaletteStateReducer =
-  function (state: PaletteStatusState = initialState, action: Action): PaletteStatusState {
+export const getPaletteOpened = (state): PaletteOpenedState => state;
+
+export const paletteOpenedReducer =
+  function (state: PaletteOpenedState = initialState, action: Action): PaletteOpenedState {
   switch (action.type) {
     case SEND_PALETTESTATUS:
-    const paletteStatus = (<SendPaletteStatusAction>action).paletteStatus;
+    const paletteOpened = (<SendPaletteStatusAction>action).paletteOpened;
       return {
-        currentPaletteState: paletteStatus
+        currentPaletteOpened: paletteOpened
       };
     default:
       return state;
   }
   };
+
+export default paletteOpenedReducer;

@@ -11,7 +11,7 @@
  */
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { WineryAlertService } from '../winery-alert/winery-alert.service';
-import { IAppState } from '../redux/reducers/store';
+import { IAppState } from '../redux/stores/store';
 import { NgRedux } from '@angular-redux/store';
 import { ButtonActions } from '../redux/actions/app.actions';
 

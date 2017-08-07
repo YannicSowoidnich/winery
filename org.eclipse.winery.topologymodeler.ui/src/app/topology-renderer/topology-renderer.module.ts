@@ -28,7 +28,7 @@ import { WineryCustomOption } from '../winery-alert/winery-alert-options';
 import { TopologyRendererComponent } from './topology-renderer.component';
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
 import { ButtonActions } from '../redux/actions/app.actions';
-import { IAppState, INITIAL_STATE, rootReducer } from '../redux/reducers/store';
+import { IAppState, INITIAL_STATE, rootReducer } from '../redux/stores/store';
 
 @NgModule({
   imports: [

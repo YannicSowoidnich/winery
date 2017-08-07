@@ -9,15 +9,14 @@
  * Contributors:
  *     Thommy Zelenik - initial API and implementation
  */
-import {PaletteItem} from './paletteItem.model';
 import {Action, ActionCreator} from 'redux';
 
-export const CREATE_PALETTEITEM = 'CREATE_PALETTEITEM';
-export interface CreatePaletteItemAction extends Action {
-  paletteItem: PaletteItem;
+export const SEND_PALETTESTATUS = 'SEND_PALETTESTATUS';
+export interface SendPaletteStatusAction extends Action {
+  paletteOpened: boolean;
 }
-export const createPaletteItem: ActionCreator<CreatePaletteItemAction> =
-  (paletteItem) => ({
-    type: CREATE_PALETTEITEM,
-    paletteItem: paletteItem
+export const sendPaletteStatus: ActionCreator<SendPaletteStatusAction> =
+  (paletteOpened) => ({
+    type: SEND_PALETTESTATUS,
+    paletteOpened: paletteOpened
   });

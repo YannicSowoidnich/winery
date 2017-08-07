@@ -3,22 +3,21 @@ import {
   Component,
   DoCheck,
   ElementRef,
-  EventEmitter,
   HostListener, Inject,
   Input,
   KeyValueDiffers,
-  OnInit,
-  Output
+  OnInit
 } from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
 import { LayoutDirective } from '../layout.directive';
-import {AppState} from '../redux/reducers/palette.reducer';
-import {AppStore} from '../redux/store/app.store';
 import * as Redux from 'redux';
-import {PaletteItem} from '../redux/paletteItem/paletteItem.model';
-import {getPaletteItemState} from '../redux/paletteItem/paletteItem.reducer';
+import {getPaletteItemState, PaletteItemState} from '../redux/reducers/paletteItem.reducer';
+import {sendPaletteStatus} from '../redux/actions/paletteState.actions';
+import {PaletteItemStore} from '../redux/stores/paletteItem.store';
+import {PaletteOpenedState} from '../redux/reducers/paletteState.reducer';
+import {PaletteOpenedStore} from '../redux/stores/paletteOpened.store';
 
 @Component({
   selector: 'app-canvas',
@@ -39,7 +38,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   @Input() paletteStatus: any;
   nodeSelected = false;
   nodeArrayEmpty = false;
-  @Output() closePalette: EventEmitter<string>;
   pageX: Number;
   pageY: Number;
   selectionActive: boolean;
@@ -63,15 +61,15 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
               private _layoutDirective: LayoutDirective,
               differsPressedNavBarButton: KeyValueDiffers,
               differsPaletteStatus: KeyValueDiffers,
-              @Inject(AppStore) private store: Redux.Store<AppState>) {
-    store.subscribe(() => this.updateState());
-    this.closePalette = new EventEmitter();
+              @Inject(PaletteItemStore) private storePaletteItem: Redux.Store<PaletteItemState>,
+              @Inject(PaletteOpenedStore) private storePaletteOpened: Redux.Store<PaletteOpenedState>) {
+    storePaletteItem.subscribe(() => this.updateState());
     this.differPressedNavBarButton = differsPressedNavBarButton.find([]).create(null);
     this.differPaletteStatus = differsPaletteStatus.find([]).create(null);
   }
 
   updateState() {
-    const state = this.store.getState();
+    const state = this.storePaletteItem.getState();
     const paletteItem = getPaletteItemState(state);
     this.nodeFactory(paletteItem);
     this.paletteClicked = true;
@@ -83,7 +81,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
       this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
       this.clearArray(this.selectedNodes);
       if ($event.clientX > 200) {
-        this.closePalette.emit('Close Palette');
+        this.storePaletteOpened.dispatch(sendPaletteStatus(false));
       }
     }
   }

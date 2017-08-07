@@ -1,11 +1,13 @@
-import {Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Inject, OnChanges, OnInit, Output} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PaletteService } from '../palette.service';
-import {AppStore} from '../redux/store/app.store';
 import * as Redux from 'redux';
-import {AppState} from '../redux/reducers/palette.reducer';
-import {createPaletteItem} from '../redux/paletteItem/paletteItem.actions';
-import {PaletteItem} from '../redux/paletteItem/paletteItem.model';
+import {createPaletteItem} from '../redux/actions/paletteItem.actions';
+import {PaletteItem} from '../redux/models/paletteItem.model';
+import {getPaletteOpened, PaletteOpenedState} from '../redux/reducers/paletteState.reducer';
+import {PaletteItemStore} from '../redux/stores/paletteItem.store';
+import {PaletteOpenedStore} from '../redux/stores/paletteOpened.store';
+import {PaletteItemState} from '../redux/reducers/paletteItem.reducer';
 
 @Component({
   selector: 'app-palette-component',
@@ -57,22 +59,25 @@ import {PaletteItem} from '../redux/paletteItem/paletteItem.model';
     ])
   ]
 })
-export class PaletteComponent implements OnInit, OnChanges {
+export class PaletteComponent implements OnInit {
   detailsAreHidden = true;
   paletteRootState = 'shrunk';
   paletteItems = [];
-  @Input() closePalette: any;
   @Output() adjustGridSizeToPalette: EventEmitter<any>;
   paletteStatus: any;
 
-  constructor(private paletteService: PaletteService, @Inject(AppStore) private store: Redux.Store<AppState>) {
-    store.subscribe(() => this.updateState());
+  constructor(private paletteService: PaletteService,
+              @Inject(PaletteItemStore) private storePaletteItem: Redux.Store<PaletteItemState>,
+              @Inject(PaletteOpenedStore) private storePaletteOpened: Redux.Store<PaletteOpenedState>) {
+    storePaletteOpened.subscribe(() => this.updateState());
     this.paletteItems = paletteService.getPaletteData();
     this.adjustGridSizeToPalette = new EventEmitter();
   }
 
   updateState() {
-    // TODO
+    if (this.paletteRootState = 'extended') {
+      this.toggleRootState();
+    }
   }
 
   ngOnInit() {
@@ -109,13 +114,7 @@ export class PaletteComponent implements OnInit, OnChanges {
       mousePositionX: left,
       mousePositionY: top
     };
-    this.store.dispatch(createPaletteItem(pressedPaletteItem));
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.paletteRootState = 'extended') {
-      this.toggleRootState();
-    }
+    this.storePaletteItem.dispatch(createPaletteItem(pressedPaletteItem));
   }
 }
 

@@ -22,7 +22,7 @@ import {
   Output
 } from '@angular/core';
 import { ButtonActions } from '../redux/actions/app.actions';
-import { IAppState } from '../redux/reducers/store';
+import { IAppState } from '../redux/stores/store';
 import { NgRedux } from '@angular-redux/store';
 
 @Component({

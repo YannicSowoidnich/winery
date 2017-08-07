@@ -10,7 +10,7 @@
  *     Josip Ledic - initial API and implementation
  */
 import {
-  Component, EventEmitter, Input, OnInit, Output,
+  Component, Input, OnInit,
   ViewContainerRef
 } from '@angular/core';
 import { WineryAlertService } from '../winery-alert/winery-alert.service';
@@ -197,8 +197,6 @@ export class TopologyRendererComponent implements OnInit {
 
   @Input() topologyTemplate: any;
   @Input() visuals: Visuals[] = [new Visuals('red', 'apple', 'apple', 'abc')];
-  @Output() passClosePaletteToRoot: EventEmitter<string>;
-  @Input() pressedPaletteItem: any;
   @Input() paletteStatus: any;
 
   pressedNavBarButton: any;
@@ -206,15 +204,10 @@ export class TopologyRendererComponent implements OnInit {
   constructor(vcr: ViewContainerRef, private notify: WineryAlertService,
               private jsonService: JsonService) {
     this.notify.init(vcr);
-    this.passClosePaletteToRoot = new EventEmitter();
   }
 
   sendPressedNavBarButtonToCanvas($event): void {
     this.pressedNavBarButton = $event;
-  }
-
-  closePalette(): void {
-    this.passClosePaletteToRoot.emit('Close Palette!');
   }
 
   ngOnInit() {

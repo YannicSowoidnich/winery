@@ -1,12 +1,9 @@
 <app-topology-renderer [topologyTemplate]="this.topologyTemplate"
                        [visuals]="this.visuals"
-                       (passClosePaletteToRoot)="passClosePaletteToPalette()"
                        [paletteStatus]="paletteStatus">
 </app-topology-renderer>
 
 <app-palette-component style="width:200px;float:left; margin-top: 7%;"
-                       (sendPressedPaletteItem)="sendPressedPaletteItem($event)"
-                       [closePalette]="closePalette"
                        (adjustGridSizeToPalette)="adjustGridSize($event)"
 ></app-palette-component>
 
