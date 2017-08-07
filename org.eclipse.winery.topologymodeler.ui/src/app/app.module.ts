@@ -6,22 +6,15 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { JsPlumbService } from './jsPlumbService';
 
-
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WineryAlertModule } from './winery-alert/winery-alert.module';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { WineryCustomOption } from './winery-alert/winery-alert-options';
-import { NodeComponent } from './node/node.component';
 import { PaletteComponent } from './palette/palette.component';
-import { CanvasComponent } from './canvas/canvas.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { LayoutDirective } from './layout.directive';
 import {JsonService} from './jsonService/json.service';
-import { TopologyRendererComponent } from './topology-renderer/topology-renderer.component';
 import { TopologyRendererModule } from './topology-renderer/topology-renderer.module';
 import { PropertiesComponent } from './properties/properties.component';
 import { DeploymentArtifactsComponent } from './deployment-artifacts/deployment-artifacts.component';
@@ -29,6 +22,7 @@ import { RequirementsCapabilitiesComponent } from './requirements-capabilities/r
 import { PoliciesComponent } from './policies/policies.component';
 import { PrintViewComponent } from './print-view/print-view.component';
 import { TargetLocationsComponent } from './target-locations/target-locations.component';
+import {appStoreProviders} from './redux/store/app.store';
 
 @NgModule({
   declarations: [
@@ -56,7 +50,8 @@ import { TargetLocationsComponent } from './target-locations/target-locations.co
   providers: [
     {provide: ToastOptions, useClass: WineryCustomOption},
     JsPlumbService,
-    JsonService
+    JsonService,
+    appStoreProviders
   ],
 
   bootstrap: [AppComponent]

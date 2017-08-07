@@ -167,17 +167,6 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy 
     }
   }
 
-  private checkIfArrayContainsElement(arrayOfNodes: any[], id: string): boolean {
-    if (arrayOfNodes !== null && arrayOfNodes.length > 0) {
-      for (let i = 0; i < arrayOfNodes.length; i++) {
-        if (arrayOfNodes[i] === id) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   trackTimeOfMouseDown(): void {
     this.startTime = new Date().getTime();
   }

@@ -1,6 +1,11 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PaletteService } from '../palette.service';
+import {AppStore} from '../redux/store/app.store';
+import * as Redux from 'redux';
+import {AppState} from '../redux/reducers/palette.reducer';
+import {createPaletteItem} from '../redux/paletteItem/paletteItem.actions';
+import {PaletteItem} from '../redux/paletteItem/paletteItem.model';
 
 @Component({
   selector: 'app-palette-component',
@@ -56,15 +61,18 @@ export class PaletteComponent implements OnInit, OnChanges {
   detailsAreHidden = true;
   paletteRootState = 'shrunk';
   paletteItems = [];
-  @Output() sendPressedPaletteItem: EventEmitter<string>;
   @Input() closePalette: any;
   @Output() adjustGridSizeToPalette: EventEmitter<any>;
   paletteStatus: any;
 
-  constructor(private paletteService: PaletteService) {
+  constructor(private paletteService: PaletteService, @Inject(AppStore) private store: Redux.Store<AppState>) {
+    store.subscribe(() => this.updateState());
     this.paletteItems = paletteService.getPaletteData();
     this.adjustGridSizeToPalette = new EventEmitter();
-    this.sendPressedPaletteItem = new EventEmitter();
+  }
+
+  updateState() {
+    // TODO
   }
 
   ngOnInit() {
@@ -93,14 +101,15 @@ export class PaletteComponent implements OnInit, OnChanges {
   }
 
   publishTitle($event): void {
-    const left = $event.pageX - 100;
-    const top = $event.pageY - 30;
-    const pressedPaletteItem: any = {
-      name: $event.target.innerHTML,
-      mousePositionX: left.toString().concat('px'),
-      mousePositionY: top.toString().concat('px')
+    const left = ($event.pageX - 100).toString().concat('px');
+    const top = ($event.pageY - 30).toString().concat('px');
+    const name = $event.target.innerHTML;
+    const pressedPaletteItem: PaletteItem = {
+      name: name,
+      mousePositionX: left,
+      mousePositionY: top
     };
-    this.sendPressedPaletteItem.emit(pressedPaletteItem);
+    this.store.dispatch(createPaletteItem(pressedPaletteItem));
   }
 
   ngOnChanges(changes: SimpleChanges) {

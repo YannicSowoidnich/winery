@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {AppStore} from './redux/store/app.store';
+import * as Redux from 'redux';
+import {AppState} from './redux/reducers/palette.reducer';
 
 @Component({
   selector: 'app-topologyrenderer',
@@ -185,15 +188,13 @@ export class AppComponent implements OnInit {
   ];
 
   closePalette: boolean;
-  pressedPaletteItemFromRoot: string;
   paletteStatus: any;
+
+  constructor(@Inject(AppStore) private store: Redux.Store<AppState>) {
+  }
 
   passClosePaletteToPalette(): void {
     this.closePalette = !this.closePalette;
-  }
-
-  sendPressedPaletteItem($event): void {
-    this.pressedPaletteItemFromRoot = $event;
   }
 
   adjustGridSize($event): void {

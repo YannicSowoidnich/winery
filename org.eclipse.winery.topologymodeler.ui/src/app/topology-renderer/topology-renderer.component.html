@@ -1,7 +1,6 @@
 <app-navbar (navbarEventEmitter)="sendPressedNavBarButtonToCanvas($event)"></app-navbar>
 <app-canvas
   [pressedNavBarButton]="pressedNavBarButton"
-  [pressedPaletteItem]="pressedPaletteItem"
   (closePalette)="closePalette()"
   [paletteStatus]="paletteStatus"
 ></app-canvas>

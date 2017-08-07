@@ -4,7 +4,7 @@ import {
   DoCheck,
   ElementRef,
   EventEmitter,
-  HostListener,
+  HostListener, Inject,
   Input,
   KeyValueDiffers,
   OnInit,
@@ -14,6 +14,11 @@ import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
 import { LayoutDirective } from '../layout.directive';
+import {AppState} from '../redux/reducers/palette.reducer';
+import {AppStore} from '../redux/store/app.store';
+import * as Redux from 'redux';
+import {PaletteItem} from '../redux/paletteItem/paletteItem.model';
+import {getPaletteItemState} from '../redux/paletteItem/paletteItem.reducer';
 
 @Component({
   selector: 'app-canvas',
@@ -31,7 +36,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   newJsPlumbInstance: any;
   visuals: any[];
   @Input() pressedNavBarButton: any;
-  @Input() pressedPaletteItem: any;
   @Input() paletteStatus: any;
   nodeSelected = false;
   nodeArrayEmpty = false;
@@ -52,18 +56,25 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   longPress: boolean;
   crosshair = false;
   differPressedNavBarButton: any;
-  differPressedPaletteItem: any;
   differPaletteStatus: any;
   enhanceGrid: number;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef,
               private _layoutDirective: LayoutDirective,
-              differsPressedPaletteItem: KeyValueDiffers, differsPressedNavBarButton: KeyValueDiffers,
-              differsPaletteStatus: KeyValueDiffers) {
+              differsPressedNavBarButton: KeyValueDiffers,
+              differsPaletteStatus: KeyValueDiffers,
+              @Inject(AppStore) private store: Redux.Store<AppState>) {
+    store.subscribe(() => this.updateState());
     this.closePalette = new EventEmitter();
     this.differPressedNavBarButton = differsPressedNavBarButton.find([]).create(null);
-    this.differPressedPaletteItem = differsPressedPaletteItem.find([]).create(null);
     this.differPaletteStatus = differsPaletteStatus.find([]).create(null);
+  }
+
+  updateState() {
+    const state = this.store.getState();
+    const paletteItem = getPaletteItemState(state);
+    this.nodeFactory(paletteItem);
+    this.paletteClicked = true;
   }
 
   @HostListener('click', ['$event'])
@@ -170,7 +181,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
 
   ngDoCheck(): void {
     const pressedNavBarButton = this.differPressedNavBarButton.diff(this.pressedNavBarButton);
-    const pressedPaletteItem = this.differPressedPaletteItem.diff(this.pressedPaletteItem);
     const paletteStatus = this.differPaletteStatus.diff(this.paletteStatus);
 
     if (pressedNavBarButton) {
@@ -183,14 +193,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
       if (pressedNavBarButton._mapHead.currentValue === 'alignh') {
         this._layoutDirective.alignHorizontal(this.nodeTemplates, this.newJsPlumbInstance);
       }
-    } else if (pressedPaletteItem) {
-      const paletteItem: any = {
-        name: pressedPaletteItem._mapHead.currentValue,
-        mousePositionX: pressedPaletteItem._appendAfter._prev.currentValue,
-        mousePositionY: pressedPaletteItem._appendAfter.currentValue
-      };
-      this.nodeFactory(paletteItem);
-      this.paletteClicked = true;
     } else if (paletteStatus) {
       if (paletteStatus._appendAfter.currentValue === false) {
         this.enhanceGrid = 0;
