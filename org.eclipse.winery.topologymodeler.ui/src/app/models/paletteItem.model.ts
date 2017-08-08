@@ -8,16 +8,11 @@
  *
  * Contributors:
  *     Thommy Zelenik - initial API and implementation
+ *
+ * A PaletteItem represents a node type which was selected from the palette by clicking on the palette item
  */
-import {PaletteItem} from '../models/paletteItem.model';
-import {Action, ActionCreator} from 'redux';
-
-export const CREATE_PALETTEITEM = 'CREATE_PALETTEITEM';
-export interface CreatePaletteItemAction extends Action {
-  paletteItem: PaletteItem;
+export interface PaletteItemModel {
+  name: string;
+  mousePositionX: string;
+  mousePositionY: string;
 }
-export const createPaletteItem: ActionCreator<CreatePaletteItemAction> =
-  (paletteItem) => ({
-    type: CREATE_PALETTEITEM,
-    paletteItem: paletteItem
-  });

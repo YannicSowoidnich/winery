@@ -14,9 +14,9 @@ export class JsPlumbService {
     return jsPlumb.getInstance({
       PaintStyle: {
         strokeWidth: 2,
-        stroke: 'rgba(55,55,55,0.9)',
+        stroke: 'rgba(0,0,55,0.5)',
       },
-      Connector: ['StateMachine', {proximityLimit: 600, curviness: 30}],
+      Connector: ['Bezier', { curviness: 150 }],
       Endpoints: [
         ['Blank', {radius: 0}], ['Blank', {radius: 0}]],
       ConnectionsDetachable: false,

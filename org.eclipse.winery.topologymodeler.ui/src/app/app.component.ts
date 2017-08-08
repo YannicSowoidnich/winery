@@ -1,9 +1,4 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import * as Redux from 'redux';
-import {PaletteItemStore} from './redux/stores/paletteItem.store';
-import {PaletteItemState} from './redux/reducers/paletteItem.reducer';
-import {PaletteOpenedStore} from './redux/stores/paletteOpened.store';
-import {PaletteOpenedState} from './redux/reducers/paletteState.reducer';
 
 @Component({
   selector: 'app-topologyrenderer',
@@ -188,16 +183,6 @@ export class AppComponent implements OnInit {
       localName: ''
     }
   ];
-
-  paletteStatus: any;
-
-  constructor(@Inject(PaletteItemStore) private storePaletteItem: Redux.Store<PaletteItemState>,
-              @Inject(PaletteOpenedStore) private storePaletteOpened: Redux.Store<PaletteOpenedState>) {
-  }
-
-  adjustGridSize($event): void {
-    this.paletteStatus = $event;
-  }
 
   ngOnInit() {
     this.topologyTemplate = this.testJson;

@@ -11,8 +11,12 @@
  *
  * A PaletteItem represents a node type which was selected from the palette by clicking on the palette item
  */
-export interface PaletteItem {
-  name: string;
-  mousePositionX: string;
-  mousePositionY: string;
+export interface ButtonsStateModel {
+  targetLocationsButton?: boolean;
+  policiesButton?: boolean;
+  requirementsCapabilitiesButton?: boolean;
+  deploymentArtifactsButton?: boolean;
+  propertiesButton?: boolean;
+  typesButton?: boolean;
+  idsButton?: boolean;
 }

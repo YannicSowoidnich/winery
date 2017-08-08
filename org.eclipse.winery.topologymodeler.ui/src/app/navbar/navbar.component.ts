@@ -9,11 +9,12 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WineryAlertService } from '../winery-alert/winery-alert.service';
-import { IAppState } from '../redux/stores/store';
 import { NgRedux } from '@angular-redux/store';
-import { ButtonActions } from '../redux/actions/app.actions';
+import { ButtonActions } from '../redux/actions/topologyRenderer.actions';
+import {ButtonsStateModel} from '../models/buttonsState.model';
+import {AppState} from '../redux/store/app.store';
 
 @Component({
   selector: 'app-navbar',
@@ -26,20 +27,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * Boolean variables that hold the state {pressed vs. !pressed} of the navbar buttons.
    * @type {boolean}
    */
-  navbarButtonsState = {
-    buttonsState: {
-      targetLocationsButton: false,
-      policiesButton: false,
-      requirementsCapabilitiesButton: false,
-      deploymentArtifactsButton: false,
-      propertiesButton: false,
-      typesButton: true,
-      idsButton: true,
-    }
-  };
-
-  @Output() navbarEventEmitter = new EventEmitter();
+  navbarButtonsState: ButtonsStateModel;
   subscription;
+
+  constructor(private alert: WineryAlertService,
+              private ngRedux: NgRedux<AppState>,
+              private actions: ButtonActions) {
+    this.subscription = ngRedux.select<any>('buttonsState')
+      .subscribe(newObject => this.navbarButtonsState = newObject);
+  }
 
   getStyle(buttonPressed: boolean): string {
     if (buttonPressed) {
@@ -97,12 +93,5 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  constructor(private alert: WineryAlertService,
-              private ngRedux: NgRedux<IAppState>,
-              private actions: ButtonActions) {
-    this.subscription = ngRedux.select<any>('buttonsState')
-      .subscribe(newObject => this.navbarButtonsState = newObject);
   }
 }

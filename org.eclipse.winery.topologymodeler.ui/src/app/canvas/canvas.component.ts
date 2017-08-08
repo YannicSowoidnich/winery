@@ -3,21 +3,21 @@ import {
   Component,
   DoCheck,
   ElementRef,
-  HostListener, Inject,
+  EventEmitter,
+  HostListener,
   Input,
-  KeyValueDiffers,
-  OnInit
+  KeyValueDiffers, OnDestroy,
+  OnInit,
+  Output
 } from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
 import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
 import { LayoutDirective } from '../layout.directive';
-import * as Redux from 'redux';
-import {getPaletteItemState, PaletteItemState} from '../redux/reducers/paletteItem.reducer';
-import {sendPaletteStatus} from '../redux/actions/paletteState.actions';
-import {PaletteItemStore} from '../redux/stores/paletteItem.store';
-import {PaletteOpenedState} from '../redux/reducers/paletteState.reducer';
-import {PaletteOpenedStore} from '../redux/stores/paletteOpened.store';
+import {PaletteItemModel} from '../models/paletteItem.model';
+import {PaletteActions} from '../redux/actions/palette.actions';
+import {NgRedux} from '@angular-redux/store';
+import {AppState} from '../redux/store/app.store';
 
 @Component({
   selector: 'app-canvas',
@@ -25,7 +25,7 @@ import {PaletteOpenedStore} from '../redux/stores/paletteOpened.store';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
-export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
+export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
   paletteClicked = false;
   addedNewNode = false;
   nodeTemplates: any[] = [];
@@ -35,7 +35,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   newJsPlumbInstance: any;
   visuals: any[];
   @Input() pressedNavBarButton: any;
-  @Input() paletteStatus: any;
   nodeSelected = false;
   nodeArrayEmpty = false;
   pageX: Number;
@@ -47,33 +46,59 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
   selectionHeight: number;
   callOpenSelector: boolean;
   callSelectItems: boolean;
-  offsetY = 90;
-  offsetX = 100;
+  offsetY = 110;
+  offsetX = 0;
   startTime: number;
   endTime: number;
   longPress: boolean;
   crosshair = false;
   differPressedNavBarButton: any;
-  differPaletteStatus: any;
   enhanceGrid: number;
+  subscriptionPaletteItem;
+  subscriptionPaletteOpened;
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef,
               private _layoutDirective: LayoutDirective,
               differsPressedNavBarButton: KeyValueDiffers,
-              differsPaletteStatus: KeyValueDiffers,
-              @Inject(PaletteItemStore) private storePaletteItem: Redux.Store<PaletteItemState>,
-              @Inject(PaletteOpenedStore) private storePaletteOpened: Redux.Store<PaletteOpenedState>) {
-    storePaletteItem.subscribe(() => this.updateState());
+              private ngRedux: NgRedux<AppState>,
+              private actions: PaletteActions) {
+    this.subscriptionPaletteItem = ngRedux.select<any>('paletteItem')
+      .subscribe(newPaletteItem => this.createNewNode(newPaletteItem.currentPaletteItemState));
+    this.subscriptionPaletteOpened = ngRedux.select<any>('enhanceGrid')
+      .subscribe(newPaletteOpened => this.updateState(newPaletteOpened.currentEnhanceGridState));
     this.differPressedNavBarButton = differsPressedNavBarButton.find([]).create(null);
-    this.differPaletteStatus = differsPaletteStatus.find([]).create(null);
   }
 
-  updateState() {
-    const state = this.storePaletteItem.getState();
-    const paletteItem = getPaletteItemState(state);
-    this.nodeFactory(paletteItem);
-    this.paletteClicked = true;
+  createNewNode(newPaletteItem: PaletteItemModel) {
+    if (newPaletteItem) {
+      if (this.paletteClicked === false) {
+        this.paletteClicked = true;
+      }
+      this.nodeFactory(newPaletteItem);
+    }
   }
+
+  updateState(newPaletteOpened: boolean) {
+    if (newPaletteOpened === false) {
+      this.enhanceGrid = 0;
+      this.offsetX = 0;
+    } else {
+      this.offsetX = -200;
+      this.enhanceGrid = 200;
+    }
+  }
+
+  /*
+  else if (paletteStatus) {
+      if (paletteStatus._appendAfter.currentValue === false) {
+        this.enhanceGrid = 0;
+        this.offsetX = 0;
+      } else {
+        this.offsetX = -200;
+        this.enhanceGrid = 200;
+      }
+    }
+   */
 
   @HostListener('click', ['$event'])
   onClick($event) {
@@ -81,7 +106,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
       this.newJsPlumbInstance.removeFromAllPosses(this.selectedNodes);
       this.clearArray(this.selectedNodes);
       if ($event.clientX > 200) {
-        this.storePaletteOpened.dispatch(sendPaletteStatus(false));
+        this.ngRedux.dispatch(this.actions.sendPaletteOpened(false));
       }
     }
   }
@@ -179,7 +204,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
 
   ngDoCheck(): void {
     const pressedNavBarButton = this.differPressedNavBarButton.diff(this.pressedNavBarButton);
-    const paletteStatus = this.differPaletteStatus.diff(this.paletteStatus);
 
     if (pressedNavBarButton) {
       if (pressedNavBarButton._mapHead.currentValue === 'layout') {
@@ -190,14 +214,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
       }
       if (pressedNavBarButton._mapHead.currentValue === 'alignh') {
         this._layoutDirective.alignHorizontal(this.nodeTemplates, this.newJsPlumbInstance);
-      }
-    } else if (paletteStatus) {
-      if (paletteStatus._appendAfter.currentValue === false) {
-        this.enhanceGrid = 0;
-        this.offsetX = 0;
-      } else {
-        this.offsetX = -200;
-        this.enhanceGrid = 200;
       }
     }
   }
@@ -365,5 +381,9 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck {
     } else if (this.endTime - this.startTime >= 300) {
       this.longPress = true;
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptionPaletteItem.unsubscribe();
   }
 }

@@ -21,9 +21,10 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { ButtonActions } from '../redux/actions/app.actions';
-import { IAppState } from '../redux/stores/store';
+import { ButtonActions } from '../redux/actions/topologyRenderer.actions';
 import { NgRedux } from '@angular-redux/store';
+import {AppState} from '../redux/store/app.store';
+import {ButtonsStateModel} from '../models/buttonsState.model';
 
 @Component({
   selector: 'app-node',
@@ -42,17 +43,7 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy 
   /**
    * local representation of the Redux state of the navbar buttons.
    */
-  navbarButtonsState = {
-    buttonsState: {
-      targetLocationsButton: false,
-      policiesButton: false,
-      requirementsCapabilitiesButton: false,
-      deploymentArtifactsButton: false,
-      propertiesButton: false,
-      typesButton: true,
-      idsButton: true,
-    }
-  };
+  navbarButtonsState: ButtonsStateModel;
   /**
    * Redux subscriptions
    */
@@ -87,7 +78,7 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy 
   constructor(differsSelectedNodes: IterableDiffers,
               differsNavBar: KeyValueDiffers,
               differsUnselectedNodes: IterableDiffers,
-              private ngRedux: NgRedux<IAppState>,
+              private ngRedux: NgRedux<AppState>,
               private actions: ButtonActions) {
     this.sendId = new EventEmitter();
     this.askForRepaint = new EventEmitter();
@@ -102,7 +93,7 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy 
      */
     this.subscription = ngRedux.select<any>('buttonsState')
       .subscribe(newObject => {
-        this.navbarButtonsState = newObject;
+        this.navbarButtonsState = newObject.buttonsState;
         setTimeout(() => this.askForRepaint.emit(), 1);
       });
   }

@@ -22,8 +22,10 @@ import { RequirementsCapabilitiesComponent } from './requirements-capabilities/r
 import { PoliciesComponent } from './policies/policies.component';
 import { PrintViewComponent } from './print-view/print-view.component';
 import { TargetLocationsComponent } from './target-locations/target-locations.component';
-import {paletteItemStoreProviders} from './redux/stores/paletteItem.store';
-import {paletteStateStoreProviders} from './redux/stores/paletteOpened.store';
+import {NgReduxModule, NgRedux, DevToolsExtension} from '@angular-redux/store';
+import {AppState, INITIAL_APP_STATE, paletteRootReducer} from './redux/store/app.store';
+import {PaletteActions} from './redux/actions/palette.actions';
+import {ButtonActions} from './redux/actions/topologyRenderer.actions';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import {paletteStateStoreProviders} from './redux/stores/paletteOpened.store';
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
+    NgReduxModule,
     BsDropdownModule.forRoot(),
     WineryAlertModule.forRoot(),
     ToastModule.forRoot(),
@@ -52,11 +55,23 @@ import {paletteStateStoreProviders} from './redux/stores/paletteOpened.store';
     {provide: ToastOptions, useClass: WineryCustomOption},
     JsPlumbService,
     JsonService,
-    paletteItemStoreProviders,
-    paletteStateStoreProviders
+    PaletteActions,
+    ButtonActions
   ],
 
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(ngRedux: NgRedux<AppState>,
+              devTools: DevToolsExtension) {
+    const storeEnhancers = devTools.isEnabled() ?
+      [ devTools.enhancer() ] :
+      [];
+
+    ngRedux.configureStore(
+      paletteRootReducer,
+      INITIAL_APP_STATE,
+      [],
+      storeEnhancers);
+  }
 }
