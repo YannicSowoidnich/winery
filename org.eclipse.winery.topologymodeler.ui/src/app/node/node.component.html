@@ -1,19 +1,32 @@
 <div class="container rounded" style="padding: 3px; position: absolute" [style.top]="top" [style.left]="left"
      id={{title}} [style.borderColor]="nodeColor" [style.backgroundColor]="nodeColor"
-     [class.selected]="makeSelectionVisible"
      (mousedown)="trackTimeOfMouseDown()"
      (mouseup)="trackTimeOfMouseUp()"
      (click)="showConnectorEndpoint($event)">
   <div class="row rounded"
-       style="background-color: rgba(255,255,255,0.75); margin-left: 1px; margin-right: 1px; padding: 5px">
+       [class.selected]="makeSelectionVisible"
+       [class.unselected]="!makeSelectionVisible">
     <div class="col-sm-3">
-      <img *ngIf="!nodeImageUrl" src="https://api.adorable.io/avatars/50/{{title}}" style="border-radius: 15%">
+      <img *ngIf="!nodeImageUrl" src="https://api.adorable.io/avatars/50/{{title}}" style="border-radius: 10%; margin-top: 1px">
       <img *ngIf="nodeImageUrl" src="{{nodeImageUrl}}">
     </div>
     <div id="specifierDiv" class="col-sm-9">
-      <p class="" align="right">{{title}}</p>
-      <p class="" align="right" style="color: tomato" *ngIf="navbarButtonsState.idsButton">{{title}}</p>
-      <a href="#" class="h6 btn-link" style="text-align: right; display: block" *ngIf="navbarButtonsState.typesButton">{{title}}</a>
+      <table class="table table-active table-border--grey table-sm">
+
+        <tr>
+          <td class="td-key">name:</td>
+          <td>{{title}}</td>
+        </tr>
+        <tr *ngIf="navbarButtonsState.idsButton">
+          <td class="td-key">id:</td>
+          <td style="color: crimson">{{title}}</td>
+        </tr>
+        <tr *ngIf="navbarButtonsState.typesButton">
+          <td class="td-key">link:</td>
+          <td class="btn-link">{{title}}</td>
+        </tr>
+
+      </table>
     </div>
   </div>
   <div class="endpointContainer" *ngIf="connectorEndpointVisible">
@@ -112,7 +125,6 @@
       <a href="#" class="old-type" *ngIf="typesVisible">{{title}}</a>
     </div>
   </div>
-
     &lt;!&ndash; PROPERTIES &ndash;&gt;
     <div class="old-properties-style"
       *ngIf="propertiesVisible">
@@ -121,7 +133,6 @@
         <i class="pull-sm-0 float-sm-right fa"></i>
       </div>
     </div>
-
     &lt;!&ndash; DEPLOYMENT ARTIFACTS &ndash;&gt;
     <div class="old-deployment-style"
       #deploymentartifactsgroup
@@ -131,7 +142,6 @@
         <i class="pull-sm-0 float-sm-right fa icon-styling"></i>
       </div>
     </div>
-
     &lt;!&ndash; REQUIREMENTS & CAPABILITIES &ndash;&gt;
     <div class="old-requirements-style"
       #requirementscapabilitiesgroup
@@ -141,7 +151,6 @@
         <i class="pull-sm-0 float-sm-right fa icon-styling"></i>
       </div>
     </div>
-
     &lt;!&ndash; POLICIES &ndash;&gt;
     <div class="old-policies-style"
       #policiesgroup
@@ -152,7 +161,6 @@
         </i>
       </div>
     </div>
-
     &lt;!&ndash; TARGET LOCATIONS &ndash;&gt;
     <div class="old-target-style"
       #targetlocationsgroup

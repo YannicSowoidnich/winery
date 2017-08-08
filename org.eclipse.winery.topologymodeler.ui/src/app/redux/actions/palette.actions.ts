@@ -9,9 +9,9 @@
  * Contributors:
  *     Thommy Zelenik - initial API and implementation
  */
-import {PaletteItemModel} from '../../models/paletteItem.model';
-import {Action, ActionCreator} from 'redux';
-import {Injectable} from '@angular/core';
+import { PaletteItemModel } from '../../models/paletteItem.model';
+import { Action, ActionCreator } from 'redux';
+import { Injectable } from '@angular/core';
 
 export interface CreatePaletteItemAction extends Action {
   paletteItem: PaletteItemModel;

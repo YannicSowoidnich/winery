@@ -11,7 +11,7 @@
  */
 import { Action } from 'redux';
 import { ButtonActions } from '../actions/topologyRenderer.actions';
-import {ButtonsStateModel} from '../../models/buttonsState.model';
+import { ButtonsStateModel } from '../../models/buttonsState.model';
 
 export interface ButtonsState {
   buttonsState: ButtonsStateModel;
@@ -24,8 +24,8 @@ export const INITIAL_BUTTONS_STATE: ButtonsState = {
     requirementsCapabilitiesButton: false,
     deploymentArtifactsButton: false,
     propertiesButton: false,
-    typesButton: false,
-    idsButton: false
+    typesButton: true,
+    idsButton: true
   }
 };
 

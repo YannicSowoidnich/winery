@@ -9,8 +9,8 @@
  * Contributors:
  *     Thommy Zelenik - initial API and implementation
  */
-import {PaletteItemModel} from '../../models/paletteItem.model';
-import {Action} from 'redux';
+import { PaletteItemModel } from '../../models/paletteItem.model';
+import { Action } from 'redux';
 import {
   CreatePaletteItemAction, EnhanceGridAction,
   PaletteActions,

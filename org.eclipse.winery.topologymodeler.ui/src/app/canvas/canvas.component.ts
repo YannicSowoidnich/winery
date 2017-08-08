@@ -46,8 +46,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
   selectionHeight: number;
   callOpenSelector: boolean;
   callSelectItems: boolean;
-  offsetY = 110;
-  offsetX = 0;
+  offsetY = 90;
+  offsetX = 100;
   startTime: number;
   endTime: number;
   longPress: boolean;
@@ -87,18 +87,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
       this.enhanceGrid = 200;
     }
   }
-
-  /*
-  else if (paletteStatus) {
-      if (paletteStatus._appendAfter.currentValue === false) {
-        this.enhanceGrid = 0;
-        this.offsetX = 0;
-      } else {
-        this.offsetX = -200;
-        this.enhanceGrid = 200;
-      }
-    }
-   */
 
   @HostListener('click', ['$event'])
   onClick($event) {
@@ -385,5 +373,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
 
   ngOnDestroy() {
     this.subscriptionPaletteItem.unsubscribe();
+    this.subscriptionPaletteOpened.unsubscribe();
   }
 }
