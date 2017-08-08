@@ -9,8 +9,8 @@
  * Contributors:
  *     Thommy Zelenik - initial API and implementation
  */
-import {Action} from 'redux';
-import {SEND_PALETTESTATUS, SendPaletteStatusAction} from '../actions/paletteState.actions';
+import { Action } from 'redux';
+import { SEND_PALETTESTATUS, SendPaletteStatusAction } from '../actions/paletteState.actions';
 
 export interface PaletteOpenedState {
   currentPaletteOpened: boolean;
@@ -24,15 +24,15 @@ export const getPaletteOpened = (state): PaletteOpenedState => state;
 
 export const paletteOpenedReducer =
   function (state: PaletteOpenedState = initialState, action: Action): PaletteOpenedState {
-  switch (action.type) {
-    case SEND_PALETTESTATUS:
-    const paletteOpened = (<SendPaletteStatusAction>action).paletteOpened;
-      return {
-        currentPaletteOpened: paletteOpened
-      };
-    default:
-      return state;
-  }
+    switch (action.type) {
+      case SEND_PALETTESTATUS:
+        const paletteOpened = (<SendPaletteStatusAction>action).paletteOpened;
+        return {
+          currentPaletteOpened: paletteOpened
+        };
+      default:
+        return state;
+    }
   };
 
 export default paletteOpenedReducer;

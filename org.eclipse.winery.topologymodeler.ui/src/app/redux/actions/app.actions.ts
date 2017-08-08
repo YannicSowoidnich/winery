@@ -44,3 +44,4 @@ export class ButtonActions {
     return { type: ButtonActions.TOGGLE_TYPES };
   }
 }
+

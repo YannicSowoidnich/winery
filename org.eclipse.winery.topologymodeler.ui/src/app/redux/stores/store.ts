@@ -31,8 +31,8 @@ export const INITIAL_STATE: IAppState = {
     requirementsCapabilitiesButton: false,
     deploymentArtifactsButton: false,
     propertiesButton: false,
-    typesButton: false,
-    idsButton: false
+    typesButton: true,
+    idsButton: true
   }
 };
 
