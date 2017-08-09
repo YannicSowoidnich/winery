@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar (navbarEventEmitter)="sendPressedNavBarButtonToCanvas($event)"></app-navbar>
 <app-canvas
   [pressedNavBarButton]="pressedNavBarButton"
 ></app-canvas>

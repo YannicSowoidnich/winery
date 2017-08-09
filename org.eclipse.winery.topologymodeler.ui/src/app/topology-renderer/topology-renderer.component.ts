@@ -208,4 +208,8 @@ export class TopologyRendererComponent implements OnInit {
     this.jsonService.setVisuals(this.visuals);
     this.jsonService.setTopologyTemplate(this.topologyTemplate);
   }
+
+  sendPressedNavBarButtonToCanvas($event): void {
+    this.pressedNavBarButton = $event;
+  }
 }

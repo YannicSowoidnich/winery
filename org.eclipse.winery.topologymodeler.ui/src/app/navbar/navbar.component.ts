@@ -9,10 +9,10 @@
  * Contributors:
  *     Josip Ledic - initial API and implementation
  */
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WineryAlertService } from '../winery-alert/winery-alert.service';
-import { NgRedux } from '@angular-redux/store';
-import { ButtonActions } from '../redux/actions/topologyRenderer.actions';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {WineryAlertService} from '../winery-alert/winery-alert.service';
+import {NgRedux} from '@angular-redux/store';
+import {ButtonActions} from '../redux/actions/topologyRenderer.actions';
 import {ButtonsStateModel} from '../models/buttonsState.model';
 import {AppState} from '../redux/store/app.store';
 
@@ -29,6 +29,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   navbarButtonsState: ButtonsStateModel;
   subscription;
+  layoutPressed = false;
+  alignvPressed = false;
+  alignhPressed = false;
+  @Output() navbarEventEmitter = new EventEmitter();
 
   constructor(private alert: WineryAlertService,
               private ngRedux: NgRedux<AppState>,
@@ -80,6 +84,32 @@ export class NavbarComponent implements OnInit, OnDestroy {
       case 'ids': {
         this.ngRedux.dispatch(this.actions.toggleIds());
         break;
+      }
+      case 'layout': {
+        this.layoutPressed = !this.layoutPressed;
+        const layoutObject = {
+          name: 'layout',
+          state: this.layoutPressed
+        };
+        this.navbarEventEmitter.emit(layoutObject);
+        break;
+      }
+      case 'alignh': {
+        this.alignhPressed = !this.alignhPressed;
+        const alignhObject = {
+          name: 'alignh',
+          state: this.alignhPressed
+        };
+        this.navbarEventEmitter.emit(alignhObject);
+        break;
+      }
+      case 'alignv': {
+        this.alignvPressed = !this.alignvPressed;
+        const alignvObject = {
+          name: 'alignv',
+          state: this.alignvPressed
+        };
+        this.navbarEventEmitter.emit(alignvObject);
       }
     }
   }
