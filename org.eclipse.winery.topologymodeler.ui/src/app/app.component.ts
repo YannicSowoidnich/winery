@@ -1,4 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {TNodeTemplate, TRelationshipTemplate} from './ttopology-template';
+import {IAppState} from './redux/store/app.store';
+import {AppActions} from './redux/actions/app.actions';
+import {NgRedux} from '@angular-redux/store';
 
 @Component({
   selector: 'app-topologyrenderer',
@@ -8,6 +12,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 export class AppComponent implements OnInit {
   topologyTemplate: any;
   visuals: any;
+  nodeTemplates: Array<TNodeTemplate> = [];
+  relationshipTemplates: Array<TRelationshipTemplate> = [];
 
   testJson = {
     documentation: [],
@@ -115,77 +121,134 @@ export class AppComponent implements OnInit {
       'http%253A%252F%252Fwinery.opentosca.org%252Ftest%252Fnodetypes%252Ffruits/baobab/appearance/50x50',
       color: '#89ee01',
       nodeTypeId: '{http://winery.opentosca.org/test/nodetypes/fruits}baobab',
-      localName: ''
+      localName: 'baobab'
     },
     {
+      imageUrl: '',
       color: '#89ee01',
       nodeTypeId: '{http://winery.opentosca.org/test/nodetypes/fruits}grape',
-      localName: ''
+      localName: 'grape'
     },
     {
+      imageUrl: '',
       color: '#89ee01',
       nodeTypeId: '{http://winery.opentosca.org/test/nodetypes/fruits}lemon',
-      localName: ''
+      localName: 'lemon'
     },
     {
+      imageUrl: '',
       color: '#89ee01',
       nodeTypeId: '{http://winery.opentosca.org/test/nodetypes/fruits}mango',
-      localName: ''
+      localName: 'mango'
     },
     {
+      imageUrl: '',
       color: '#01ace2',
       nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}oat',
-      localName: ''
+      localName: 'oat'
     },
     {
+      imageUrl: '',
       color: '#FF7F50',
       nodeTypeId: '{http://winery.opentosca.org/test/nodetypes/fruits}orange',
-      localName: ''
+      localName: 'orange'
     },
     {
+      imageUrl: '',
       color: '#cb1016',
       nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}pasture',
-      localName: ''
+      localName: 'pasture'
     },
     {
+      imageUrl: '',
       color: '#6f02b4',
       nodeTypeId: '{http://winery.opentosca.org/test/nodetypes/fruits}plantage',
-      localName: ''
+      localName: 'plantage'
     },
     {
+      imageUrl: '',
       color: '#bb1c9a',
       nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}shetland_pony',
-      localName: ''
+      localName: 'shetland_pony'
     },
     {
+      imageUrl: '',
       color: '#8ac3a0',
       nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}stall',
-      localName: ''
+      localName: 'stall'
     },
     {
+      imageUrl: '',
       color: '#8b0227',
       nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}straw',
-      localName: ''
+      localName: 'straw'
     },
     {
+      imageUrl: '',
       color: '#36739e',
       nodeTypeId: '{http://winery.opentosca.org/test/nodetypes/fruits}tree',
-      localName: ''
+      localName: 'tree'
     },
     {
+      imageUrl: '',
       color: '#458ac5',
       nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}trough',
-      localName: ''
+      localName: 'trough'
     },
     {
+      imageUrl: '',
       color: '#e47c98',
       nodeTypeId: '{http://winery.opentosca.org/test/ponyuniverse}banana',
-      localName: ''
+      localName: 'banana'
     }
   ];
+
+  constructor(private ngRedux: NgRedux<IAppState>, private actions: AppActions) {
+  }
 
   ngOnInit() {
     this.topologyTemplate = this.testJson;
     this.visuals = this.testVisuals;
+    for (const node of this.testJson.nodeTemplates) {
+      let color;
+      let imageUrl;
+      for (const visual of this.testVisuals) {
+        if (visual.localName === node.name) {
+          color = visual.color;
+          imageUrl = visual.imageUrl;
+        }
+      }
+      this.nodeTemplates.push(
+        new TNodeTemplate(
+          undefined,
+          node.id,
+          node.type,
+          node.name,
+          node.minInstances,
+          node.maxInstances,
+          color,
+          imageUrl,
+          node.documentation,
+          node.any,
+          node.otherAttributes
+        )
+      );
+    }
+    for (let i = 0; i < this.nodeTemplates.length; i++) {
+      this.ngRedux.dispatch(this.actions.saveNodeTemplate(this.nodeTemplates[i]));
+    }
+    for (const relationship of this.testJson.relationshipTemplates) {
+      this.relationshipTemplates.push(
+        new TRelationshipTemplate(
+          relationship.sourceElement,
+          relationship.targetElement,
+          undefined,
+          relationship.sourceElement.concat(relationship.targetElement),
+        )
+      );
+    }
+    for (let i = 0; i < this.relationshipTemplates.length; i++) {
+      this.ngRedux.dispatch(this.actions.saveRelationship(this.relationshipTemplates[i]));
+    }
   }
 }

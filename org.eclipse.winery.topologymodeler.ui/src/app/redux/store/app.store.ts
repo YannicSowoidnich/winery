@@ -11,34 +11,41 @@
  */
 import {combineReducers, Reducer} from 'redux';
 import {
-  EnhanceGridReducer,
-  EnhanceGridState, INITIAL_ENHANCE_GRID_STATE,
-  INITIAL_PALETTE_ITEM_STATE,
-  INITIAL_PALETTE_OPENED_STATE,
-  PaletteItemReducer,
-  PaletteItemState,
-  PaletteOpenedReducer,
-  PaletteOpenedState,
-} from '../reducers/palette.reducer';
-import {ButtonsState, ButtonsStateReducer, INITIAL_BUTTONS_STATE} from '../reducers/topologyRenderer.reducer';
+  AppReducer,
+  AppState,
+  INITIAL_APP_STATE
+} from '../reducers/app.reducer';
+import {
+  INITIAL_TOPOLOGY_RENDERER_STATE, TopologyRendererReducer,
+  TopologyRendererState
+} from '../reducers/topologyRenderer.reducer';
 
-export interface AppState {
+export interface IAppState {
+  /*
   paletteItem: PaletteItemState;
   paletteOpened: PaletteOpenedState;
   enhanceGrid: EnhanceGridState;
-  buttonsState: ButtonsState;
+  */
+  topologyRendererState: TopologyRendererState;
+  appState: AppState;
 }
 
-export const INITIAL_APP_STATE: AppState = {
+export const INITIAL_IAPP_STATE: IAppState = {
+  /*
   paletteItem: INITIAL_PALETTE_ITEM_STATE,
   paletteOpened: INITIAL_PALETTE_OPENED_STATE,
   enhanceGrid: INITIAL_ENHANCE_GRID_STATE,
-  buttonsState: INITIAL_BUTTONS_STATE
+  */
+  topologyRendererState: INITIAL_TOPOLOGY_RENDERER_STATE,
+  appState: INITIAL_APP_STATE
 };
 
-export const paletteRootReducer: Reducer<AppState> = combineReducers<AppState>({
+export const rootReducer: Reducer<IAppState> = combineReducers<IAppState>({
+  /*
   paletteItem: PaletteItemReducer,
   paletteOpened: PaletteOpenedReducer,
   enhanceGrid: EnhanceGridReducer,
-  buttonsState: ButtonsStateReducer
+  */
+  topologyRendererState: TopologyRendererReducer,
+  appState: AppReducer
 });

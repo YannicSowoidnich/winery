@@ -1,23 +1,20 @@
 import {
-  AfterViewInit,
   Component,
   DoCheck,
   ElementRef,
-  EventEmitter,
   HostListener,
   Input,
   KeyValueDiffers, OnDestroy,
   OnInit,
-  Output
 } from '@angular/core';
 import { JsPlumbService } from '../jsPlumbService';
 import { JsonService } from '../jsonService/json.service';
-import { TNodeTemplate, TRelationshipTemplate } from '../ttopology-template';
+import {TNodeTemplate, TRelationshipTemplate, TTopologyTemplate} from '../ttopology-template';
 import { LayoutDirective } from '../layout.directive';
-import {PaletteItemModel} from '../models/paletteItem.model';
-import {PaletteActions} from '../redux/actions/palette.actions';
-import {NgRedux} from '@angular-redux/store';
-import {AppState} from '../redux/store/app.store';
+import {AppActions} from '../redux/actions/app.actions';
+import {NgRedux, select} from '@angular-redux/store';
+import {IAppState} from '../redux/store/app.store';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-canvas',
@@ -25,13 +22,14 @@ import {AppState} from '../redux/store/app.store';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
-export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
+export class CanvasComponent implements OnInit, DoCheck, OnDestroy {
   paletteClicked = false;
-  addedNewNode = false;
   nodeTemplates: any[] = [];
+  allNodeTemplates: Array<TNodeTemplate> = [];
+  allRelationshipTemplates: Array<TRelationshipTemplate> = [];
+  relationshipTemplates: Array<TRelationshipTemplate> = [];
   nodeTypes: any[] = [];
   selectedNodes: string[] = [];
-  relationshipTemplates: any[] = [];
   newJsPlumbInstance: any;
   visuals: any[];
   @Input() pressedNavBarButton: any;
@@ -46,46 +44,101 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
   selectionHeight: number;
   callOpenSelector: boolean;
   callSelectItems: boolean;
-  offsetY = 90;
-  offsetX = 100;
+  offsetY = 32;
+  offsetX = 102;
   startTime: number;
   endTime: number;
   longPress: boolean;
   crosshair = false;
   differPressedNavBarButton: any;
   enhanceGrid: number;
-  subscriptionPaletteItem;
-  subscriptionPaletteOpened;
+  subscription;
+  /*
+  @select(appState => appState.currentSavedJsonTopology) readonly currentSavedJsonTopology: Observable<any>;
+  @select(appState => appState.currentEnhanceGridState) readonly currentPaletteOpenedState: Observable<any>;
+  */
 
   constructor(private jsPlumbService: JsPlumbService, private jsonService: JsonService, private _eref: ElementRef,
               private _layoutDirective: LayoutDirective,
               differsPressedNavBarButton: KeyValueDiffers,
-              private ngRedux: NgRedux<AppState>,
-              private actions: PaletteActions) {
-    this.subscriptionPaletteItem = ngRedux.select<any>('paletteItem')
-      .subscribe(newPaletteItem => this.createNewNode(newPaletteItem.currentPaletteItemState));
-    this.subscriptionPaletteOpened = ngRedux.select<any>('enhanceGrid')
-      .subscribe(newPaletteOpened => this.updateState(newPaletteOpened.currentEnhanceGridState));
+              private ngRedux: NgRedux<IAppState>,
+              private actions: AppActions) {
+    this.subscription = ngRedux.select<any>('appState')
+      .subscribe(newState => {
+        this.updateGridState(newState.currentPaletteOpenedState);
+        this.addTopology(newState.currentSavedJsonTopology);
+      });
     this.differPressedNavBarButton = differsPressedNavBarButton.find([]).create(null);
   }
 
-  createNewNode(newPaletteItem: PaletteItemModel) {
-    if (newPaletteItem) {
-      if (this.paletteClicked === false) {
-        this.paletteClicked = true;
-      }
-      this.nodeFactory(newPaletteItem);
-    }
-  }
-
-  updateState(newPaletteOpened: boolean) {
-    if (newPaletteOpened === false) {
+  updateGridState(currentPaletteOpenedState: boolean) {
+    if (currentPaletteOpenedState !== true) {
       this.enhanceGrid = 0;
       this.offsetX = 0;
     } else {
       this.offsetX = -200;
       this.enhanceGrid = 200;
     }
+  }
+
+  addTopology(currentSavedJsonTopology: TTopologyTemplate): void {
+    if (currentSavedJsonTopology.nodeTemplates.length > 0) {
+      if (this.allNodeTemplates.length === 0) {
+        this.allNodeTemplates = currentSavedJsonTopology.nodeTemplates;
+      }
+      this.addNodes(currentSavedJsonTopology.nodeTemplates);
+    }
+    if (currentSavedJsonTopology.relationshipTemplates.length > 0) {
+      if (this.allRelationshipTemplates.length === 0) {
+        this.allRelationshipTemplates = currentSavedJsonTopology.relationshipTemplates;
+      }
+      this.addRelationships(currentSavedJsonTopology.relationshipTemplates);
+    }
+  }
+
+  addNodes(currentNodes: Array<TNodeTemplate>) {
+    const newNode = currentNodes[currentNodes.length - 1];
+    if (this.allNodeTemplates.length > 0) {
+      const lastNodeId = this.allNodeTemplates[this.allNodeTemplates.length - 1].id;
+      const newNodeId = newNode.id;
+      if (lastNodeId !== newNodeId) {
+        this.allNodeTemplates.push(newNode);
+        console.log(newNode.otherAttributes.x);
+      }
+    } else {
+      this.allNodeTemplates.push(newNode);
+    }
+  }
+
+  addRelationships(currentRelationships: Array<TRelationshipTemplate>) {
+    const newRelationship = currentRelationships[currentRelationships.length - 1];
+    if (this.allRelationshipTemplates.length > 0) {
+      const lastRelationshipId = this.allRelationshipTemplates[this.allRelationshipTemplates.length - 1].id;
+      const newRelationshipId = newRelationship.id;
+      if (lastRelationshipId !== newRelationshipId) {
+        this.allRelationshipTemplates.push(newRelationship);
+        setTimeout(() => this.displayRelationships(newRelationship), 1);
+      }
+    } else {
+      this.allRelationshipTemplates.push(newRelationship);
+      setTimeout(() => this.displayRelationships(newRelationship), 1);
+    }
+  }
+
+  displayRelationships(newRelationship: TRelationshipTemplate): void {
+    const sourceElement = newRelationship.sourceElement;
+    const targetElement = newRelationship.targetElement;
+    this.newJsPlumbInstance.connect({
+      source: sourceElement,
+      target: targetElement,
+      overlays: [['Arrow', {width: 15, length: 15, location: 1, id: 'arrow', direction: 1}],
+        ['Label', {
+          label: '(Hosted On)',
+          id: 'label',
+          labelStyle: {font: 'bold 18px/30px Courier New, monospace'}
+        }]
+      ],
+    });
   }
 
   @HostListener('click', ['$event'])
@@ -138,20 +191,12 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
     if (this.callSelectItems) {
       this.callOpenSelector = false;
       this.callSelectItems = false;
-      for (const node of this.nodeTemplates) {
+      for (const node of this.allNodeTemplates) {
         const aElem = document.getElementById('selection');
         const bElem = document.getElementById(node.id);
         const result = this.doObjectsCollide(aElem, bElem);
         if (result === true) {
           this.enhanceDragSelection(node.id);
-        }
-      }
-      for (const node of this.nodeTypes) {
-        const aElem = document.getElementById('selection');
-        const bElem = document.getElementById(node.nodeType._id);
-        const result = this.doObjectsCollide(aElem, bElem);
-        if (result === true) {
-          this.enhanceDragSelection(node.nodeType._id);
         }
       }
       this.crosshair = false;
@@ -195,13 +240,13 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
 
     if (pressedNavBarButton) {
       if (pressedNavBarButton._mapHead.currentValue === 'layout') {
-        this._layoutDirective.layoutNodes(this.nodeTemplates, this.relationshipTemplates, this.newJsPlumbInstance);
+        this._layoutDirective.layoutNodes(this.allNodeTemplates, this.relationshipTemplates, this.newJsPlumbInstance);
       }
       if (pressedNavBarButton._mapHead.currentValue === 'alignv') {
-        this._layoutDirective.alignVertical(this.nodeTemplates, this.newJsPlumbInstance);
+        this._layoutDirective.alignVertical(this.allNodeTemplates, this.newJsPlumbInstance);
       }
       if (pressedNavBarButton._mapHead.currentValue === 'alignh') {
-        this._layoutDirective.alignHorizontal(this.nodeTemplates, this.newJsPlumbInstance);
+        this._layoutDirective.alignHorizontal(this.allNodeTemplates, this.newJsPlumbInstance);
       }
     }
   }
@@ -209,7 +254,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
   ngOnInit() {
     this.newJsPlumbInstance = this.jsPlumbService.getJsPlumbInstance();
     this.newJsPlumbInstance.setContainer('container');
-    this.nodeTemplates = this.jsonService.getNodes();
     this.relationshipTemplates = this.jsonService.getRelationships();
     this.visuals = this.jsonService.getVisuals();
     this.assignVisuals();
@@ -217,7 +261,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
 
   assignVisuals() {
     this.visuals = this.jsonService.getVisuals();
-    for (const node of this.nodeTemplates) {
+    for (const node of this.allNodeTemplates) {
       for (const visual of this.visuals) {
         // console.log('node.id = ' + node.id);
         // console.log('visual = ' + JSON.stringify(visual));
@@ -231,65 +275,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
     }
   }
 
-  nodeFactory(paletteItem: any): void {
-    if (this.nodeTypes.length > 0) {
-      for (let i = this.nodeTypes.length - 1; i >= 0; i--) {
-        if (paletteItem.name === this.nodeTypes[i].nodeType._type && this.nodeTypes[i].nodeFromJSON === false) {
-          const numberOfNewInstance = this.nodeTypes[i].numberOfInstance + 1;
-          this.nodeTypes.push({
-            nodeType: new TNodeTemplate(
-              [],
-              paletteItem.name.concat('_' + numberOfNewInstance.toString()),
-              paletteItem.name,
-              1,
-              1,
-              [],
-              [],
-              {
-                location: 'undefined',
-                x: paletteItem.mousePositionX,
-                y: paletteItem.mousePositionY,
-              }
-            ),
-            numberOfInstance: numberOfNewInstance,
-            nodeFromJSON: false
-          });
-          this.addedNewNode = true;
-          break;
-        }
-        this.addedNewNode = false;
-      }
-      if (this.addedNewNode === false) {
-        this.pushNodeToArray(paletteItem);
-      }
-    } else {
-      this.pushNodeToArray(paletteItem);
-    }
-  }
-
   makeDraggable($event): void {
     this.newJsPlumbInstance.draggable($event);
-  }
-
-  ngAfterViewInit(): void {
-    for (let i = 0; i < this.relationshipTemplates.length; i++) {
-      const sourceElement = this.relationshipTemplates[i].sourceElement;
-      const targetElement = this.relationshipTemplates[i].targetElement;
-      this.newJsPlumbInstance.draggable(sourceElement);
-      this.newJsPlumbInstance.draggable(targetElement);
-      const connection = new TRelationshipTemplate(sourceElement, targetElement);
-      this.newJsPlumbInstance.connect({
-        source: connection.sourceElement,
-        target: connection.targetElement,
-        overlays: [['Arrow', {width: 15, length: 15, location: 1, id: 'arrow', direction: 1}],
-          ['Label', {
-            label: '(Hosted On)',
-            id: 'label',
-            labelStyle: {font: 'bold 18px/30px Courier New, monospace'}
-          }]
-        ],
-      });
-    }
   }
 
   private checkingNodeSelectionForDuplicateIDs(id: string) {
@@ -333,27 +320,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
     this.enhanceDragSelection($event);
   }
 
-  pushNodeToArray(paletteItem: any): void {
-    this.nodeTypes.push({
-      nodeType: new TNodeTemplate(
-        [],
-        paletteItem.name,
-        paletteItem.name,
-        1,
-        1,
-        [],
-        [],
-        {
-          location: 'undefined',
-          x: paletteItem.mousePositionX,
-          y: paletteItem.mousePositionY
-        }
-      ),
-      numberOfInstance: 1,
-      nodeFromJSON: false
-    });
-  }
-
   trackTimeOfMouseDown(e: Event): void {
     this.startTime = new Date().getTime();
   }
@@ -372,7 +338,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, DoCheck, OnDestro
   }
 
   ngOnDestroy() {
-    this.subscriptionPaletteItem.unsubscribe();
-    this.subscriptionPaletteOpened.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

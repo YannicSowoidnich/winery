@@ -11,10 +11,11 @@
  */
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {WineryAlertService} from '../winery-alert/winery-alert.service';
-import {NgRedux} from '@angular-redux/store';
-import {ButtonActions} from '../redux/actions/topologyRenderer.actions';
+import {NgRedux, select} from '@angular-redux/store';
+import {TopologyRendererActions} from '../redux/actions/topologyRenderer.actions';
 import {ButtonsStateModel} from '../models/buttonsState.model';
-import {AppState} from '../redux/store/app.store';
+import {IAppState} from '../redux/store/app.store';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-navbar',
@@ -33,12 +34,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   alignvPressed = false;
   alignhPressed = false;
   @Output() navbarEventEmitter = new EventEmitter();
+  // @select('topologyRendererState') navbarButtonsState$: Observable<any>;
 
   constructor(private alert: WineryAlertService,
-              private ngRedux: NgRedux<AppState>,
-              private actions: ButtonActions) {
-    this.subscription = ngRedux.select<any>('buttonsState')
-      .subscribe(newObject => this.navbarButtonsState = newObject);
+              private ngRedux: NgRedux<IAppState>,
+              private actions: TopologyRendererActions) {
+    this.subscription = ngRedux.select<any>('topologyRendererState')
+      .subscribe(newButtonsState => {
+        this.navbarButtonsState = newButtonsState;
+      });
   }
 
   getStyle(buttonPressed: boolean): string {

@@ -13,24 +13,12 @@
       <span></span>
     </div>
   </div>
-  <div *ngIf="paletteClicked">
-    <app-node *ngFor="let node of nodeTypes"
-              [title]="node.nodeType._id"
-              (sendId)="makeDraggable($event)"
-              [left]="node.nodeType._otherAttributes['x']"
-              [top]="node.nodeType._otherAttributes['y']"
-              [nodeColor]="node.nodeType.color"
-              [navBarButtonClicked]="pressedNavBarButton"
-              (addNodeToDragSelection)="addNodeToDragSelection($event)"
-              (checkIfNodeInSelection)="checkIfNodeInSelection($event)"
-              [selectedNodes]="selectedNodes">
-    </app-node>
-  </div>
-  <app-node *ngFor="let node of nodeTemplates"
+  <app-node *ngFor="let node of allNodeTemplates"
             [title]="node.id"
             [nodeColor]="node.color"
-            [left]="node.otherAttributes['x']+'px'"
-            [top]="node.otherAttributes['y']+'px'"
+            (sendId)="makeDraggable($event)"
+            [left]="node.otherAttributes.x + 'px'"
+            [top]="node.otherAttributes.y + 'px'"
             [nodeImageUrl]="node.imageUrl"
             (askForRepaint)="repaintJsPlumb()"
             [navBarButtonClicked]="pressedNavBarButton"

@@ -13,7 +13,7 @@ import { Injectable } from '@angular/core';
 import { Action } from 'redux';
 
 @Injectable()
-export class ButtonActions {
+export class TopologyRendererActions {
   static TOGGLE_POLICIES = 'TOGGLE_POLICIES';
   static TOGGLE_TARGET_LOCATIONS = 'TOGGLE_TARGET_LOCATIONS';
   static TOGGLE_PROPERTIES = 'TOGGLE_PROPERTIES';
@@ -23,24 +23,24 @@ export class ButtonActions {
   static TOGGLE_TYPES = 'TOGGLE_TYPES';
 
   togglePolicies(): Action {
-    return { type: ButtonActions.TOGGLE_POLICIES };
+    return { type: TopologyRendererActions.TOGGLE_POLICIES };
   }
   toggleTargetLocations(): Action {
-    return { type: ButtonActions.TOGGLE_TARGET_LOCATIONS };
+    return { type: TopologyRendererActions.TOGGLE_TARGET_LOCATIONS };
   }
   toggleProperties(): Action {
-    return { type: ButtonActions.TOGGLE_PROPERTIES };
+    return { type: TopologyRendererActions.TOGGLE_PROPERTIES };
   }
   toggleRequirementsCapabilities(): Action {
-    return { type: ButtonActions.TOGGLE_REQUIREMENTS_CAPABILITIES };
+    return { type: TopologyRendererActions.TOGGLE_REQUIREMENTS_CAPABILITIES };
   }
   toggleDeploymentArtifacts(): Action {
-    return { type: ButtonActions.TOGGLE_DEPLOYMENT_ARTIFACTS };
+    return { type: TopologyRendererActions.TOGGLE_DEPLOYMENT_ARTIFACTS };
   }
   toggleIds(): Action {
-    return { type: ButtonActions.TOGGLE_IDS };
+    return { type: TopologyRendererActions.TOGGLE_IDS };
   }
   toggleTypes(): Action {
-    return { type: ButtonActions.TOGGLE_TYPES };
+    return { type: TopologyRendererActions.TOGGLE_TYPES };
   }
 }

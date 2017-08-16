@@ -1,21 +1,24 @@
 export class AbstractTTemplate {
-  constructor(private _documentation?: any,
-              private _any?: any,
-              private _otherAttributes?: any) {
+  constructor(public documentation?: any,
+              public any?: any,
+              public otherAttributes?: any) {
   }
 }
 
 export class TTopologyTemplate extends AbstractTTemplate {
-  nodeTemplates: TNodeTemplate[];
-  relationshipTemplates: TRelationshipTemplate[];
+  nodeTemplates: Array<TNodeTemplate> = [];
+  relationshipTemplates: Array<TRelationshipTemplate> = [];
 }
 
 export class TNodeTemplate extends AbstractTTemplate {
-  constructor(private _properties: any,
-              private _id: string,
-              private _type: string,
-              private _minInstances: number,
-              private _maxInstances: number,
+  constructor(public properties: any,
+              public id: string,
+              public type: string,
+              public name: string,
+              public minInstances: number,
+              public maxInstances: number,
+              public color: string,
+              public imageUrl: string,
               documentation?: any,
               any?: any,
               otherAttributes?: any) {
@@ -24,17 +27,19 @@ export class TNodeTemplate extends AbstractTTemplate {
 }
 
 export class TRelationshipTemplate extends AbstractTTemplate {
+  /*
   get targetElement(): string {
-    return this._targetElement;
+    return this.targetElement;
   }
   get sourceElement(): string {
-    return this._sourceElement;
+    return this.sourceElement;
   }
-  constructor(private _sourceElement: string,
-              private _targetElement: string,
-              private _name?: string,
-              private _id?: string,
-              private _type?: any,
+  */
+  constructor(public sourceElement: string,
+              public targetElement: string,
+              public name?: string,
+              public id?: string,
+              public type?: any,
               documentation?: any,
               any?: any,
               otherAttributes?: any) {
@@ -45,12 +50,12 @@ export class TRelationshipTemplate extends AbstractTTemplate {
 
 export class Visuals {
 
-  constructor(private _color: string,
-              private _nodeTypeId: string,
-              private _localName?: string,
-              private _imageUrl?: string) {
+  constructor(public color: string,
+              public nodeTypeId: string,
+              public localName?: string,
+              public imageUrl?: string) {
   }
-
+/*
   get color(): string {
     return this._color;
   }
@@ -83,4 +88,5 @@ export class Visuals {
   set imageUrl(value: string) {
     this._imageUrl = value;
   }
+  */
 }

@@ -23,9 +23,9 @@ import { PoliciesComponent } from './policies/policies.component';
 import { PrintViewComponent } from './print-view/print-view.component';
 import { TargetLocationsComponent } from './target-locations/target-locations.component';
 import {NgReduxModule, NgRedux, DevToolsExtension} from '@angular-redux/store';
-import {AppState, INITIAL_APP_STATE, paletteRootReducer} from './redux/store/app.store';
-import {PaletteActions} from './redux/actions/palette.actions';
-import {ButtonActions} from './redux/actions/topologyRenderer.actions';
+import {IAppState, INITIAL_IAPP_STATE, rootReducer} from './redux/store/app.store';
+import {AppActions} from './redux/actions/app.actions';
+import {TopologyRendererActions} from './redux/actions/topologyRenderer.actions';
 
 @NgModule({
   declarations: [
@@ -55,22 +55,22 @@ import {ButtonActions} from './redux/actions/topologyRenderer.actions';
     {provide: ToastOptions, useClass: WineryCustomOption},
     JsPlumbService,
     JsonService,
-    PaletteActions,
-    ButtonActions
+    AppActions,
+    TopologyRendererActions
   ],
 
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(ngRedux: NgRedux<AppState>,
+  constructor(ngRedux: NgRedux<IAppState>,
               devTools: DevToolsExtension) {
     const storeEnhancers = devTools.isEnabled() ?
       [ devTools.enhancer() ] :
       [];
 
     ngRedux.configureStore(
-      paletteRootReducer,
-      INITIAL_APP_STATE,
+      rootReducer,
+      INITIAL_IAPP_STATE,
       [],
       storeEnhancers);
   }

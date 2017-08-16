@@ -21,9 +21,9 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { ButtonActions } from '../redux/actions/topologyRenderer.actions';
+import { TopologyRendererActions } from '../redux/actions/topologyRenderer.actions';
 import { NgRedux } from '@angular-redux/store';
-import {AppState} from '../redux/store/app.store';
+import {IAppState} from '../redux/store/app.store';
 import {ButtonsStateModel} from '../models/buttonsState.model';
 
 @Component({
@@ -78,8 +78,8 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy 
   constructor(differsSelectedNodes: IterableDiffers,
               differsNavBar: KeyValueDiffers,
               differsUnselectedNodes: IterableDiffers,
-              private ngRedux: NgRedux<AppState>,
-              private actions: ButtonActions) {
+              private ngRedux: NgRedux<IAppState>,
+              private actions: TopologyRendererActions) {
     this.sendId = new EventEmitter();
     this.askForRepaint = new EventEmitter();
     this.addNodeToDragSelection = new EventEmitter();
@@ -91,9 +91,9 @@ export class NodeComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy 
      * Redux subscriptions
      * @type {Subscription}
      */
-    this.subscription = ngRedux.select<any>('buttonsState')
-      .subscribe(newObject => {
-        this.navbarButtonsState = newObject.buttonsState;
+    this.subscription = ngRedux.select<any>('topologyRendererState')
+      .subscribe(newButtonsState => {
+        this.navbarButtonsState = newButtonsState;
         setTimeout(() => this.askForRepaint.emit(), 1);
       });
   }

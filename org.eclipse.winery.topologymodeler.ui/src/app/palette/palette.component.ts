@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PaletteService } from '../palette.service';
-import {PaletteItemModel} from '../models/paletteItem.model';
-import {PaletteActions} from '../redux/actions/palette.actions';
+import {AppActions} from '../redux/actions/app.actions';
 import {NgRedux} from '@angular-redux/store';
-import {AppState} from '../redux/store/app.store';
+import {IAppState} from '../redux/store/app.store';
+import {TNodeTemplate} from '../ttopology-template';
 
 @Component({
   selector: 'app-palette-component',
@@ -56,24 +56,51 @@ import {AppState} from '../redux/store/app.store';
     ])
   ]
 })
-export class PaletteComponent implements OnInit, OnChanges, OnDestroy {
+export class PaletteComponent implements OnInit, OnDestroy {
   detailsAreHidden = true;
   paletteRootState = 'shrunk';
   paletteItems = [];
-  paletteStatus: any;
+  allNodeTemplates: Array<TNodeTemplate> = [];
   subscription;
 
   constructor(private paletteService: PaletteService,
-              private ngRedux: NgRedux<AppState>,
-              private actions: PaletteActions) {
-    this.subscription = ngRedux.select<any>('paletteOpened')
-      .subscribe(newPaletteOpenedState => this.updateState());
+              private ngRedux: NgRedux<IAppState>,
+              private actions: AppActions) {
+    this.subscription = ngRedux.select<any>('appState')
+      .subscribe(newState => {
+        this.updateState(newState.currentPaletteOpenedState);
+        this.addNodes(newState.currentSavedJsonTopology.nodeTemplates);
+      });
     this.paletteItems = paletteService.getPaletteData();
   }
 
-  updateState() {
-    if (this.paletteRootState = 'extended') {
-      this.toggleRootState();
+  updateState(newPaletteOpenedState: any) {
+    if (!newPaletteOpenedState) {
+      this.paletteRootState = 'shrunk';
+    }
+  }
+
+  addNodes(nodeTemplates: Array<TNodeTemplate>) {
+    if (nodeTemplates.length > 0) {
+      if (this.allNodeTemplates.length === 0) {
+        this.allNodeTemplates = nodeTemplates;
+      }
+      this.checkNodes(nodeTemplates);
+    }
+  }
+
+  checkNodes(currentNodes: Array<TNodeTemplate>) {
+    if (currentNodes !== null) {
+      const newNode = currentNodes[currentNodes.length - 1];
+      if (this.allNodeTemplates.length !== 0) {
+        const lastNodeId = this.allNodeTemplates[this.allNodeTemplates.length - 1].id;
+        const newNodeId = newNode.id;
+        if (lastNodeId !== newNodeId) {
+          this.allNodeTemplates.push(newNode);
+        }
+      } else {
+        this.allNodeTemplates.push(newNode);
+      }
     }
   }
 
@@ -89,37 +116,57 @@ export class PaletteComponent implements OnInit, OnChanges, OnDestroy {
   public toggleRootState(): void {
     if (this.paletteRootState === 'shrunk') {
       this.paletteRootState = 'extended';
-      this.paletteStatus = {
-        Open: true
-      };
-      // this.adjustGridSizeToPalette.emit(this.paletteStatus);
-      this.ngRedux.dispatch(this.actions.enhanceGrid(true));
-
+      this.ngRedux.dispatch(this.actions.sendPaletteOpened(true));
     } else {
       this.paletteRootState = 'shrunk';
-      this.paletteStatus = {
-        Open: false
-      };
-      // this.adjustGridSizeToPalette.emit(this.paletteStatus);
-      this.ngRedux.dispatch(this.actions.enhanceGrid(false));
+      this.ngRedux.dispatch(this.actions.sendPaletteOpened(true));
     }
   }
 
   publishTitle($event): void {
-    const left = ($event.pageX - 100).toString().concat('px');
-    const top = ($event.pageY - 30).toString().concat('px');
+    const left = ($event.pageX - 100).toString();
+    const top = ($event.pageY - 30).toString();
     const name = $event.target.innerHTML;
-    const pressedPaletteItem: PaletteItemModel = {
-      name: name,
-      mousePositionX: left,
-      mousePositionY: top
+    const otherAttributes = {
+        location: 'undefined',
+        x: left,
+        y: top
     };
-    this.ngRedux.dispatch(this.actions.createPaletteItem(pressedPaletteItem));
+    const newId = this.generateId(name);
+    const paletteItem: TNodeTemplate = new TNodeTemplate(
+      undefined,
+      newId,
+      undefined,
+      name,
+      1,
+      1,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      otherAttributes
+    );
+   this.ngRedux.dispatch(this.actions.saveNodeTemplate(paletteItem));
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.paletteRootState = 'extended') {
-      this.toggleRootState();
+  generateId(name: string): string {
+    if (this.allNodeTemplates.length > 0) {
+      for (let i = this.allNodeTemplates.length - 1; i >= 0; i--) {
+        if (name === this.allNodeTemplates[i].name) {
+          const idOfCurrentNode = this.allNodeTemplates[i].id;
+          const numberOfNewInstance = parseInt(idOfCurrentNode.substring(idOfCurrentNode.indexOf('_') + 1), 10) + 1;
+          if (numberOfNewInstance) {
+            const newId = name.concat('_', numberOfNewInstance.toString());
+            return newId;
+          } else {
+            const newId = name.concat('_', '2');
+            return newId;
+          }
+        }
+      }
+        return name;
+    } else {
+      return name;
     }
   }
 

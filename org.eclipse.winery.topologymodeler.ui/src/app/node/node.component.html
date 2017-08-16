@@ -17,11 +17,11 @@
           <td class="td-key">name:</td>
           <td>{{title}}</td>
         </tr>
-        <tr *ngIf="navbarButtonsState.idsButton">
+        <tr *ngIf="navbarButtonsState.buttonsState.idsButton">
           <td class="td-key">id:</td>
           <td style="color: crimson">{{title}}</td>
         </tr>
-        <tr *ngIf="navbarButtonsState.typesButton">
+        <tr *ngIf="navbarButtonsState.buttonsState.typesButton">
           <td class="td-key">link:</td>
           <td class="btn-link">{{title}}</td>
         </tr>
@@ -44,7 +44,7 @@
     <accordion-group
       #propertiesgroup
       panelClass="accordionGroupPanel"
-      *ngIf="navbarButtonsState.propertiesButton">
+      *ngIf="navbarButtonsState.buttonsState.propertiesButton">
       <div accordion-heading>
         Properties
         <i class="pull-sm-0 float-sm-right fa icon-styling"
@@ -57,7 +57,7 @@
     <accordion-group
       #deploymentartifactsgroup
       panelClass="accordionGroupPanel"
-      *ngIf="navbarButtonsState.deploymentArtifactsButton">
+      *ngIf="navbarButtonsState.buttonsState.deploymentArtifactsButton">
       <div accordion-heading>
         Deployment Artifacts
         <i class="pull-sm-0 float-sm-right fa icon-styling"
@@ -71,7 +71,7 @@
     <accordion-group
       #requirementscapabilitiesgroup
       panelClass="accordionGroupPanel"
-      *ngIf="navbarButtonsState.requirementsCapabilitiesButton">
+      *ngIf="navbarButtonsState.buttonsState.requirementsCapabilitiesButton">
       <div accordion-heading>
         Requirements - Capabilities
         <i class="pull-sm-0 float-sm-right fa icon-styling"
@@ -85,7 +85,7 @@
     <accordion-group
       #policiesgroup
       panelClass="accordionGroupPanel"
-      *ngIf="navbarButtonsState.policiesButton">
+      *ngIf="navbarButtonsState.buttonsState.policiesButton">
       <div accordion-heading>
         Policies
         <i class="pull-sm-0 float-sm-right fa icon-styling"
@@ -98,7 +98,7 @@
     <accordion-group
       #targetlocationsgroup
       panelClass="accordionGroupPanel"
-      *ngIf="navbarButtonsState.targetLocationsButton">
+      *ngIf="navbarButtonsState.buttonsState.targetLocationsButton">
       <div accordion-heading>
         Target Locations
         <i class="pull-sm-0 float-sm-right fa icon-styling"

@@ -10,9 +10,9 @@
  *     Josip Ledic - initial API and implementation
  */
 import { Action } from 'redux';
-import { ButtonActions } from '../actions/topologyRenderer.actions';
+import { TopologyRendererActions } from '../actions/topologyRenderer.actions';
 
-export interface ButtonsState {
+export interface TopologyRendererState {
   buttonsState: {
     targetLocationsButton?: boolean;
     policiesButton?: boolean;
@@ -24,7 +24,7 @@ export interface ButtonsState {
   };
 }
 
-export const INITIAL_BUTTONS_STATE: ButtonsState = {
+export const INITIAL_TOPOLOGY_RENDERER_STATE: TopologyRendererState = {
   buttonsState: {
     targetLocationsButton: false,
     policiesButton: false,
@@ -36,29 +36,29 @@ export const INITIAL_BUTTONS_STATE: ButtonsState = {
   }
 };
 
-export const ButtonsStateReducer =
-  function (lastState: ButtonsState = INITIAL_BUTTONS_STATE, action: Action): ButtonsState {
+export const TopologyRendererReducer =
+  function (lastState: TopologyRendererState = INITIAL_TOPOLOGY_RENDERER_STATE, action: Action): TopologyRendererState {
     switch (action.type) {
-      case ButtonActions.TOGGLE_POLICIES:
+      case TopologyRendererActions.TOGGLE_POLICIES:
         // console.log({...lastState, buttonsState: { ...lastState.buttonsState, policiesButton: !lastState.buttonsState.policiesButton}});
         return {
           ...lastState,
           buttonsState: {...lastState.buttonsState,
             policiesButton: !lastState.buttonsState.policiesButton}
         };
-      case ButtonActions.TOGGLE_TARGET_LOCATIONS:
+      case TopologyRendererActions.TOGGLE_TARGET_LOCATIONS:
         return {
           ...lastState,
           buttonsState: {...lastState.buttonsState,
             targetLocationsButton: !lastState.buttonsState.targetLocationsButton}
         };
-      case ButtonActions.TOGGLE_PROPERTIES:
+      case TopologyRendererActions.TOGGLE_PROPERTIES:
         return {
           ...lastState,
           buttonsState: {...lastState.buttonsState,
             propertiesButton: !lastState.buttonsState.propertiesButton}
         };
-      case ButtonActions.TOGGLE_REQUIREMENTS_CAPABILITIES:
+      case TopologyRendererActions.TOGGLE_REQUIREMENTS_CAPABILITIES:
         return {
           ...lastState,
           buttonsState: {
@@ -66,7 +66,7 @@ export const ButtonsStateReducer =
             requirementsCapabilitiesButton: !lastState.buttonsState.requirementsCapabilitiesButton
           }
         };
-      case ButtonActions.TOGGLE_DEPLOYMENT_ARTIFACTS:
+      case TopologyRendererActions.TOGGLE_DEPLOYMENT_ARTIFACTS:
         return {
           ...lastState,
           buttonsState: {
@@ -74,12 +74,12 @@ export const ButtonsStateReducer =
             deploymentArtifactsButton: !lastState.buttonsState.deploymentArtifactsButton
           }
         };
-      case ButtonActions.TOGGLE_IDS:
+      case TopologyRendererActions.TOGGLE_IDS:
         return {
           ...lastState,
           buttonsState: {...lastState.buttonsState,
             idsButton: !lastState.buttonsState.idsButton}};
-      case ButtonActions.TOGGLE_TYPES:
+      case TopologyRendererActions.TOGGLE_TYPES:
         return {
           ...lastState,
           buttonsState: {...lastState.buttonsState,
